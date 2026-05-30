@@ -383,7 +383,7 @@ function fmtDemD(v){
   return`<span class="d-neg">${pct}%</span><span class="pill pill-ad">Adelanto</span>`;
 }
 
-function filtered(){const m=document.getElementById('filtroMes').value;return m==='all'?PEDIDOS:PEDIDOS.filter(p=>mesKey(p.fecha_ingreso)===m);}
+function filtered(){const m=document.getElementById('filtroMes').value;return m==='all'?PEDIDOS:PEDIDOS.filter(p=>mesKey(p.entrega_sol)===m);}
 
 // ── CLASIFICACIÓN RECLAMOS ─────────────────────────────────────────────────
 function clasificarReclamo(r){if(!r||r==='-')return null;const l=r.toLowerCase();if(l.startsWith('si')||l.startsWith('sol'))return'si';if(l.startsWith('no'))return'no';return null;}
