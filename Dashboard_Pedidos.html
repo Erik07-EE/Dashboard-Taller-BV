@@ -360,7 +360,7 @@ const COND_ORDER=['Reclamos','Faltantes','S/M','Especiales'];
 const COND_ICONS={Reclamos:'🔧',Faltantes:'📦','S/M':'🛠️',Especiales:'⭐'};
 const COND_BADGE={Reclamos:'b-r',Faltantes:'b-f','S/M':'b-s',Especiales:'b-e'};
 
-function mesKey(s){if(!s)return null;const d=new Date(s);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;}
+function mesKey(s){if(!s||s==='-')return null;return s.substring(0,7);}// evita bug de zona horaria
 function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
 function fmt1(v){return v!=null?Number(v).toFixed(1):'—';}
@@ -687,14 +687,20 @@ function detTable(pedidos,cond){
   const detId='det_'+(++_cid);
   const showReclamo=cond==='Reclamos';
   const fmtD=s=>{if(!s||s==='-')return'—';const[y,m,d]=s.split('-');return`${d}/${m}`;};
+  const HOY=new Date().toISOString().slice(0,10);
   const pendientes=pedidos.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-');
   const rows=pendientes.map(p=>{
     const obs=p.observacion&&p.observacion!=='-'?`<br><span style="color:#888;font-size:.68rem;">${p.observacion}</span>`:'';
+    const vencido=p.entrega_sol&&p.entrega_sol<HOY;
+    const diasAtr=vencido?Math.round((new Date(HOY)-new Date(p.entrega_sol+'T12:00:00'))/86400000):0;
+    const alerta=vencido?`<span title="Entrega vencida — falta cargar fecha real" style="color:#ef4444;font-size:.85rem;margin-right:3px;">⚠</span>`:'';
+    const solStyle=vencido?'color:#ef4444;font-weight:700;':'';
+    const atrLabel=vencido?`<br><span style="color:#ef4444;font-size:.65rem;font-weight:700;">+${diasAtr}d atraso</span>`:'';
     return`<tr>
-      <td style="font-weight:700;color:#1a237e;">${p.codigo||'—'}</td>
+      <td style="font-weight:700;color:#1a237e;">${alerta}${p.codigo||'—'}</td>
       <td>${p.cliente||'—'}</td>
       ${showReclamo?`<td>${p.reclamo||'—'}${obs}</td>`:`<td style="color:#666;">${p.observacion&&p.observacion!=='-'?p.observacion:'—'}</td>`}
-      <td class="ent-sol">${fmtD(p.entrega_sol)}</td>
+      <td class="ent-sol" style="${solStyle}">${fmtD(p.entrega_sol)}${atrLabel}</td>
     </tr>`;
   }).join('');
   const th3=showReclamo?'Reclamo / Obs.':'Observación';
@@ -728,13 +734,19 @@ function flipGADetail(flipId,ga,cond){
   const pedidos=filtered().filter(p=>p.ga===ga&&p.condicion===cond&&(!p.fecha_entrega_real||p.fecha_entrega_real==='-'));
   const showRec=cond==='Reclamos';
   const th3=showRec?'Reclamo':'Obs.';
+  const fmtD2=s=>{if(!s||s==='-')return'—';const[y,m,d]=s.split('-');return`${d}/${m}`;};
+  const HOY2=new Date().toISOString().slice(0,10);
   const rows=pedidos.map(p=>{
-    const fmtD=s=>{if(!s||s==='-')return'—';const[y,m,d]=s.split('-');return`${d}/${m}`;};
+    const vencido=p.entrega_sol&&p.entrega_sol<HOY2;
+    const diasAtr=vencido?Math.round((new Date(HOY2)-new Date(p.entrega_sol+'T12:00:00'))/86400000):0;
+    const alerta=vencido?`<span style="color:#ef4444;margin-right:3px;font-size:.8rem;">⚠</span>`:'';
+    const solColor=vencido?'#ef4444':'rgba(255,255,255,.55)';
+    const atrTxt=vencido?` <span style="color:#ef4444;font-size:.65rem;font-weight:700;">+${diasAtr}d</span>`:'';
     return`<tr style="border-bottom:1px solid rgba(255,255,255,.06);">
-      <td style="color:var(--amarillo);font-weight:700;padding:5px 8px 5px 0;font-size:.75rem;">${p.codigo||'—'}</td>
+      <td style="color:var(--amarillo);font-weight:700;padding:5px 8px 5px 0;font-size:.75rem;">${alerta}${p.codigo||'—'}</td>
       <td style="color:rgba(255,255,255,.75);padding:5px 8px;font-size:.75rem;">${p.cliente||'—'}</td>
       <td style="color:rgba(255,255,255,.75);padding:5px 8px;font-size:.72rem;">${showRec?(p.reclamo||'—'):(p.observacion&&p.observacion!=='-'?p.observacion:'—')}</td>
-      <td style="color:rgba(255,255,255,.55);padding:5px 0;font-size:.75rem;">${fmtD(p.entrega_sol)}</td>
+      <td style="color:${solColor};padding:5px 0;font-size:.75rem;">${fmtD2(p.entrega_sol)}${atrTxt}</td>
     </tr>`;}).join('');
   document.getElementById(flipId+'_content').innerHTML=`
     <div style="font-size:.65rem;color:rgba(255,255,255,.5);margin-bottom:8px;padding:10px 14px 0;">${COND_ICONS[cond]||''} <strong style="color:white;">${cond}</strong> · ${pedidos.length} urgente${pedidos.length!==1?'s':''}</div>
