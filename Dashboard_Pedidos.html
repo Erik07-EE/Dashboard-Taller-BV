@@ -315,42 +315,42 @@ const OF_DATA=[
 OF_DATA.forEach(d=>{d.semanas.forEach(s=>{if(s.dias!=null)s.obj=Math.round(d.obj_mensual/d.dias_habiles*s.dias);});});
 
 const PEDIDOS=[
-  {n:1,ga:'Inducidos',codigo:'IB2316.20',condicion:'Reclamos',cliente:'C0096',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-07',dias_objetivo:3,entrega_sol:'2026-05-12',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:2,ga:'Rotores',codigo:'RMA091.10',condicion:'Reclamos',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-13',dias_objetivo:3,entrega_sol:'2026-05-18',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:3,ga:'Rotores',codigo:'RI103.10',condicion:'Reclamos',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-13',dias_objetivo:3,entrega_sol:'2026-05-18',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:4,ga:'Rotores',codigo:'Ri083.20',condicion:'Reclamos',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:5,ga:'Inducidos',codigo:'II2909.15',condicion:'Reclamos',cliente:'C0264',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:6,ga:'Inducidos',codigo:'IH2908.05',condicion:'Reclamos',cliente:'C0281',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:7,ga:'Inducidos',codigo:'IW2306.10',condicion:'Reclamos',cliente:'C0281',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:8,ga:'Rotores',codigo:'RV089.10',condicion:'Reclamos',cliente:'C0298',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:9,ga:'Inducidos',codigo:'IB2110.30',condicion:'Reclamos',cliente:'C0276',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:10,ga:'Inducidos',codigo:'II2909.20',condicion:'Reclamos',cliente:'Deposito',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:11,ga:'Inducidos',codigo:'IG2912.30',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'emprolijar cabeza',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:12,ga:'Inducidos',codigo:'II2909.30',condicion:'Reclamos',cliente:'Deposito',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:13,ga:'Inducidos',codigo:'II2909.15',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'emprolijar cabeza',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:14,ga:'Inducidos',codigo:'IB2816.10',condicion:'Reclamos',cliente:'Deposito',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:15,ga:'Inducidos',codigo:'IB3310.10',condicion:'Reclamos',cliente:'C0040',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:16,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1057',fecha_ingreso:'2026-05-07',dias_objetivo:3,entrega_sol:'2026-05-12',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:17,ga:'Inducidos',codigo:'IDE2903.10',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1058',fecha_ingreso:'2026-05-10',dias_objetivo:3,entrega_sol:'2026-05-15',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:18,ga:'Inducidos',codigo:'IFI3606,11',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'ISM-1059',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:19,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1060',fecha_ingreso:'2026-05-17',dias_objetivo:3,entrega_sol:'2026-05-22',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:20,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1061',fecha_ingreso:'2026-05-17',dias_objetivo:3,entrega_sol:'2026-05-22',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:21,ga:'Inducidos',codigo:'IB2119.11',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1062',fecha_ingreso:'2026-05-22',dias_objetivo:3,entrega_sol:'2026-05-27',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:22,ga:'Inducidos',codigo:'II2112.20',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1063',fecha_ingreso:'2026-05-22',dias_objetivo:3,entrega_sol:'2026-05-27',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:23,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0069',reclamo:'-',observacion:'ISM-1064',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:24,ga:'Inducidos',codigo:'INI2616.30',condicion:'S/M',cliente:'C0098',reclamo:'-',observacion:'ISM-1045',fecha_ingreso:'2026-04-11',dias_objetivo:3,entrega_sol:'2026-04-16',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:25,ga:'Inducidos',codigo:'IB3310.61',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1047',fecha_ingreso:'2026-04-18',dias_objetivo:3,entrega_sol:'2026-04-23',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:26,ga:'Rotores',codigo:'RV095.20',condicion:'S/M',cliente:'C0203',reclamo:'-',observacion:'RSM-622 M/Ventilado',fecha_ingreso:'2026-05-03',dias_objetivo:3,entrega_sol:'2026-05-08',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:27,ga:'Estatores',codigo:'EMI094.10',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'ESM-1035',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:28,ga:'Estatores',codigo:'E-0212',condicion:'Especiales',cliente:'C0096',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:29,ga:'Inducidos',codigo:'I-0401',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:30,ga:'Inducidos',codigo:'I-0402',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:31,ga:'Inducidos',codigo:'I-0403',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:32,ga:'Inducidos',codigo:'I-0404',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:33,ga:'Inducidos',codigo:'I-0405',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:34,ga:'Inducidos',codigo:'I-0406',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Eje',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:35,ga:'Inducidos',codigo:'I-0407',condicion:'Especiales',cliente:'C0061',reclamo:'-',observacion:'Esta para terminar',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:null,dias_prod:null,demora:null},
-  {n:36,ga:'Inducidos',codigo:'I-0408',condicion:'Especiales',cliente:'C0069',reclamo:'-',observacion:'Entregada el 28/5',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:'2026-05-28',dias_prod:1,demora:-0.6667}
+  {n:1,ga:'Inducidos',codigo:'IB2316.20',condicion:'Reclamos',cliente:'C0096',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-07',dias_objetivo:3,entrega_sol:'2026-05-12',fecha_entrega_real:null,dias_prod:17,demora:4.67},
+  {n:2,ga:'Rotores',codigo:'RMA091.10',condicion:'Reclamos',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-13',dias_objetivo:3,entrega_sol:'2026-05-18',fecha_entrega_real:null,dias_prod:13,demora:3.33},
+  {n:3,ga:'Rotores',codigo:'RI103.10',condicion:'Reclamos',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-13',dias_objetivo:3,entrega_sol:'2026-05-18',fecha_entrega_real:null,dias_prod:13,demora:3.33},
+  {n:4,ga:'Rotores',codigo:'Ri083.20',condicion:'Reclamos',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:null,dias_prod:11,demora:2.67},
+  {n:5,ga:'Inducidos',codigo:'ii2909.15',condicion:'Reclamos',cliente:'C0264',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:null,dias_prod:11,demora:2.67},
+  {n:6,ga:'Inducidos',codigo:'IH2908.05',condicion:'Reclamos',cliente:'C0281',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:null,dias_prod:8,demora:1.67},
+  {n:7,ga:'Inducidos',codigo:'IW2306.10',condicion:'Reclamos',cliente:'C0281',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:null,dias_prod:8,demora:1.67},
+  {n:8,ga:'Rotores',codigo:'RV089.10',condicion:'Reclamos',cliente:'C0298',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:null,dias_prod:3,demora:null},
+  {n:9,ga:'Inducidos',codigo:'IB2110.30',condicion:'Reclamos',cliente:'C0276',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:null,dias_prod:3,demora:null},
+  {n:10,ga:'Inducidos',codigo:'II2909.20',condicion:'Reclamos',cliente:'Deposito',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:2,demora:null},
+  {n:11,ga:'Inducidos',codigo:'IG2912.30',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'emprolijar cabeza',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:2,demora:null},
+  {n:12,ga:'Inducidos',codigo:'II2909.30',condicion:'Reclamos',cliente:'Deposito',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:2,demora:null},
+  {n:13,ga:'Inducidos',codigo:'II2909.15',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'emprolijar cabeza',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:2,demora:null},
+  {n:14,ga:'Inducidos',codigo:'IB2816.10',condicion:'Reclamos',cliente:'Deposito',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:2,demora:null},
+  {n:15,ga:'Inducidos',codigo:'IB3310.10',condicion:'Reclamos',cliente:'C0040',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:null,dias_prod:2,demora:null},
+  {n:16,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1057',fecha_ingreso:'2026-05-07',dias_objetivo:3,entrega_sol:'2026-05-12',fecha_entrega_real:null,dias_prod:17,demora:4.67},
+  {n:17,ga:'Inducidos',codigo:'IDE2903.10',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1058',fecha_ingreso:'2026-05-12',dias_objetivo:3,entrega_sol:'2026-05-15',fecha_entrega_real:null,dias_prod:14,demora:3.67},
+  {n:18,ga:'Inducidos',codigo:'IFI3606,11',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'ISM-1059',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:null,dias_prod:11,demora:2.67},
+  {n:19,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1060',fecha_ingreso:'2026-05-19',dias_objetivo:3,entrega_sol:'2026-05-22',fecha_entrega_real:null,dias_prod:9,demora:2.0},
+  {n:20,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1061',fecha_ingreso:'2026-05-19',dias_objetivo:3,entrega_sol:'2026-05-22',fecha_entrega_real:null,dias_prod:9,demora:2.0},
+  {n:21,ga:'Inducidos',codigo:'IB2119.11',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1062',fecha_ingreso:'2026-05-22',dias_objetivo:3,entrega_sol:'2026-05-27',fecha_entrega_real:null,dias_prod:6,demora:1.0},
+  {n:22,ga:'Inducidos',codigo:'II2112.20',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1063',fecha_ingreso:'2026-05-22',dias_objetivo:3,entrega_sol:'2026-05-27',fecha_entrega_real:null,dias_prod:6,demora:1.0},
+  {n:23,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0069',reclamo:'-',observacion:'ISM-1064',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:null,dias_prod:3,demora:null},
+  {n:24,ga:'Inducidos',codigo:'INI2616.30',condicion:'S/M',cliente:'C0098',reclamo:'-',observacion:'ISM-1045',fecha_ingreso:'2026-04-13',dias_objetivo:3,entrega_sol:'2026-04-16',fecha_entrega_real:null,dias_prod:35,demora:10.67},
+  {n:25,ga:'Inducidos',codigo:'IB3310.61',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1047',fecha_ingreso:'2026-04-20',dias_objetivo:3,entrega_sol:'2026-04-23',fecha_entrega_real:null,dias_prod:30,demora:9.0},
+  {n:26,ga:'Rotores',codigo:'RV095.20',condicion:'S/M',cliente:'C0203',reclamo:'-',observacion:'RSM-622 M/Ventilado',fecha_ingreso:'2026-05-05',dias_objetivo:3,entrega_sol:'2026-05-08',fecha_entrega_real:null,dias_prod:19,demora:5.33},
+  {n:27,ga:'Estatores',codigo:'EMI094.10',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'ESM-1035',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:null,dias_prod:11,demora:2.67},
+  {n:28,ga:'Estatores',codigo:'E-0212',condicion:'Especiales',cliente:'C0096',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:29,ga:'Inducidos',codigo:'I-0401',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:30,ga:'Inducidos',codigo:'I-0402',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:31,ga:'Inducidos',codigo:'I-0403',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:32,ga:'Inducidos',codigo:'I-0404',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:33,ga:'Inducidos',codigo:'I-0405',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Colector',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:34,ga:'Inducidos',codigo:'I-0406',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Eje',fecha_ingreso:'2026-05-29',dias_objetivo:18,entrega_sol:'2026-06-24',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:35,ga:'Inducidos',codigo:'I-0407',condicion:'Especiales',cliente:'C0061',reclamo:'-',observacion:'Esta para terminar',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:36,ga:'Inducidos',codigo:'I-0408',condicion:'Especiales',cliente:'C0069',reclamo:'-',observacion:'Entregada el 28/5',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:'2026-05-28',dias_prod:1,demora:-0.67}
 ];
 
 const TODAY=new Date();TODAY.setHours(0,0,0,0);
@@ -363,6 +363,23 @@ const COND_BADGE={Reclamos:'b-r',Faltantes:'b-f','S/M':'b-s',Especiales:'b-e'};
 function mesKey(s){if(!s||s==='-')return null;return s.substring(0,7);}// evita bug de zona horaria
 function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
+const _HOY=new Date().toISOString().slice(0,10);
+// Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
+function demoraEfectiva(p){
+  if(p.demora!=null)return p.demora;
+  if(!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo){
+    const dias=Math.round((new Date(_HOY)-new Date(p.entrega_sol+'T12:00:00'))/86400000);
+    return dias/p.dias_objetivo;
+  }
+  return null;
+}
+// avgDem: promedia demora efectiva (incluye estimados de pendientes vencidos)
+function avgDem(arr){return avg(arr.map(p=>demoraEfectiva(p)));}
+// true si algún pedido del array usó demora estimada (sin fecha real)
+function tieneEstimados(arr){return arr.some(p=>!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo);}
+// Agrega ⚠ al HTML de demora si hay estimados
+function alertaEstimado(arr){return tieneEstimados(arr)?` <span title="Incluye pedidos sin fecha real — puede haber error de carga" style="color:#f59e0b;font-size:.9rem;">⚠</span>`:'';}
+
 function fmt1(v){return v!=null?Number(v).toFixed(1):'—';}
 function esEntregado(p){if(!p.fecha_entrega_real)return false;const fe=new Date(p.fecha_entrega_real);fe.setHours(0,0,0,0);return fe<=TODAY;}
 function semaforo(d){return d==null?'sem-green':d<=0?'sem-green':d<=0.5?'sem-yellow':'sem-red';}
@@ -409,7 +426,7 @@ function reclamosBody(pedidos,dp,dem,demAcc){
   return`<div style="display:flex;gap:8px;flex-wrap:wrap;width:100%;align-items:center;">
     ${kpiT('Total reclamos',total,'pedidos','acc-r')}
     ${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}
-    ${kpiT('% Demora promedio',fmtDemD(dem),'',demAcc)}
+    ${kpiT('% Demora promedio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}
     <div class="rec-chart-wrap" style="flex-shrink:0;"><canvas id="${cid}"></canvas></div>
   </div>`;
 }
@@ -430,10 +447,10 @@ function copiarResumenProd(){
 }
 function copiarResumenUrg(){
   const data=filtered();const CONDS=['Reclamos','Faltantes','S/M','Especiales'];
-  const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dem:avg(g.map(p=>p.demora))};});
+  const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dem:avgDem(g)};});
   const totalN=data.length;
   let txt=`RESUMEN URGENTES\n${'─'.repeat(40)}\nTotal: ${totalN} urgentes\n\n`;
-  CONDS.forEach(cond=>{const g=data.filter(p=>p.condicion===cond);if(!g.length)return;const gaAvgs=SEGMENTOS.map(ga=>{const gp=g.filter(p=>p.ga===ga);return gp.length?avg(gp.map(p=>p.demora)):0;});const dem=(gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length*100).toFixed(1);txt+=`  ${cond}: ${g.length} urgentes — Demora: ${dem}%\n`;});
+  CONDS.forEach(cond=>{const g=data.filter(p=>p.condicion===cond);if(!g.length)return;const gaAvgs=SEGMENTOS.map(ga=>{const gp=g.filter(p=>p.ga===ga);return gp.length?avgDem(gp):0;});const dem=(gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length*100).toFixed(1);txt+=`  ${cond}: ${g.length} urgentes — Demora: ${dem}%\n`;});
   navigator.clipboard.writeText(txt).then(()=>alert('Copiado al portapapeles')).catch(()=>prompt('Copiá:',txt));
 }
 function descargarPDF(cardId){
@@ -608,23 +625,23 @@ function renderProduccion(mesFilter){
 // ── PEDIDOS ────────────────────────────────────────────────────────────────
 function pedidosGeneralSummary(data){
   const CONDS=['Reclamos','Faltantes','S/M','Especiales'];
-  const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dp:avg(g.map(p=>p.dias_prod)),dem:avg(g.map(p=>p.demora))};});
+  const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dp:avg(g.map(p=>p.dias_prod)),dem:avgDem(g)};});
   const totalN=gaStats.reduce((a,b)=>a+b.n,0);
   const avgDp=avg(gaStats.filter(g=>g.n>0).flatMap(g=>data.filter(p=>p.ga===g.ga).map(p=>p.dias_prod)));
   // Cálculo demora: promedio de GA primero, luego promedio de los 3 GAs
   function demPorGA(pedidos){
-    const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga);return g.length?avg(g.map(p=>p.demora)):0;});
+    const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga);return g.length?avgDem(g):0;});
     return gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length;
   }
-  const avgDem=demPorGA(data);
-  const demCol=colD(avgDem);
-  const totalDemStr=(Math.abs(avgDem)*100).toFixed(1)+'%';
+  const _demTot=demPorGA(data);
+  const demCol=colD(_demTot);
+  const totalDemStr=(Math.abs(_demTot)*100).toFixed(1)+'%';
   // Premio Urgentes: 100% cuando demora=0, baja con cada retraso
-  const premioUrg=(1-avgDem)*100;
+  const premioUrg=(1-_demTot)*100;
   const premioUrgCol=premioUrg>=100?'#10b981':premioUrg>=70?'#f59e0b':'#ef4444';
   // Por condición — misma lógica: avg por GA, luego avg de 3 GAs
   function condDemPorGA(cond,pedidos){
-    const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga&&p.condicion===cond);return g.length?avg(g.map(p=>p.demora)):0;});
+    const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga&&p.condicion===cond);return g.length?avgDem(g):0;});
     return gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length;
   }
   // Tabla con columnas GA para mostrar el cálculo de demora por condición
@@ -633,7 +650,7 @@ function pedidosGeneralSummary(data){
   const condRows=CONDS.map(cond=>{
     const g=data.filter(p=>p.condicion===cond);if(!g.length)return'';
     const dp2=avg(g.map(p=>p.dias_prod));
-    const gaAvgs=SEGMENTOS.map(ga=>{const gp=g.filter(p=>p.ga===ga);return gp.length?avg(gp.map(p=>p.demora)):0;});
+    const gaAvgs=SEGMENTOS.map(ga=>{const gp=g.filter(p=>p.ga===ga);return gp.length?avgDem(gp):0;});
     const dem2=gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length;
     const gaCells=gaAvgs.map(d=>{const pct=(Math.abs(d)*100).toFixed(1)+'%';const c=Math.abs(d)>0.005?colD(d):'rgba(255,255,255,.4)';return`<td style="text-align:right;padding:3px 6px;font-size:.78rem;color:${c};">${pct}</td>`;}).join('');
     return`<tr style="border-bottom:1px solid rgba(255,255,255,.06);">
@@ -644,7 +661,7 @@ function pedidosGeneralSummary(data){
       <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:${colD(dem2)};font-weight:700;">${(Math.abs(dem2)*100).toFixed(1)}%</td>
     </tr>`;}).join('');
   // Totales por GA
-  const gaTotals=SEGMENTOS.map(ga=>{const gp=data.filter(p=>p.ga===ga);return gp.length?avg(gp.map(p=>p.demora)):0;});
+  const gaTotals=SEGMENTOS.map(ga=>{const gp=data.filter(p=>p.ga===ga);return gp.length?avgDem(gp):0;});
   return`<div class="ped-general-card" id="urgGenCard">
     <div style="display:grid;grid-template-columns:180px 1fr 220px;gap:0;align-items:start;">
       <!-- Col 1 -->
@@ -694,7 +711,7 @@ function detTable(pedidos,cond){
     const vencido=p.entrega_sol&&p.entrega_sol<HOY;
     const diasAtr=vencido?Math.round((new Date(HOY)-new Date(p.entrega_sol+'T12:00:00'))/86400000):0;
     const alerta=vencido?`<span title="Entrega vencida — falta cargar fecha real" style="color:#ef4444;font-size:.85rem;margin-right:3px;">⚠</span>`:'';
-    const solStyle=vencido?'color:#ef4444;font-weight:700;':'';
+    const solStyle=vencido?'color:#ef4444;font-weight:900;':'';
     const atrLabel=vencido?`<br><span style="color:#ef4444;font-size:.65rem;font-weight:700;">+${diasAtr}d atraso</span>`:'';
     return`<tr>
       <td style="font-weight:700;color:#1a237e;">${alerta}${p.codigo||'—'}</td>
@@ -715,16 +732,16 @@ function detTable(pedidos,cond){
 
 function condCard(cond,pedidos){
   const id='cc'+(++_cid);
-  const dem=avg(pedidos.map(p=>p.demora));const dp=avg(pedidos.map(p=>p.dias_prod));
+  const dem=avgDem(pedidos);const dp=avg(pedidos.map(p=>p.dias_prod));
   const demAcc=dem==null?'acc-gr':Math.abs(dem)<0.005?'acc-gr':dem>0?'acc-r':'acc-g';
   let body='';
   if(cond==='Faltantes'){
     const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;const pct=pedidos.length?Math.round(ent/pedidos.length*100):0;
-    body=`<div class="kpi wide acc-g"><div class="kpi-lbl">Entregados / Pendientes</div><div class="kpi-val">${ent}<span style="color:#c5cae9;font-size:.9rem"> / ${pen}</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="kpi-sub">${pct}% · fecha ≤ hoy</div></div>${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}${kpiT('% Demora promedio',fmtDemD(dem),'',demAcc)}`;
+    body=`<div class="kpi wide acc-g"><div class="kpi-lbl">Entregados / Pendientes</div><div class="kpi-val">${ent}<span style="color:#c5cae9;font-size:.9rem"> / ${pen}</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="kpi-sub">${pct}% · fecha ≤ hoy</div></div>${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}${kpiT('% Demora promedio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}`;
   } else if(cond==='Reclamos'){
     body=reclamosBody(pedidos,dp,dem,demAcc);
   } else {
-    body=`${kpiT('Cantidad',pedidos.length,'pedidos','acc-b')}${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}${kpiT('% Demora promedio',fmtDemD(dem),'',demAcc)}`;
+    body=`${kpiT('Cantidad',pedidos.length,'pedidos','acc-b')}${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}${kpiT('% Demora promedio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}`;
   }
   const det=detTable(pedidos,cond);
   return`<div class="cond-card open" id="${id}"><div class="cond-toggle" onclick="toggleCard('${id}')"><span style="font-size:1rem">${COND_ICONS[cond]||'📋'}</span><span class="badge ${COND_BADGE[cond]||''}">${cond}</span><span style="font-size:.72rem;color:#666">${pedidos.length} pedido${pedidos.length!==1?'s':''}</span><span class="cond-arrow">▼</span></div><div class="cond-body" style="flex-direction:column;"><div style="display:flex;gap:8px;flex-wrap:wrap;">${body}</div>${det}</div></div>`;
@@ -766,14 +783,14 @@ function flipGADetail(flipId,ga,cond){
 }
 
 function totalGACard(pedidos){
-  const dem=avg(pedidos.map(p=>p.demora));const dp=avg(pedidos.map(p=>p.dias_prod));
+  const dem=avgDem(pedidos);const dp=avg(pedidos.map(p=>p.dias_prod));
   const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;
-  return`<div class="total-ga-card"><div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div><div class="tg-kpis"><div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div class="tg-sub">${ent} entregados · ${pen} pendientes</div></div><div class="tg-kpi"><div class="tg-lbl">Días prod. prom.</div><div class="tg-val">${fmt1(dp)}</div><div class="tg-sub">días hábiles</div></div><div class="tg-kpi"><div class="tg-lbl">% Demora promedio</div><div class="tg-val">${fmtDemW(dem)}</div></div></div></div>`;
+  return`<div class="total-ga-card"><div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div><div class="tg-kpis"><div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div class="tg-sub">${ent} entregados · ${pen} pendientes</div></div><div class="tg-kpi"><div class="tg-lbl">Días prod. prom.</div><div class="tg-val">${fmt1(dp)}</div><div class="tg-sub">días hábiles</div></div><div class="tg-kpi"><div class="tg-lbl">% Demora promedio</div><div class="tg-val">${fmtDemW(dem)}${alertaEstimado(pedidos)}</div></div></div></div>`;
 }
 
 function gaBlock(ga,pedidos){
   if(!pedidos.length)return`<div class="empty">Sin pedidos para ${ga}.</div>`;
-  const dem=avg(pedidos.map(p=>p.demora));const sem=semaforo(dem);
+  const dem=avgDem(pedidos);const sem=semaforo(dem);
   const conds=[...new Set(pedidos.map(p=>p.condicion))];
   const ordered=[...COND_ORDER.filter(c=>conds.includes(c)),...conds.filter(c=>!COND_ORDER.includes(c))];
   const gaId='ga_'+ga.toLowerCase();
@@ -784,7 +801,7 @@ function gaBlock(ga,pedidos){
 function generalPanel(data){
   const cols=SEGMENTOS.map(ga=>{
     const g=data.filter(p=>p.ga===ga);
-    const dem=avg(g.map(p=>p.demora));const dp=avg(g.map(p=>p.dias_prod));
+    const dem=avgDem(g);const dp=avg(g.map(p=>p.dias_prod));
     const ent=g.filter(esEntregado).length,pen=g.length-ent;const sem=semaforo(dem);
     const conds=[...new Set(g.map(p=>p.condicion))];
     const ordered=[...COND_ORDER.filter(c=>conds.includes(c)),...conds.filter(c=>!COND_ORDER.includes(c))];
@@ -792,12 +809,12 @@ function generalPanel(data){
     const condRows=`<div class="gen-cond-hdr-row"><span>Condición</span><span>Cant.</span><span>Días</span><span>% Demora</span><span></span></div>`+
       ordered.map(cond=>{
         const gc=g.filter(p=>p.condicion===cond);
-        const dc=avg(gc.map(p=>p.demora));const dpc=avg(gc.map(p=>p.dias_prod));
+        const dc=avgDem(gc);const dpc=avg(gc.map(p=>p.dias_prod));
         return`<div class="gen-cond-row">
           <span class="gen-cond-name">${COND_ICONS[cond]||'📋'} ${cond}</span>
           <span><span class="gen-val-num">${gc.length}</span></span>
           <span><span class="gen-val-num">${fmt1(dpc)}</span></span>
-          <span>${fmtDemW(dc)}</span>
+          <span>${fmtDemW(dc)}${alertaEstimado(gc)}</span>
           <span><button class="flip-arrow-btn" onclick="flipGADetail('${flipId}','${ga}','${cond}')" title="Ver detalle">↻</button></span>
         </div>`;}).join('');
     const front=`<div class="gen-col">
