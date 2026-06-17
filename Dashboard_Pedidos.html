@@ -91,12 +91,14 @@ select:focus{outline:none;border-color:var(--amarillo);}
 .gen-kpi-val{font-size:1.35rem;font-weight:900;color:white;line-height:1;}
 .gen-kpi-sub{font-size:.62rem;color:rgba(255,255,255,.55);margin-top:2px;}
 .gen-conds{padding:6px 16px 14px;}
-.gen-cond-hdr-row{display:grid;grid-template-columns:1fr 44px 44px 88px 28px;padding:4px 0 6px;border-bottom:1px solid rgba(255,255,255,.12);font-size:.58rem;text-transform:uppercase;letter-spacing:.06em;color:var(--amarillo);}
-.gen-cond-hdr-row span{text-align:right;}
+.gen-cond-hdr-row{display:grid;grid-template-columns:1fr 9% 11% 9% 11% 13% 26%;column-gap:4px;padding:4px 0 6px;border-bottom:1px solid rgba(255,255,255,.12);font-size:.58rem;text-transform:uppercase;letter-spacing:.03em;color:var(--amarillo);}
+.gen-cond-hdr-row span{text-align:right;line-height:1.3;min-width:0;overflow:hidden;white-space:nowrap;}
 .gen-cond-hdr-row span:first-child{text-align:left;}
-.gen-cond-row{display:grid;grid-template-columns:1fr 44px 44px 88px 28px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.78rem;}
+.gen-cond-row{display:grid;grid-template-columns:1fr 9% 11% 9% 11% 13% 26%;column-gap:4px;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.78rem;}
 .gen-cond-row:last-child{border-bottom:none;}
-.gen-cond-name{color:rgba(255,255,255,.9);display:flex;align-items:center;gap:5px;}
+.gen-cond-row>span:first-child{text-align:left;}
+.gen-cond-name{color:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:space-between;gap:3px;min-width:0;}
+.gen-cond-name-txt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 /* Gen flip */
 .gen-col-flip{perspective:1200px;}
 .gen-flip-inner{position:relative;transition:transform .5s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d;}
@@ -106,7 +108,8 @@ select:focus{outline:none;border-color:var(--amarillo);}
 .gen-flip-back .gen-col-hdr{position:sticky;top:0;z-index:5;}
 .flip-arrow-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:white;border-radius:50%;width:20px;height:20px;font-size:.65rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;}
 .flip-arrow-btn:hover{background:var(--amarillo);color:var(--azul);}
-.gen-cond-row>span{text-align:right;}
+.gen-cond-row>span{text-align:right;min-width:0;}
+.gen-cond-row>span:last-child{display:flex;align-items:center;justify-content:flex-end;gap:2px;white-space:nowrap;}
 .gen-val-num{color:white;font-weight:700;font-size:.82rem;}
 /* PEDIDOS resumen */
 .ped-general-card{background:linear-gradient(135deg,#0d1b5e,#1a237e);border-radius:12px;padding:16px 22px;margin-bottom:14px;border:1px solid rgba(255,215,0,.2);box-shadow:0 3px 12px rgba(0,0,0,.25);}
@@ -182,7 +185,7 @@ select:focus{outline:none;border-color:var(--amarillo);}
 .d-pos{color:#c62828;font-weight:800;}
 .d-neg{color:#1b5e20;font-weight:800;}
 .d-zero{color:#9ca3af;font-weight:700;}
-.pill{display:inline-block;font-size:.58rem;font-weight:800;padding:2px 6px;border-radius:20px;text-transform:uppercase;letter-spacing:.04em;margin-left:3px;vertical-align:middle;}
+.pill{display:inline-block;font-size:.58rem;font-weight:800;padding:2px 4px;border-radius:20px;text-transform:uppercase;letter-spacing:.03em;margin-left:2px;vertical-align:middle;min-width:50px;text-align:center;}
 .pill-r{background:#ef4444;color:white;}
 .pill-a{background:#10b981;color:white;}
 .pill-e{background:rgba(255,255,255,.15);color:rgba(255,255,255,.65);}
@@ -227,6 +230,9 @@ select:focus{outline:none;border-color:var(--amarillo);}
 .det-table .ent-real{font-weight:700;}
 .det-show-btn{background:none;border:none;font-size:.65rem;font-weight:700;color:#9fa8da;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:2px;}
 .det-show-btn:hover{color:#3949ab;}
+@media(max-width:1100px){
+  .general-grid{grid-template-columns:1fr 1fr;}
+}
 @media(max-width:700px){
   .prod-grid,.general-grid{grid-template-columns:1fr;}
   .tabs,.content,.toolbar,.prod-section,.section-sep-div{padding-left:12px;padding-right:12px;}
@@ -301,122 +307,139 @@ const OF_DATA=[
    semanas:[{num:1,dias:5,prod:1},{num:2,dias:5,prod:14},{num:3,dias:5,prod:37},{num:4,dias:4,prod:51}],
    codigos:[{codigo:'EA083.10',categoria:'D',cantidad:2},{codigo:'EB089.60',categoria:'B',cantidad:3},{codigo:'EB093.50',categoria:'D',cantidad:1},{codigo:'EG083.20',categoria:'C',cantidad:3},{codigo:'EH094.10',categoria:'C',cantidad:2},{codigo:'EH094.20',categoria:'D',cantidad:1},{codigo:'EH094.30',categoria:'D',cantidad:1},{codigo:'EI083.10',categoria:'B',cantidad:9},{codigo:'EI083.20',categoria:'A',cantidad:39},{codigo:'EI088.10',categoria:'A',cantidad:5},{codigo:'EI088.11',categoria:'B',cantidad:1},{codigo:'EI103.10',categoria:'B',cantidad:5},{codigo:'EMA089.20',categoria:'D',cantidad:2},{codigo:'EMA089.30',categoria:'C',cantidad:5},{codigo:'EMA089.40',categoria:'C',cantidad:2},{codigo:'EMI089.15',categoria:'D',cantidad:1},{codigo:'EMI099.10',categoria:'C',cantidad:1},{codigo:'EMI099.15',categoria:'D',cantidad:1},{codigo:'EMI112.11',categoria:'C',cantidad:2},{codigo:'ENA094.31',categoria:'D',cantidad:1},{codigo:'ENI076.10',categoria:'D',cantidad:2},{codigo:'EV086.10',categoria:'D',cantidad:1},{codigo:'EV089.20',categoria:'B',cantidad:3},{codigo:'EV098.15',categoria:'B',cantidad:3},{codigo:'EV099.10',categoria:'D',cantidad:1},{codigo:'EV105.10',categoria:'B',cantidad:2},{codigo:'EW093.10',categoria:'D',cantidad:1},{codigo:'E:210',categoria:'ESP',cantidad:1},{codigo:'E:211',categoria:'ESP',cantidad:1},{codigo:'E:212',categoria:'ESP',cantidad:1}]}
   // JUNIO 2026 — objetivos del sheet, producción en 0 (mes no iniciado)
-  ,{ga:'Inducidos',mes_key:'2026-06',mes_label:'Junio 2026',obj_mensual:200,dias_habiles:21,prod_total:108,
-   semanas:[{num:1,dias:5,obj:48,prod:52},{num:2,dias:5,obj:48,prod:56},{num:3,dias:4,obj:38,prod:0},{num:4,dias:5,obj:48,prod:0},{num:5,dias:2,obj:19,prod:0}],
-   codigos:[{codigo:'IB2311.20',categoria:'B',cantidad:6},{codigo:'IB2810.30',categoria:'B',cantidad:1},{codigo:'IB3310.42',categoria:'D',cantidad:1},{codigo:'IB3310.61',categoria:'D',cantidad:1},{codigo:'IB3700.20',categoria:'C',cantidad:1},{codigo:'IB3700.21',categoria:'D',cantidad:2},{codigo:'IB2110.40',categoria:'A',cantidad:4},{codigo:'IDE2519.31',categoria:'D',cantidad:1},{codigo:'IESP(I-394)',categoria:'ESP',cantidad:1},{codigo:'IESP(I-407)',categoria:'ESP',cantidad:1},{codigo:'IFE1906.10',categoria:'D',cantidad:2},{codigo:'IFI3606.11',categoria:'D',cantidad:2},{codigo:'IG2303.20',categoria:'C',cantidad:1},{codigo:'IG2912.30',categoria:'B',cantidad:10},{codigo:'IH2711.30',categoria:'C',cantidad:1},{codigo:'II1703.20',categoria:'B',cantidad:10},{codigo:'II1703.50',categoria:'A',cantidad:15},{codigo:'II1703.65',categoria:'C',cantidad:1},{codigo:'II1703.70',categoria:'D',cantidad:1},{codigo:'II2112.20',categoria:'D',cantidad:1},{codigo:'II2300.10',categoria:'C',cantidad:2},{codigo:'II2303.10',categoria:'A',cantidad:3},{codigo:'II2303.20',categoria:'D',cantidad:1},{codigo:'II2303.60',categoria:'B',cantidad:4},{codigo:'II2303.70',categoria:'A',cantidad:7},{codigo:'II2303.81',categoria:'B',cantidad:6},{codigo:'II2516.11',categoria:'D',cantidad:1},{codigo:'II2900.10',categoria:'D',cantidad:2},{codigo:'II2909.15',categoria:'A',cantidad:4},{codigo:'II2909.20',categoria:'A',cantidad:2},{codigo:'II2909.25',categoria:'B',cantidad:3},{codigo:'II2909.65',categoria:'B',cantidad:3},{codigo:'II2909.90',categoria:'C',cantidad:1},{codigo:'II2910.10',categoria:'C',cantidad:1},{codigo:'IIS2110.45',categoria:'D',cantidad:1},{codigo:'IMI2110.20',categoria:'C',cantidad:1},{codigo:'ITR2912.60',categoria:'C',cantidad:1},{codigo:'ITR2912.70',categoria:'D',cantidad:1},{codigo:'esp.0005',categoria:'ESP',cantidad:1}]}
-  ,{ga:'Rotores',mes_key:'2026-06',mes_label:'Junio 2026',obj_mensual:70,dias_habiles:21,prod_total:42,
-   semanas:[{num:1,dias:5,obj:17,prod:23},{num:2,dias:5,obj:17,prod:19},{num:3,dias:4,obj:13,prod:0},{num:4,dias:5,obj:17,prod:0},{num:5,dias:2,obj:7,prod:0}],
-   codigos:[{codigo:'RB089.81',categoria:'B',cantidad:2},{codigo:'RB089.90',categoria:'B',cantidad:5},{codigo:'RI083.20',categoria:'A',cantidad:9},{codigo:'RI088.20',categoria:'B',cantidad:3},{codigo:'RI094.20',categoria:'C',cantidad:1},{codigo:'RI098.10',categoria:'C',cantidad:1},{codigo:'RI098.20',categoria:'D',cantidad:1},{codigo:'RMA091.10',categoria:'A',cantidad:4},{codigo:'RNA094.20',categoria:'C',cantidad:1},{codigo:'RNI091.30',categoria:'D',cantidad:1},{codigo:'RV098.10',categoria:'A',cantidad:4},{codigo:'RV098.15',categoria:'A',cantidad:8},{codigo:'RV099.10',categoria:'B',cantidad:2}]}
-  ,{ga:'Estatores',mes_key:'2026-06',mes_label:'Junio 2026',obj_mensual:100,dias_habiles:21,prod_total:39,
-   semanas:[{num:1,dias:5,obj:10,prod:11},{num:2,dias:5,obj:27,prod:28},{num:3,dias:4,obj:22,prod:0},{num:4,dias:5,obj:27,prod:0},{num:5,dias:2,obj:14,prod:0}],
-   codigos:[{codigo:'EB089.70',categoria:'C',cantidad:1},{codigo:'EG083.20',categoria:'C',cantidad:2},{codigo:'EH094.10',categoria:'C',cantidad:1},{codigo:'EI083.20',categoria:'A',cantidad:9},{codigo:'EI088.10',categoria:'A',cantidad:10},{codigo:'EI088.11',categoria:'B',cantidad:5},{codigo:'EI098.10',categoria:'B',cantidad:2},{codigo:'EMI094.10',categoria:'D',cantidad:1},{codigo:'EMI105.41',categoria:'D',cantidad:1},{codigo:'ENI091.10',categoria:'D',cantidad:1},{codigo:'ESP-0001',categoria:'ESP',cantidad:1},{codigo:'EV089.10',categoria:'B',cantidad:4},{codigo:'EV105.30',categoria:'C',cantidad:1}]}
+  ,{ga:'Inducidos',mes_key:'2026-06',mes_label:'Junio 2026',obj_mensual:200,dias_habiles:21,prod_total:127,
+   semanas:[{num:1,dias:5,obj:48,prod:52},{num:2,dias:5,obj:48,prod:56},{num:3,dias:4,obj:38,prod:19},{num:4,dias:5,obj:48,prod:0},{num:5,dias:2,obj:19,prod:0}],
+   codigos:[{codigo:'ESP-0005',categoria:'ESP',cantidad:1},{codigo:'IB2110.40',categoria:'A',cantidad:4},{codigo:'IB2311.20',categoria:'B',cantidad:6},{codigo:'IB2810.30',categoria:'B',cantidad:1},{codigo:'IB3310.42',categoria:'D',cantidad:1},{codigo:'IB3310.61',categoria:'D',cantidad:1},{codigo:'IB3700.20',categoria:'C',cantidad:1},{codigo:'IB3700.21',categoria:'D',cantidad:3},{codigo:'IDE2519.31',categoria:'D',cantidad:1},{codigo:'IESP(ID:I-394)',categoria:'ESP',cantidad:1},{codigo:'IESP(ID:I-401)',categoria:'ESP',cantidad:1},{codigo:'IESP(ID:I-402)',categoria:'ESP',cantidad:1},{codigo:'IESP(ID:I-403)',categoria:'ESP',cantidad:1},{codigo:'IESP(ID:I-404)',categoria:'ESP',cantidad:1},{codigo:'IESP(ID:I-405)',categoria:'ESP',cantidad:1},{codigo:'IESP(ID:I-407)',categoria:'ESP',cantidad:1},{codigo:'IFE1906.10',categoria:'D',cantidad:2},{codigo:'IFI3606.11',categoria:'D',cantidad:2},{codigo:'IG2303.20',categoria:'C',cantidad:1},{codigo:'IG2912.30',categoria:'B',cantidad:10},{codigo:'IH2711.25',categoria:'D',cantidad:1},{codigo:'IH2711.30',categoria:'C',cantidad:1},{codigo:'II1703.20',categoria:'B',cantidad:10},{codigo:'II1703.50',categoria:'A',cantidad:15},{codigo:'II1703.65',categoria:'C',cantidad:1},{codigo:'II1703.70',categoria:'D',cantidad:1},{codigo:'II2112.20',categoria:'D',cantidad:1},{codigo:'II2300.10',categoria:'C',cantidad:2},{codigo:'II2303.10',categoria:'A',cantidad:3},{codigo:'II2303.20',categoria:'D',cantidad:1},{codigo:'II2303.60',categoria:'B',cantidad:4},{codigo:'II2303.70',categoria:'A',cantidad:7},{codigo:'II2303.81',categoria:'B',cantidad:6},{codigo:'II2516.11',categoria:'D',cantidad:1},{codigo:'II2900.10',categoria:'D',cantidad:2},{codigo:'II2909.15',categoria:'A',cantidad:4},{codigo:'II2909.20',categoria:'A',cantidad:2},{codigo:'II2909.25',categoria:'B',cantidad:3},{codigo:'II2909.65',categoria:'B',cantidad:3},{codigo:'II2909.90',categoria:'C',cantidad:1},{codigo:'II2910.10',categoria:'C',cantidad:1},{codigo:'IIS2110.45',categoria:'D',cantidad:1},{codigo:'IIS2311.40',categoria:'D',cantidad:8},{codigo:'IMI2110.20',categoria:'C',cantidad:1},{codigo:'IMI2311.10',categoria:'D',cantidad:4},{codigo:'ITR2912.60',categoria:'C',cantidad:1},{codigo:'ITR2912.70',categoria:'D',cantidad:1}]}
+  ,{ga:'Rotores',mes_key:'2026-06',mes_label:'Junio 2026',obj_mensual:70,dias_habiles:21,prod_total:43,
+   semanas:[{num:1,dias:5,obj:17,prod:23},{num:2,dias:5,obj:17,prod:19},{num:3,dias:4,obj:13,prod:1},{num:4,dias:5,obj:17,prod:0},{num:5,dias:2,obj:7,prod:0}],
+   codigos:[{codigo:'RB089.81',categoria:'B',cantidad:2},{codigo:'RB089.90',categoria:'B',cantidad:5},{codigo:'RB103.41',categoria:'B',cantidad:1},{codigo:'RI083.20',categoria:'A',cantidad:9},{codigo:'RI088.20',categoria:'B',cantidad:3},{codigo:'RI094.20',categoria:'C',cantidad:1},{codigo:'RI098.10',categoria:'C',cantidad:1},{codigo:'RI098.20',categoria:'D',cantidad:1},{codigo:'RMA091.10',categoria:'A',cantidad:4},{codigo:'RNA094.20',categoria:'C',cantidad:1},{codigo:'RNI091.30',categoria:'D',cantidad:1},{codigo:'RV098.10',categoria:'A',cantidad:4},{codigo:'RV098.15',categoria:'A',cantidad:8},{codigo:'RV099.10',categoria:'B',cantidad:2}]}
+  ,{ga:'Estatores',mes_key:'2026-06',mes_label:'Junio 2026',obj_mensual:100,dias_habiles:21,prod_total:44,
+   semanas:[{num:1,dias:5,obj:10,prod:11},{num:2,dias:5,obj:27,prod:28},{num:3,dias:4,obj:22,prod:5},{num:4,dias:5,obj:27,prod:0},{num:5,dias:2,obj:14,prod:0}],
+   codigos:[{codigo:'EB089.70',categoria:'C',cantidad:1},{codigo:'EG083.20',categoria:'C',cantidad:2},{codigo:'EH094.10',categoria:'C',cantidad:1},{codigo:'EI083.20',categoria:'A',cantidad:9},{codigo:'EI088.10',categoria:'A',cantidad:10},{codigo:'EI088.11',categoria:'B',cantidad:5},{codigo:'EI098.10',categoria:'B',cantidad:2},{codigo:'EMI094.10',categoria:'D',cantidad:1},{codigo:'EMI105.41',categoria:'D',cantidad:1},{codigo:'ENI091.10',categoria:'D',cantidad:1},{codigo:'ESP-0001',categoria:'ESP',cantidad:1},{codigo:'EV089.10',categoria:'B',cantidad:6},{codigo:'EV089.20',categoria:'B',cantidad:3},{codigo:'EV105.30',categoria:'C',cantidad:1}]}
 ];
 // Cálculo automático de objetivo semanal según días hábiles por semana
 OF_DATA.forEach(d=>{d.semanas.forEach(s=>{if(s.dias!=null && s.obj==null)s.obj=Math.round(d.obj_mensual/d.dias_habiles*s.dias);});});
 
 const PEDIDOS=[
   {n:1,ga:'Inducidos',codigo:'IB2316.20',condicion:'Reclamos',cliente:'C0096',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-05-07',dias_objetivo:3,entrega_sol:'2026-05-12',fecha_entrega_real:'2026-05-12',dias_prod:3,demora:0.0},
-  {n:2,ga:'Rotores',codigo:'RMA091.10',condicion:'Reclamos',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-13',dias_objetivo:3,entrega_sol:'2026-05-18',fecha_entrega_real:'2026-05-27',dias_prod:10,demora:2.33},
-  {n:3,ga:'Rotores',codigo:'RI103.10',condicion:'Reclamos',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-13',dias_objetivo:3,entrega_sol:'2026-05-18',fecha_entrega_real:'2026-05-27',dias_prod:10,demora:2.33},
-  {n:4,ga:'Rotores',codigo:'Ri083.20',condicion:'Reclamos',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:'2026-05-20',dias_prod:3,demora:0.0},
+  {n:2,ga:'Rotores',codigo:'RMA091.10',condicion:'Reclamos',cliente:'C0069',reclamo:'Si - S/M',observacion:'-',fecha_ingreso:'2026-05-13',dias_objetivo:3,entrega_sol:'2026-05-18',fecha_entrega_real:'2026-05-27',dias_prod:10,demora:2.33},
+  {n:3,ga:'Rotores',codigo:'RI103.10',condicion:'Reclamos',cliente:'C0069',reclamo:'Si - S/M',observacion:'-',fecha_ingreso:'2026-05-13',dias_objetivo:3,entrega_sol:'2026-05-18',fecha_entrega_real:'2026-05-27',dias_prod:10,demora:2.33},
+  {n:4,ga:'Rotores',codigo:'Ri083.20',condicion:'Reclamos',cliente:'C0264',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:'2026-05-20',dias_prod:3,demora:0.0},
   {n:5,ga:'Inducidos',codigo:'ii2909.15',condicion:'Reclamos',cliente:'C0264',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:'2026-06-01',dias_prod:11,demora:2.67},
-  {n:6,ga:'Inducidos',codigo:'IH2908.05',condicion:'Reclamos',cliente:'C0281',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:'2026-06-01',dias_prod:8,demora:2.0},
-  {n:7,ga:'Inducidos',codigo:'IW2306.10',condicion:'Reclamos',cliente:'C0281',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:'2026-06-01',dias_prod:8,demora:2.0},
-  {n:8,ga:'Rotores',codigo:'RV089.10',condicion:'Reclamos',cliente:'C0298',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:'2026-06-01',dias_prod:3,demora:0.0},
+  {n:6,ga:'Inducidos',codigo:'IH2908.05',condicion:'Reclamos',cliente:'C0281',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:'2026-06-01',dias_prod:8,demora:1.67},
+  {n:7,ga:'Inducidos',codigo:'IW2306.10',condicion:'Reclamos',cliente:'C0281',reclamo:'Si - S/M',observacion:'sin problemas',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:'2026-06-01',dias_prod:8,demora:1.67},
+  {n:8,ga:'Rotores',codigo:'RV089.10',condicion:'Reclamos',cliente:'C0298',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:'2026-06-01',dias_prod:3,demora:0.0},
   {n:9,ga:'Inducidos',codigo:'IB2110.30',condicion:'Reclamos',cliente:'C0276',reclamo:'Si - Cambiar',observacion:'bobinado quemado',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:'2026-06-01',dias_prod:3,demora:0.0},
   {n:10,ga:'Inducidos',codigo:'II2909.20',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'emprolijar cabeza',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:'2026-06-01',dias_prod:2,demora:-0.33},
   {n:11,ga:'Inducidos',codigo:'IG2912.30',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'emprolijar cabeza',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:'2026-06-01',dias_prod:2,demora:-0.33},
   {n:12,ga:'Inducidos',codigo:'II2909.30',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'emprolijar cabeza',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:'2026-06-01',dias_prod:2,demora:-0.33},
   {n:13,ga:'Inducidos',codigo:'II2909.15',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'emprolijar cabeza',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:'2026-06-01',dias_prod:2,demora:-0.33},
-  {n:14,ga:'Inducidos',codigo:'IB2816.10',condicion:'Reclamos',cliente:'Deposito',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:'2026-06-01',dias_prod:2,demora:-0.33},
+  {n:14,ga:'Inducidos',codigo:'IB2816.10',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'-',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:'2026-06-01',dias_prod:2,demora:-0.33},
   {n:15,ga:'Inducidos',codigo:'IB3310.10',condicion:'Reclamos',cliente:'C0040',reclamo:'Si - Cambiar',observacion:'bobinado quemado',fecha_ingreso:'2026-05-28',dias_objetivo:3,entrega_sol:'2026-06-02',fecha_entrega_real:'2026-06-01',dias_prod:2,demora:-0.33},
-  {n:16,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'Si - S/M',observacion:'ISM-1057',fecha_ingreso:'2026-05-07',dias_objetivo:3,entrega_sol:'2026-05-12',fecha_entrega_real:'2026-05-18',dias_prod:7,demora:1.33},
-  {n:17,ga:'Inducidos',codigo:'IDE2903.10',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1058',fecha_ingreso:'2026-05-12',dias_objetivo:3,entrega_sol:'2026-05-15',fecha_entrega_real:'2026-05-15',dias_prod:3,demora:0.0},
-  {n:18,ga:'Inducidos',codigo:'IFI3606,11',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'ISM-1059',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:'2026-06-01',dias_prod:11,demora:3.0},
-  {n:19,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1060',fecha_ingreso:'2026-05-19',dias_objetivo:3,entrega_sol:'2026-05-22',fecha_entrega_real:'2026-06-04',dias_prod:12,demora:3.33},
-  {n:20,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'Si - S/M',observacion:'ISM-1061 se hizo ide2519.41',fecha_ingreso:'2026-05-19',dias_objetivo:3,entrega_sol:'2026-05-22',fecha_entrega_real:'2026-05-28',dias_prod:7,demora:1.33},
+  {n:16,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1057',fecha_ingreso:'2026-05-07',dias_objetivo:3,entrega_sol:'2026-05-12',fecha_entrega_real:'2026-05-18',dias_prod:7,demora:1.33},
+  {n:17,ga:'Inducidos',codigo:'IDE2903.10',condicion:'S/M',cliente:'C0281',reclamo:'Si - Cambiar',observacion:'ISM-1058',fecha_ingreso:'2026-05-12',dias_objetivo:3,entrega_sol:'2026-05-15',fecha_entrega_real:'2026-05-15',dias_prod:3,demora:0.0},
+  {n:18,ga:'Inducidos',codigo:'IFI3606,11',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'ISM-1059',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:'2026-06-01',dias_prod:11,demora:2.67},
+  {n:19,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1060',fecha_ingreso:'2026-05-19',dias_objetivo:3,entrega_sol:'2026-05-22',fecha_entrega_real:'2026-06-04',dias_prod:12,demora:3.0},
+  {n:20,ga:'Inducidos',codigo:'IDE2519.31',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'ISM-1061 se hizo ide2519.41',fecha_ingreso:'2026-05-19',dias_objetivo:3,entrega_sol:'2026-05-22',fecha_entrega_real:'2026-05-28',dias_prod:7,demora:1.33},
   {n:21,ga:'Inducidos',codigo:'IB2119.11',condicion:'S/M',cliente:'C0281',reclamo:'Si - Cambiar',observacion:'ISM-1062',fecha_ingreso:'2026-05-22',dias_objetivo:3,entrega_sol:'2026-05-27',fecha_entrega_real:'2026-05-27',dias_prod:3,demora:0.0},
-  {n:22,ga:'Inducidos',codigo:'II2112.20',condicion:'S/M',cliente:'C0281',reclamo:'Si - S/M',observacion:'ISM-1063',fecha_ingreso:'2026-05-22',dias_objetivo:3,entrega_sol:'2026-05-27',fecha_entrega_real:'2026-06-01',dias_prod:6,demora:1.33},
-  {n:23,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0069',reclamo:'-',observacion:'ISM-1064',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:'2026-05-29',dias_prod:2,demora:-0.67},
-  {n:24,ga:'Inducidos',codigo:'INI2616.30',condicion:'S/M',cliente:'C0098',reclamo:'Si - S/M',observacion:'ISM-1045',fecha_ingreso:'2026-04-13',dias_objetivo:3,entrega_sol:'2026-04-16',fecha_entrega_real:'2026-05-21',dias_prod:28,demora:8.33},
-  {n:25,ga:'Inducidos',codigo:'IB3310.61',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1047',fecha_ingreso:'2026-04-20',dias_objetivo:3,entrega_sol:'2026-04-23',fecha_entrega_real:'2026-06-03',dias_prod:32,demora:2.33},
+  {n:22,ga:'Inducidos',codigo:'II2112.20',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1063',fecha_ingreso:'2026-05-22',dias_objetivo:3,entrega_sol:'2026-05-27',fecha_entrega_real:'2026-06-01',dias_prod:6,demora:1.0},
+  {n:23,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0069',reclamo:'-',observacion:'ISM-1064 esperando confirmacion',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:'2026-05-29',dias_prod:2,demora:-0.33},
+  {n:24,ga:'Inducidos',codigo:'INI2616.30',condicion:'S/M',cliente:'C0098',reclamo:'Si - S/M',observacion:'ISM-1045 pedida por msj',fecha_ingreso:'2026-04-13',dias_objetivo:3,entrega_sol:'2026-04-16',fecha_entrega_real:'2026-05-21',dias_prod:28,demora:8.33},
+  {n:25,ga:'Inducidos',codigo:'IB3310.61',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'ISM-1047',fecha_ingreso:'2026-05-20',dias_objetivo:3,entrega_sol:'2026-05-25',fecha_entrega_real:'2026-06-03',dias_prod:10,demora:2.33},
   {n:26,ga:'Rotores',codigo:'RV095.20',condicion:'S/M',cliente:'C0203',reclamo:'Si - Cambiar',observacion:'RSM-622 M/Ventilado',fecha_ingreso:'2026-05-05',dias_objetivo:3,entrega_sol:'2026-05-08',fecha_entrega_real:'2026-05-08',dias_prod:3,demora:0.0},
-  {n:27,ga:'Estatores',codigo:'EMI094.10',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'ESM-1035 ( pedido colgado no se pidio por mail, se hablo con nanu)',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:'2026-06-03',dias_prod:13,demora:3.33},
+  {n:27,ga:'Estatores',codigo:'EMI094.10',condicion:'S/M',cliente:'C0264',reclamo:'Si - S/M',observacion:'ESM-1035 ( pedido colgado no se pidio por mail, se hablo con nanu)',fecha_ingreso:'2026-05-15',dias_objetivo:3,entrega_sol:'2026-05-20',fecha_entrega_real:'2026-05-20',dias_prod:3,demora:0.0},
   {n:28,ga:'Estatores',codigo:'E-0212',condicion:'Especiales',cliente:'C0096',reclamo:'-',observacion:'Entregado el 29/05',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:'2026-05-29',dias_prod:0,demora:-1.0},
-  {n:29,ga:'Inducidos',codigo:'I-0401',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'pedir colector',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:null,dias_prod:14,demora:null},
-  {n:30,ga:'Inducidos',codigo:'I-0402',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'pedir colector',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:null,dias_prod:14,demora:null},
-  {n:31,ga:'Inducidos',codigo:'I-0403',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'pedir colector',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:null,dias_prod:14,demora:null},
-  {n:32,ga:'Inducidos',codigo:'I-0404',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'pedir colector',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:null,dias_prod:14,demora:null},
-  {n:33,ga:'Inducidos',codigo:'I-0405',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'pedir colector',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:null,dias_prod:14,demora:null},
-  {n:34,ga:'Inducidos',codigo:'I-0406',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Eje',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:null,dias_prod:14,demora:null},
-  {n:35,ga:'Inducidos',codigo:'I-0407',condicion:'Especiales',cliente:'C0061',reclamo:'-',observacion:'Esta para terminar',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:'2026-06-03',dias_prod:3,demora:0.0},
+  {n:29,ga:'Inducidos',codigo:'I-0401',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:'2026-06-16',dias_prod:18,demora:0.8},
+  {n:30,ga:'Inducidos',codigo:'I-0402',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:'2026-06-16',dias_prod:18,demora:0.8},
+  {n:31,ga:'Inducidos',codigo:'I-0403',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:'2026-06-16',dias_prod:18,demora:0.8},
+  {n:32,ga:'Inducidos',codigo:'I-0404',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:'2026-06-16',dias_prod:18,demora:0.8},
+  {n:33,ga:'Inducidos',codigo:'I-0405',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:'2026-06-16',dias_prod:18,demora:0.8},
+  {n:34,ga:'Inducidos',codigo:'I-0406',condicion:'Especiales',cliente:'C0260',reclamo:'-',observacion:'Fabricar Eje',fecha_ingreso:'2026-05-21',dias_objetivo:10,entrega_sol:'2026-06-04',fecha_entrega_real:'2026-06-16',dias_prod:18,demora:0.8},
+  {n:35,ga:'Inducidos',codigo:'I-0407',condicion:'Especiales',cliente:'C0061',reclamo:'-',observacion:'-',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:'2026-06-03',dias_prod:3,demora:0.0},
   {n:36,ga:'Inducidos',codigo:'I-0408',condicion:'Especiales',cliente:'C0069',reclamo:'-',observacion:'Entregada el 28/5',fecha_ingreso:'2026-05-27',dias_objetivo:3,entrega_sol:'2026-06-01',fecha_entrega_real:'2026-05-28',dias_prod:1,demora:-0.67},
-  {n:37,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
-  {n:38,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
+  {n:37,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'entregada',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
+  {n:38,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0281',reclamo:'-',observacion:'entregada',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
   {n:39,ga:'Rotores',codigo:'RNI091.30',condicion:'S/M',cliente:'C0402',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:2,demora:-0.33},
-  {n:40,ga:'Estatores',codigo:'EMI105.41',condicion:'S/M',cliente:'C0402',reclamo:'-',observacion:'no llego el cuerpo',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
-  {n:41,ga:'Estatores',codigo:'ENI091.10',condicion:'S/M',cliente:'C0225',reclamo:'-',observacion:'en proceso',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:2,demora:-0.33},
-  {n:42,ga:'Estatores',codigo:'ESP-0001',condicion:'Especiales',cliente:'C0402',reclamo:'-',observacion:'no llego el cuerpo',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
-  {n:43,ga:'Estatores',codigo:'ESP-0002',condicion:'Especiales',cliente:'C0402',reclamo:'Devolución',observacion:'ranuras chicas - no se puede bobinar',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-02',dias_prod:0,demora:-1.0},
+  {n:40,ga:'Estatores',codigo:'EMI105.41',condicion:'S/M',cliente:'C0402',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
+  {n:41,ga:'Estatores',codigo:'ENI091.10',condicion:'S/M',cliente:'C0225',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:2,demora:-0.33},
+  {n:42,ga:'Estatores',codigo:'ESP-0001',condicion:'Especiales',cliente:'C0402',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
+  {n:43,ga:'Estatores',codigo:'ESP-0002',condicion:'Especiales',cliente:'C0402',reclamo:'-',observacion:'ranuras chicas - no se puede bobinar (devolucion)',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-02',dias_prod:0,demora:-1.0},
   {n:44,ga:'Inducidos',codigo:'II2303.20',condicion:'Faltantes',cliente:'C0096',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
-  {n:45,ga:'Estatores',codigo:'EV089.10',condicion:'Faltantes',cliente:'C0160',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-01',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:2,demora:-0.67},
-  {n:46,ga:'Estatores',codigo:'EV105.30',condicion:'Faltantes',cliente:'C0225',reclamo:'-',observacion:'en proceso',fecha_ingreso:'2026-06-01',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:3,demora:-0.33}
-  ,{n:47,ga:'Inducidos',codigo:'IB3700.20',condicion:'S/M',cliente:'C0568',reclamo:'-',observacion:'entregada',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:2,demora:-0.33}
-  ,{n:48,ga:'Inducidos',codigo:'IB2311.20',condicion:'Faltantes',cliente:'C0281',reclamo:'-',observacion:'ya entregado',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-02',dias_prod:0,demora:-2.0}
-  ,{n:49,ga:'Estatores',codigo:'EB093.10',condicion:'Reclamos',cliente:'C0309',reclamo:'Si - Cambiar',observacion:'cuerpo deformado',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:'2026-06-02',dias_prod:2,demora:-0.33}
-  ,{n:50,ga:'Inducidos',codigo:'ESP-0003',condicion:'Especiales',cliente:'C0225',reclamo:'-',observacion:'cotizar',fecha_ingreso:'2026-06-03',dias_objetivo:10,entrega_sol:'2026-06-17',fecha_entrega_real:null,dias_prod:2,demora:null}
-  ,{n:51,ga:'Inducidos',codigo:'ESP-0004',condicion:'Especiales',cliente:'C0069',reclamo:'-',observacion:'es IB3310.42',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33}
-  ,{n:52,ga:'Inducidos',codigo:'ESP-0005',condicion:'Especiales',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-08',dias_prod:3,demora:0.0}
-  ,{n:53,ga:'Inducidos',codigo:'II1703.20',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33}
-  ,{n:54,ga:'Inducidos',codigo:'II1703.20',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33}
-  ,{n:55,ga:'Inducidos',codigo:'II1703.20',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33}
-
-  ,{n:56,ga:'Inducidos',codigo:'IIS2110.45',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'entregada',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-03',dias_prod:0,demora:-1.0}
-
-  ,{n:57,ga:'Inducidos',codigo:'IDE2919.11',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-04',dias_objetivo:3,entrega_sol:'2026-06-09',fecha_entrega_real:'2026-06-05',dias_prod:1,demora:-0.67}
-
-  ,{n:58,ga:'Inducidos',codigo:'II1703.20',condicion:'Faltantes',cliente:'C0402',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-04',dias_objetivo:3,entrega_sol:'2026-06-09',fecha_entrega_real:'2026-06-05',dias_prod:1,demora:-0.67}
-  ,{n:59,ga:'Inducidos',codigo:'II2900.10',condicion:'Faltantes',cliente:'C0402',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-04',dias_objetivo:3,entrega_sol:'2026-06-09',fecha_entrega_real:'2026-06-09',dias_prod:3,demora:0.0}
-  ,{n:60,ga:'Inducidos',codigo:'IFI3606.11',condicion:'S/M',cliente:'C0071',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-12',dias_prod:2,demora:-0.33}
-  ,{n:61,ga:'Inducidos',codigo:'IB2110.30',condicion:'Reclamos',cliente:'C0071',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:62,ga:'Inducidos',codigo:'II1703.50',condicion:'Reclamos',cliente:'C0069',reclamo:'Si - S/M',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:63,ga:'Inducidos',codigo:'II2303.81',condicion:'Reclamos',cliente:'C0069',reclamo:'Si - S/M',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:64,ga:'Rotores',codigo:'RB093.40',condicion:'Reclamos',cliente:'C0071',reclamo:'No - Devolucion',observacion:'eje punteado lado colector',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:65,ga:'Rotores',codigo:'RI098.10',condicion:'Reclamos',cliente:'C0071',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:66,ga:'Estatores',codigo:'EI088.10',condicion:'Reclamos',cliente:'C0069',reclamo:'Si - Cambiar',observacion:'bobinado recalentado - en corto',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:67,ga:'Estatores',codigo:'EI083.20',condicion:'Reclamos',cliente:'Deposito',reclamo:'-',observacion:'Aislantes Rotos ( en proceso )',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:68,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:69,ga:'Rotores',codigo:'RB103.41',condicion:'S/M',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:70,ga:'Inducidos',codigo:'II2303.81',condicion:'Faltantes',cliente:'C0071',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:71,ga:'Estatores',codigo:'EB089.70',condicion:'Faltantes',cliente:'C0071',reclamo:'-',observacion:'en proceso',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:72,ga:'Inducidos',codigo:'II2303.81',condicion:'Faltantes',cliente:'C0281',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-  ,{n:73,ga:'Inducidos',codigo:'II2303.81',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0}
-
-  ,{n:74,ga:'Rotores',codigo:'RNA094.20',condicion:'Faltantes',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-11',dias_prod:0,demora:-0.67}
-  ,{n:75,ga:'Rotores',codigo:'RI094.20',condicion:'Faltantes',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-11',dias_prod:0,demora:-0.67}
-  ,{n:76,ga:'Inducidos',codigo:'II2909.90',condicion:'Faltantes',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-11',dias_prod:0,demora:-1.0}
-  ,{n:77,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-18',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:78,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-18',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:79,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-18',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:80,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-18',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:81,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:82,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:83,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:84,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:85,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:86,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:87,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:88,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:89,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:90,ga:'Inducidos',codigo:'IIS2315.15',condicion:'Faltantes',cliente:'C0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:null,demora:null}
-  ,{n:91,ga:'Inducidos',codigo:'II2909.15',condicion:'Reclamos',cliente:'C0145',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-12',dias_prod:1,demora:-0.67}
-  ,{n:92,ga:'Rotores',codigo:'RB093.30',condicion:'Reclamos',cliente:'C0061',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0}
-  ,{n:93,ga:'Rotores',codigo:'RI083.20',condicion:'Reclamos',cliente:'C0061',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0}
-  ,{n:94,ga:'Estatores',codigo:'EB103.11',condicion:'Reclamos',cliente:'C0145',reclamo:'Si - Cambiar',observacion:'cuerpo deformado',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0}
-  ,{n:95,ga:'Estatores',codigo:'EB103.11',condicion:'Reclamos',cliente:'C0145',reclamo:'Si - Cambiar',observacion:'bobinado sin esmalte',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0}
-  ,{n:96,ga:'Inducidos',codigo:'IB2500.11',condicion:'S/M',cliente:'C0233',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0}
-  ,{n:97,ga:'Inducidos',codigo:'IB3700.20',condicion:'S/M',cliente:'C0233',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0}
-  ,{n:98,ga:'Inducidos',codigo:'IDE2919.11',condicion:'S/M',cliente:'C0233',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0}
+  {n:45,ga:'Estatores',codigo:'EV089.10',condicion:'Faltantes',cliente:'C0160',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
+  {n:46,ga:'Estatores',codigo:'EV105.30',condicion:'Faltantes',cliente:'C0225',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:2,demora:-0.33},
+  {n:47,ga:'Inducidos',codigo:'IB3700.20',condicion:'S/M',cliente:'C0568',reclamo:'-',observacion:'entregada',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:2,demora:-0.33},
+  {n:48,ga:'Inducidos',codigo:'IB2311.20',condicion:'Faltantes',cliente:'C0281',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-02',dias_prod:-3,demora:-2.0},
+  {n:49,ga:'Estatores',codigo:'EB093.10',condicion:'Reclamos',cliente:'C0309',reclamo:'Si - Cambiar',observacion:'cuerpo deformado',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:'2026-06-02',dias_prod:2,demora:-0.33},
+  {n:50,ga:'Inducidos',codigo:'ESP-0003',condicion:'Especiales',cliente:'C0225',reclamo:'-',observacion:'colec. pedido 08/6/2026',fecha_ingreso:'2026-06-03',dias_objetivo:10,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-17',dias_prod:10,demora:0.0},
+  {n:51,ga:'Inducidos',codigo:'ESP-0004',condicion:'Especiales',cliente:'C0069',reclamo:'-',observacion:'es IB3310.42',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33},
+  {n:52,ga:'Inducidos',codigo:'ESP-0005',condicion:'Especiales',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-08',dias_prod:3,demora:0.0},
+  {n:53,ga:'Inducidos',codigo:'II1703.20',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33},
+  {n:54,ga:'Inducidos',codigo:'II1703.20',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33},
+  {n:55,ga:'Inducidos',codigo:'II1703.20',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33},
+  {n:56,ga:'Inducidos',codigo:'IIS2110.45',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'entregada',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-03',dias_prod:0,demora:-1.0},
+  {n:57,ga:'Inducidos',codigo:'IDE2919.11',condicion:'S/M',cliente:'C0061',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-04',dias_objetivo:3,entrega_sol:'2026-06-09',fecha_entrega_real:'2026-06-05',dias_prod:1,demora:-0.67},
+  {n:58,ga:'Inducidos',codigo:'II1703.20',condicion:'Faltantes',cliente:'C0402',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-04',dias_objetivo:3,entrega_sol:'2026-06-09',fecha_entrega_real:'2026-06-05',dias_prod:1,demora:-0.67},
+  {n:59,ga:'Inducidos',codigo:'II2900.10',condicion:'Faltantes',cliente:'C0402',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-04',dias_objetivo:3,entrega_sol:'2026-06-09',fecha_entrega_real:'2026-06-09',dias_prod:3,demora:0.0},
+  {n:60,ga:'Inducidos',codigo:'IFI3606.11',condicion:'S/M',cliente:'C0071',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-12',dias_prod:1,demora:-0.67},
+  {n:61,ga:'Inducidos',codigo:'IB2110.30',condicion:'Reclamos',cliente:'C0071',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:62,ga:'Inducidos',codigo:'II1703.50',condicion:'Reclamos',cliente:'C0069',reclamo:'Si - S/M',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:63,ga:'Inducidos',codigo:'II2303.81',condicion:'Reclamos',cliente:'C0069',reclamo:'Si - S/M',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:64,ga:'Rotores',codigo:'RB093.40',condicion:'Reclamos',cliente:'C0071',reclamo:'No - Devolución',observacion:'eje punteado lado colector',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:65,ga:'Rotores',codigo:'RI098.10',condicion:'Reclamos',cliente:'C0071',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:66,ga:'Estatores',codigo:'EI088.10',condicion:'Reclamos',cliente:'C0069',reclamo:'Si - Cambiar',observacion:'bobinado recalentado - en corto',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:67,ga:'Estatores',codigo:'EI083.20',condicion:'Reclamos',cliente:'Deposito',reclamo:'Si - S/M',observacion:'Aislantes Rotos',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:68,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0145',reclamo:'Si - S/M',observacion:'campana tiene salto se trata de raparar',fecha_ingreso:'2026-06-10',dias_objetivo:4,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:4,demora:0.0},
+  {n:69,ga:'Rotores',codigo:'RB103.41',condicion:'S/M',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:4,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:4,demora:0.0},
+  {n:70,ga:'Inducidos',codigo:'II2303.81',condicion:'Faltantes',cliente:'C0071',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:71,ga:'Estatores',codigo:'EB089.70',condicion:'Faltantes',cliente:'C0071',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:72,ga:'Inducidos',codigo:'II2303.81',condicion:'Faltantes',cliente:'C0281',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:73,ga:'Inducidos',codigo:'II2303.81',condicion:'Faltantes',cliente:'C0069',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-10',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-10',dias_prod:0,demora:-1.0},
+  {n:74,ga:'Rotores',codigo:'RNA094.20',condicion:'Faltantes',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-11',dias_prod:0,demora:-1.0},
+  {n:75,ga:'Rotores',codigo:'RI094.20',condicion:'Faltantes',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-15',fecha_entrega_real:'2026-06-11',dias_prod:0,demora:-1.0},
+  {n:76,ga:'Inducidos',codigo:'II2909.90',condicion:'Faltantes',cliente:'C0145',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-11',dias_prod:0,demora:-1.0},
+  {n:77,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:78,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:79,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:80,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'colec, pedido 08/6/2026',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:81,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:82,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:83,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:84,ga:'Inducidos',codigo:'IIS2311.40',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:85,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:86,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:87,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:88,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-16',dias_prod:3,demora:0.0},
+  {n:89,ga:'Inducidos',codigo:'IMI2311.10',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'no esta en el taller / Fueron como comunes el 28/05',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:5,demora:0.67},
+  {n:90,ga:'Inducidos',codigo:'IIS2315.15',condicion:'Faltantes',cliente:'c0260',reclamo:'-',observacion:'no esta en el taller / Fueron como comunes el 28/05',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:null,dias_prod:5,demora:0.67},
+  {n:91,ga:'Inducidos',codigo:'II2909.15',condicion:'Reclamos',cliente:'C0145',reclamo:'Si - Cambiar',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:3,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-12',dias_prod:1,demora:-0.67},
+  {n:92,ga:'Rotores',codigo:'RB093.30',condicion:'Reclamos',cliente:'C0061',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:null,dias_prod:3,demora:null},
+  {n:93,ga:'Rotores',codigo:'RI083.20',condicion:'Reclamos',cliente:'C0061',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:null,dias_prod:3,demora:null},
+  {n:94,ga:'Estatores',codigo:'EB103.11',condicion:'Reclamos',cliente:'C0145',reclamo:'Si - Cambiar',observacion:'cuerpo deformado',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0},
+  {n:95,ga:'Estatores',codigo:'EB103.11',condicion:'Reclamos',cliente:'C0145',reclamo:'Si - Cambiar',observacion:'bobinado sin esmalte',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-12',dias_prod:0,demora:-1.0},
+  {n:96,ga:'Inducidos',codigo:'IB2500.11',condicion:'S/M',cliente:'C0233',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-16',dias_prod:2,demora:-0.33},
+  {n:97,ga:'Inducidos',codigo:'IB3700.20',condicion:'S/M',cliente:'C0233',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-16',dias_prod:2,demora:-0.33},
+  {n:98,ga:'Inducidos',codigo:'IDE2919.11',condicion:'S/M',cliente:'C0233',reclamo:'No - Devolución',observacion:'hablado con pichon',fecha_ingreso:'2026-06-12',dias_objetivo:3,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-16',dias_prod:2,demora:-0.33},
+  {n:99,ga:'Rotores',codigo:'RB089.60',condicion:'Faltantes',cliente:'C0207',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-11',dias_objetivo:4,entrega_sol:'2026-06-17',fecha_entrega_real:null,dias_prod:5,demora:null},
+  {n:100,ga:'Rotores',codigo:'RB100.21',condicion:'Faltantes',cliente:'C0233',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:101,ga:'Rotores',codigo:'RB103.11',condicion:'Faltantes',cliente:'C0233',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:102,ga:'Rotores',codigo:'RI094.20',condicion:'Faltantes',cliente:'C0233',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:103,ga:'Rotores',codigo:'RI094.21',condicion:'Faltantes',cliente:'C0233',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:104,ga:'Rotores',codigo:'RNA094.20',condicion:'Faltantes',cliente:'C0233',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:105,ga:'Rotores',codigo:'RNA094.20',condicion:'Faltantes',cliente:'C0233',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:106,ga:'Estatores',codigo:'ESP-0006',condicion:'Especiales',cliente:'C0246',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:107,ga:'Inducidos',codigo:'ESP-0007',condicion:'Especiales',cliente:'C0568',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:108,ga:'Inducidos',codigo:'IB3700.20',condicion:'S/M',cliente:'C0568',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:109,ga:'Inducidos',codigo:'II2909.20',condicion:'Reclamos',cliente:'C0246',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:null,entrega_sol:'2026-06-16',fecha_entrega_real:'2026-06-17',dias_prod:1,demora:-0.67},
+  {n:110,ga:'Inducidos',codigo:'II2909.05',condicion:'Faltantes',cliente:'C0246',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:2,demora:null},
+  {n:111,ga:'Inducidos',codigo:'II2909.70',condicion:'Faltantes',cliente:'C0246',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:'2026-06-17',dias_prod:1,demora:-0.67},
+  {n:112,ga:'Inducidos',codigo:'II2909.70',condicion:'Faltantes',cliente:'C0246',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:'2026-06-17',dias_prod:1,demora:-0.67},
+  {n:113,ga:'Estatores',codigo:'EI083.30',condicion:'Faltantes',cliente:'C0246',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-16',dias_objetivo:3,entrega_sol:'2026-06-19',fecha_entrega_real:null,dias_prod:2,demora:null},
+  {n:114,ga:'Estatores',codigo:'EB111.40',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-17',dias_objetivo:3,entrega_sol:'2026-06-22',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:115,ga:'Estatores',codigo:'EB111.10',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-17',dias_objetivo:3,entrega_sol:'2026-06-22',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:116,ga:'Inducidos',codigo:'IMI2311.12',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-17',dias_objetivo:3,entrega_sol:'2026-06-22',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:117,ga:'Inducidos',codigo:'IFI4103.11',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-17',dias_objetivo:3,entrega_sol:'2026-06-22',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:118,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-17',dias_objetivo:3,entrega_sol:'2026-06-22',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:119,ga:'Inducidos',codigo:'IB3700.21',condicion:'S/M',cliente:'C0264',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-17',dias_objetivo:3,entrega_sol:'2026-06-22',fecha_entrega_real:null,dias_prod:1,demora:null}
 ];
 
 const TODAY=new Date();TODAY.setHours(0,0,0,0);
@@ -444,7 +467,12 @@ function avgDem(arr){return avg(arr.map(p=>demoraEfectiva(p)));}
 // true si algún pedido del array usó demora estimada (sin fecha real)
 function tieneEstimados(arr){return arr.some(p=>!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo);}
 // Agrega ⚠ al HTML de demora si hay estimados
-function alertaEstimado(arr){return tieneEstimados(arr)?` <span title="Incluye pedidos sin fecha real — puede haber error de carga" style="color:#f59e0b;font-size:.9rem;">⚠</span>`:'';}
+function alertaEstimado(arr){
+  const venc=arr.filter(p=>!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo);
+  if(!venc.length)return'';
+  const tooltip=`${venc.length} pedido${venc.length>1?'s':''} vencido${venc.length>1?'s':''} sin fecha de entrega real. El % servicio es estimado y puede cambiar cuando se carguen las fechas.`;
+  return`<span title="${tooltip}" style="color:#f59e0b;font-size:.8rem;cursor:help;">⚠</span>`;
+}
 
 function fmt1(v){return v!=null?Number(v).toFixed(1):'—';}
 function esEntregado(p){if(!p.fecha_entrega_real)return false;const fe=new Date(p.fecha_entrega_real);fe.setHours(0,0,0,0);return fe<=TODAY;}
@@ -519,14 +547,15 @@ function copiarResumenUrg(){
   CONDS.forEach(cond=>{const g=data.filter(p=>p.condicion===cond);if(!g.length)return;const gaAvgs=SEGMENTOS.map(ga=>{const gp=g.filter(p=>p.ga===ga);return gp.length?avgDem(gp):0;});const dem=(gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length*100).toFixed(1);txt+=`  ${cond}: ${g.length} urgentes — Demora: ${dem}%\n`;});
   navigator.clipboard.writeText(txt).then(()=>alert('Copiado al portapapeles')).catch(()=>prompt('Copiá:',txt));
 }
-function descargarPDF(cardId){
+function descargarPDF(cardId,filename){
   const el=document.getElementById(cardId);
-  if(!el||typeof html2canvas==='undefined'){alert('Error');return;}
-  const btns=el.querySelectorAll('button');btns.forEach(b=>b.style.display='none');
-  html2canvas(el,{scale:2,backgroundColor:'#1a237e'}).then(canvas=>{
-    btns.forEach(b=>b.style.display='');
+  if(!el||typeof html2canvas==='undefined'){alert('Error: html2canvas no disponible');return;}
+  const btns=el.querySelectorAll('button');btns.forEach(b=>b.style.visibility='hidden');
+  html2canvas(el,{scale:2,backgroundColor:'#1a237e',useCORS:true,logging:false}).then(canvas=>{
+    btns.forEach(b=>b.style.visibility='');
     const link=document.createElement('a');
-    link.download='Premio_Produccion.png';link.href=canvas.toDataURL('image/png');link.click();
+    link.download=(filename||'Dashboard_TallerBV')+'.png';
+    link.href=canvas.toDataURL('image/png');link.click();
   });
 }
 
@@ -585,7 +614,7 @@ function buildGeneralSummary(data){
     <div class="prod-gen-sub">${premioPond>100?`+${(premioPond-100).toFixed(1)}% extra sobre objetivo`:'prod. semanal × alcance × pond.'}</div>
     <div style="display:flex;gap:8px;margin-top:12px;">
       <button onclick="copiarResumenProd()" style="background:rgba(255,255,255,.12);border:none;color:white;border-radius:8px;padding:5px 10px;font-size:.72rem;font-weight:700;cursor:pointer;">📋 Copiar</button>
-      <button onclick="descargarPDF('prodGenCard')" style="background:var(--amarillo);border:none;color:var(--azul);border-radius:8px;padding:5px 10px;font-size:.72rem;font-weight:700;cursor:pointer;">⬇ PNG</button>
+      <button onclick="descargarPDF('prodGenCard','Resumen_Produccion')" style="background:var(--amarillo);border:none;color:var(--azul);border-radius:8px;padding:5px 10px;font-size:.72rem;font-weight:700;cursor:pointer;">⬇ PNG</button>
     </div>
   </div>
 </div>`;
@@ -619,11 +648,12 @@ function buildProdCard(d){
     <div class="prod-flip-inner">
       <!-- FRENTE -->
       <div class="prod-flip-front">
-        <div class="prod-card">
+        <div class="prod-card" id="prodcard_${gk}">
           <div class="prod-card-hdr">
             <div class="gen-semaforo" style="background:${semColor};box-shadow:0 0 5px ${semColor}88"></div>
             <span style="color:white;display:flex;align-items:center;">${GA_ICONS[d.ga]||''}</span>
             <span class="ga-name">${d.ga}</span>
+            <button onclick="descargarPDF('prodcard_${gk}','Produccion_${d.ga}')" title="Exportar como imagen" style="margin-left:auto;background:var(--amarillo);border:none;color:var(--azul);border-radius:8px;padding:3px 10px;font-size:.65rem;font-weight:800;cursor:pointer;">⬇ PNG</button>
           </div>
           <div class="prod-card-body">
             <div class="prod-summary" style="margin-bottom:8px;">
@@ -776,11 +806,12 @@ function detTable(pedidos,cond){
     const obs=p.observacion&&p.observacion!=='-'?`<br><span style="color:#888;font-size:.68rem;">${p.observacion}</span>`:'';
     const vencido=p.entrega_sol&&p.entrega_sol<HOY;
     const diasAtr=vencido?Math.round((new Date(HOY)-new Date(p.entrega_sol+'T12:00:00'))/86400000):0;
-    const alerta=vencido?`<span title="Entrega vencida — falta cargar fecha real" style="color:#ef4444;font-size:.85rem;margin-right:3px;">⚠</span>`:'';
+    const alerta=vencido?`<span title="Entrega vencida — falta cargar fecha de entrega real" style="color:#ef4444;font-size:.85rem;margin-right:3px;">⚠</span>`:`<span style="font-size:.85rem;margin-right:3px;visibility:hidden;">⚠</span>`;
     const solStyle=vencido?'color:#ef4444;font-weight:900;':'';
     const atrLabel=vencido?`<br><span style="color:#ef4444;font-size:.65rem;font-weight:700;">+${diasAtr}d atraso</span>`:'';
     return`<tr>
-      <td style="font-weight:700;color:#1a237e;">${alerta}${p.codigo||'—'}</td>
+      <td style="font-weight:700;color:#1a237e;white-space:nowrap;">${alerta}${p.n}</td>
+      <td style="font-weight:700;color:#1a237e;">${p.codigo||'—'}</td>
       <td>${p.cliente||'—'}</td>
       ${showReclamo?`<td>${p.reclamo||'—'}${obs}</td>`:`<td style="color:#666;">${p.observacion&&p.observacion!=='-'?p.observacion:'—'}</td>`}
       <td class="ent-sol" style="${solStyle}">${fmtD(p.entrega_sol)}${atrLabel}</td>
@@ -789,7 +820,7 @@ function detTable(pedidos,cond){
   const th3=showReclamo?'Reclamo / Obs.':'Observación';
   return`<div id="${detId}" style="display:none;margin-top:8px;">
     <table class="det-table">
-      <thead><tr><th>Código</th><th>Cliente</th><th>${th3}</th><th>Ent. sol.</th></tr></thead>
+      <thead><tr><th>N°</th><th>Código</th><th>Cliente</th><th>${th3}</th><th>Ent. sol.</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </div>
@@ -813,6 +844,33 @@ function condCard(cond,pedidos){
   return`<div class="cond-card open" id="${id}"><div class="cond-toggle" onclick="toggleCard('${id}')"><span style="font-size:1rem">${COND_ICONS[cond]||'📋'}</span><span class="badge ${COND_BADGE[cond]||''}">${cond}</span><span style="font-size:.72rem;color:#666">${pedidos.length} pedido${pedidos.length!==1?'s':''}</span><span class="cond-arrow">▼</span></div><div class="cond-body" style="flex-direction:column;"><div style="display:flex;gap:8px;flex-wrap:wrap;">${body}</div>${det}</div></div>`;
 }
 
+function esSiCambiar(p){return p.reclamo&&p.reclamo.toLowerCase().includes('cambiar');}
+
+function flipSiCambiarDetail(flipId,ga){
+  const pedidos=filtered().filter(p=>p.ga===ga&&esSiCambiar(p));
+  const fmtD2=s=>{if(!s||s==='-')return'—';const[y,m,d]=s.split('-');return`${d}/${m}`;};
+  const HOY2=new Date().toISOString().slice(0,10);
+  const rows=pedidos.map(p=>{
+    const obs=p.observacion&&p.observacion!=='-'?p.observacion:'—';
+    return`<tr style="border-bottom:1px solid rgba(255,255,255,.06);">
+      <td style="color:rgba(255,255,255,.7);font-weight:700;padding:5px 4px 5px 0;font-size:.72rem;">${p.n}</td>
+      <td style="color:var(--amarillo);font-weight:700;padding:5px 8px;font-size:.75rem;">${p.codigo||'—'}</td>
+      <td style="color:rgba(255,255,255,.75);padding:5px 8px;font-size:.75rem;">${p.cliente||'—'}</td>
+      <td style="color:rgba(255,255,255,.5);padding:5px 8px;font-size:.7rem;">${p.condicion||'—'}</td>
+      <td style="color:rgba(255,255,255,.75);padding:5px 8px;font-size:.72rem;">${obs}</td>
+    </tr>`;}).join('');
+  document.getElementById(flipId+'_content').innerHTML=`
+    <div style="font-size:.65rem;color:rgba(255,255,255,.5);margin-bottom:8px;padding:10px 14px 0;">🔄 <strong style="color:white;">Si - Cambiar</strong> · ${pedidos.length} artículo${pedidos.length!==1?'s':''} · <em style="color:rgba(255,255,255,.35);">No contabilizados en métricas</em></div>
+    <div style="padding:0 14px 14px;"><table style="width:100%;border-collapse:collapse;">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.2);">
+        ${['N°','Código','Cliente','Cond.','Obs.'].map(h=>`<th style="text-align:left;font-size:.58rem;text-transform:uppercase;color:var(--amarillo);padding:3px 8px 6px 0;font-weight:700;">${h}</th>`).join('')}
+      </tr></thead>
+      <tbody>${rows||'<tr><td colspan="5" style="color:rgba(255,255,255,.3);padding:12px 0;">Sin datos.</td></tr>'}</tbody>
+    </table></div>`;
+  document.getElementById(flipId).classList.add('flipped');
+  setTimeout(()=>{const wrap=document.getElementById(flipId);const front=wrap.querySelector('.gen-flip-front');if(front)wrap.querySelector('.gen-flip-inner').style.height=Math.max(front.offsetHeight,200)+'px';},10);
+}
+
 function flipGADetail(flipId,ga,cond){
   const pedidos=filtered().filter(p=>p.ga===ga&&p.condicion===cond&&(!p.fecha_entrega_real||p.fecha_entrega_real==='-'));
   const showRec=cond==='Reclamos';
@@ -822,11 +880,12 @@ function flipGADetail(flipId,ga,cond){
   const rows=pedidos.map(p=>{
     const vencido=p.entrega_sol&&p.entrega_sol<HOY2;
     const diasAtr=vencido?Math.round((new Date(HOY2)-new Date(p.entrega_sol+'T12:00:00'))/86400000):0;
-    const alerta=vencido?`<span style="color:#ef4444;margin-right:3px;font-size:.8rem;">⚠</span>`:'';
+    const alerta=vencido?`<span title="Entrega vencida — falta cargar fecha de entrega real" style="color:#ef4444;margin-right:3px;font-size:.8rem;">⚠</span>`:`<span style="font-size:.8rem;margin-right:3px;visibility:hidden;">⚠</span>`;
     const solColor=vencido?'#ef4444':'rgba(255,255,255,.55)';
     const atrTxt=vencido?` <span style="color:#ef4444;font-size:.65rem;font-weight:700;">+${diasAtr}d</span>`:'';
     return`<tr style="border-bottom:1px solid rgba(255,255,255,.06);">
-      <td style="color:var(--amarillo);font-weight:700;padding:5px 8px 5px 0;font-size:.75rem;">${alerta}${p.codigo||'—'}</td>
+      <td style="color:rgba(255,255,255,.7);font-weight:700;padding:5px 4px 5px 0;font-size:.72rem;white-space:nowrap;">${alerta}${p.n}</td>
+      <td style="color:var(--amarillo);font-weight:700;padding:5px 8px;font-size:.75rem;">${p.codigo||'—'}</td>
       <td style="color:rgba(255,255,255,.75);padding:5px 8px;font-size:.75rem;">${p.cliente||'—'}</td>
       <td style="color:rgba(255,255,255,.75);padding:5px 8px;font-size:.72rem;">${showRec?(p.reclamo||'—'):(p.observacion&&p.observacion!=='-'?p.observacion:'—')}</td>
       <td style="color:${solColor};padding:5px 0;font-size:.75rem;">${fmtD2(p.entrega_sol)}${atrTxt}</td>
@@ -836,9 +895,9 @@ function flipGADetail(flipId,ga,cond){
     <div style="padding:0 14px 14px;">
     <table style="width:100%;border-collapse:collapse;">
       <thead><tr style="border-bottom:1px solid rgba(255,255,255,.2);">
-        ${['Código','Cliente',th3,'Ent. sol.'].map(h=>`<th style="text-align:left;font-size:.58rem;text-transform:uppercase;color:var(--amarillo);padding:3px 8px 6px 0;font-weight:700;">${h}</th>`).join('')}
+        ${['N°','Código','Cliente',th3,'Ent. sol.'].map(h=>`<th style="text-align:left;font-size:.58rem;text-transform:uppercase;color:var(--amarillo);padding:3px 8px 6px 0;font-weight:700;">${h}</th>`).join('')}
       </tr></thead>
-      <tbody>${rows||'<tr><td colspan="4" style="color:rgba(255,255,255,.3);padding:12px 0;">Sin datos.</td></tr>'}</tbody>
+      <tbody>${rows||'<tr><td colspan="5" style="color:rgba(255,255,255,.3);padding:12px 0;">Sin datos.</td></tr>'}</tbody>
     </table></div>`;
   document.getElementById(flipId).classList.add('flipped');
   setTimeout(()=>{
@@ -856,37 +915,93 @@ function totalGACard(pedidos){
 
 function gaBlock(ga,pedidos){
   if(!pedidos.length)return`<div class="empty">Sin pedidos para ${ga}.</div>`;
-  const dem=avgDem(pedidos);const sem=semaforo(dem);
-  const conds=[...new Set(pedidos.map(p=>p.condicion))];
-  const ordered=[...COND_ORDER.filter(c=>conds.includes(c)),...conds.filter(c=>!COND_ORDER.includes(c))];
+  const siCambiar=pedidos.filter(esSiCambiar);
+  const p2=pedidos.filter(p=>!esSiCambiar(p));
+  const _dp2=avg(p2.map(p=>p.dias_prod));
+  const dem=_dp2!=null?((_dp2-3)/3):null;
+  const sem=semaforo(dem);
+  const extraConds=[...new Set(p2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
+  const ordered=[...COND_ORDER,...extraConds];
   const gaId='ga_'+ga.toLowerCase();
-  const cards=ordered.map(c=>condCard(c,pedidos.filter(p=>p.condicion===c))).join('');
-  return`<div class="ga-block"><div class="ga-header"><div class="gen-semaforo ${sem}"></div><span style="color:var(--azul);display:flex;align-items:center;">${GA_ICONS[ga]||''}</span><div class="ga-title">${ga}</div><button class="ga-toggle-all" onclick="toggleAll('${gaId}',this)">▾ Colapsar todo</button></div>${totalGACard(pedidos)}<div id="${gaId}">${cards}</div></div>`;
+  const cards=ordered.map(c=>{const cp=p2.filter(p=>p.condicion===c);if(!cp.length)return`<div class="cond-card" style="opacity:.35;pointer-events:none;"><div class="cond-card-hdr"><div class="cond-badge ${COND_BADGE[c]||'b-r'}">${COND_ICONS[c]||'📋'} ${c}</div><div style="font-size:.72rem;color:rgba(255,255,255,.35);margin-left:auto;padding-right:8px;">Sin pedidos</div></div></div>`;return condCard(c,cp);}).join('');
+  const HOY2=new Date().toISOString().slice(0,10);
+  const siCambiarCard=siCambiar.length?`<div class="cond-card open" style="opacity:.85;border:1px dashed rgba(255,255,255,.2);">
+    <div class="cond-card-hdr" style="background:rgba(255,255,255,.05);">
+      <span style="font-size:1rem;">🔄</span>
+      <span class="badge" style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:.65rem;padding:2px 8px;border-radius:20px;">Si - Cambiar</span>
+      <span style="font-size:.72rem;color:rgba(255,255,255,.45);margin-left:6px;">${siCambiar.length} artículo${siCambiar.length!==1?'s':''} · No contabilizados</span>
+    </div>
+    <div class="cond-body" style="flex-direction:column;">
+      <table class="det-table" style="margin-top:8px;">
+        <thead><tr><th>N°</th><th>Código</th><th>Cliente</th><th>Cond.</th><th>Obs.</th></tr></thead>
+        <tbody>${siCambiar.map(p=>{return`<tr><td style="font-weight:700;color:#1a237e;">${p.n}</td><td style="font-weight:700;color:#1a237e;">${p.codigo||'—'}</td><td>${p.cliente||'—'}</td><td style="color:#666;font-size:.72rem;">${p.condicion||'—'}</td><td style="color:#666;">${p.observacion&&p.observacion!=='-'?p.observacion:'—'}</td></tr>`;}).join('')}</tbody>
+      </table>
+    </div>
+  </div>`:''
+  return`<div class="ga-block"><div class="ga-header"><div class="gen-semaforo ${sem}"></div><span style="color:var(--azul);display:flex;align-items:center;">${GA_ICONS[ga]||''}</span><div class="ga-title">${ga}</div><button class="ga-toggle-all" onclick="toggleAll('${gaId}',this)">▾ Colapsar todo</button></div>${totalGACard(p2)}<div id="${gaId}">${cards}${siCambiarCard}</div></div>`;
 }
 
 function generalPanel(data){
   const cols=SEGMENTOS.map(ga=>{
     const g=data.filter(p=>p.ga===ga);
-    const dem=avgDem(g);const dp=avg(g.map(p=>p.dias_prod));
-    const ent=g.filter(esEntregado).length,pen=g.length-ent;const sem=semaforo(dem);
-    const conds=[...new Set(g.map(p=>p.condicion))];
-    const ordered=[...COND_ORDER.filter(c=>conds.includes(c)),...conds.filter(c=>!COND_ORDER.includes(c))];
+    const g2=g.filter(p=>!esSiCambiar(p));
+    const siC=g.filter(esSiCambiar);
+    const dp=avg(g2.map(p=>p.dias_prod));
+    const OBJ_DIAS=3;
+    const dem=dp!=null?((dp-OBJ_DIAS)/OBJ_DIAS):null;
+    const ent=g2.filter(esEntregado).length,pen=g2.length-ent;const sem=semaforo(dem);
+    const extraConds2=[...new Set(g2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
+    const ordered=[...COND_ORDER,...extraConds2];
     const flipId='genflip_'+ga.toLowerCase();
-    const condRows=`<div class="gen-cond-hdr-row"><span>Condición</span><span>Cant.</span><span>Días</span><span>% Demora</span><span></span></div>`+
+    const siCflipId='scflip_'+ga.toLowerCase();
+    const siCambiarRow=siC.length?`<div class="gen-cond-row" style="border-top:1px dashed rgba(255,255,255,.15);margin-top:4px;padding-top:6px;opacity:.8;">
+      <span class="gen-cond-name"><span class="gen-cond-name-txt" style="color:rgba(255,255,255,.6);">🔄 Si - Cambiar</span><button class="flip-arrow-btn" onclick="flipSiCambiarDetail('${flipId}','${ga}')" title="Ver detalle">↻</button></span>
+      <span><span class="gen-val-num" style="color:rgba(255,255,255,.45);">${siC.length}</span></span>
+      <span style="color:rgba(255,255,255,.25);text-align:right;font-size:.75rem;">—</span>
+      <span style="color:rgba(255,255,255,.25);text-align:right;font-size:.75rem;">—</span>
+      <span style="color:rgba(255,255,255,.25);text-align:right;font-size:.75rem;">—</span>
+      <span style="color:rgba(255,255,255,.25);text-align:right;font-size:.75rem;">—</span>
+      <span style="color:rgba(255,255,255,.25);text-align:right;font-size:.75rem;font-style:italic;font-size:.65rem;">No cont.</span>
+    </div>`:''
+    const condRows=`<div class="gen-cond-hdr-row">
+        <span>Condición</span>
+        <span title="Total pedidos">Tot.</span>
+        <span style="color:#4ade80;" title="En fecha">✔</span>
+        <span style="color:#f59e0b;" title="Pendientes">⌛</span>
+        <span style="color:#f87171;" title="Fuera de fecha">✖</span>
+        <span title="Días producción promedio">Días prom.</span>
+        <span title="% Servicio">% Serv.</span>
+      </div>`+
       ordered.map(cond=>{
-        const gc=g.filter(p=>p.condicion===cond);
+        const gc=g2.filter(p=>p.condicion===cond);
+        if(!gc.length)return`<div class="gen-cond-row" style="opacity:.35;">
+          <span class="gen-cond-name"><span class="gen-cond-name-txt">${COND_ICONS[cond]||'📋'} ${cond}</span><button class="flip-arrow-btn" style="opacity:.3;cursor:default;" disabled>↻</button></span>
+          <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
+          <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
+          <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
+          <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
+          <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
+          <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
+        </div>`;
         const dc=avgDem(gc);const dpc=avg(gc.map(p=>p.dias_prod));
+        const gcOk=gc.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&(p.demora===null||p.demora<=0)).length;
+        const gcPen=gc.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-').length;
+        const gcDmo=gc.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&p.demora>0).length;
+        const gcTotal=gcOk+gcPen+gcDmo;
         return`<div class="gen-cond-row">
-          <span class="gen-cond-name">${COND_ICONS[cond]||'📋'} ${cond}</span>
-          <span><span class="gen-val-num">${gc.length}</span></span>
+          <span class="gen-cond-name"><span class="gen-cond-name-txt">${COND_ICONS[cond]||'📋'} ${cond}</span><button class="flip-arrow-btn" onclick="flipGADetail('${flipId}','${ga}','${cond}')" title="Ver detalle">↻</button></span>
+          <span><span class="gen-val-num" style="color:rgba(255,255,255,.65);">${gcTotal}</span></span>
+          <span><span class="gen-val-num" style="color:#4ade80;">${gcOk}</span></span>
+          <span><span class="gen-val-num" style="color:#f59e0b;">${gcPen}</span></span>
+          <span><span class="gen-val-num" style="color:#f87171;">${gcDmo}</span></span>
           <span><span class="gen-val-num">${fmt1(dpc)}</span></span>
-          <span>${fmtDemW(dc)}${alertaEstimado(gc)}</span>
-          <span><button class="flip-arrow-btn" onclick="flipGADetail('${flipId}','${ga}','${cond}')" title="Ver detalle">↻</button></span>
-        </div>`;}).join('');
-    const front=`<div class="gen-col">
-      <div class="gen-col-hdr"><div class="gen-semaforo ${sem}"></div><span style="color:white;display:flex;align-items:center;">${GA_ICONS[ga]||''}</span><div class="gen-col-title">${ga}</div></div>
-      ${g.length?`<div class="gen-total"><div class="gen-kpi-row">
-        <div class="gen-kpi"><div class="gen-kpi-lbl">Urgentes</div><div class="gen-kpi-val">${g.length}</div><div class="gen-kpi-sub">${ent} entregados · ${pen} pendientes</div></div>
+          <span style="white-space:nowrap;">${alertaEstimado(gc)}${fmtDemW(dc)}</span>
+        </div>`;}).join('')+siCambiarRow;
+    const gencardId=`gencard_${ga.toLowerCase()}`;
+    const front=`<div class="gen-col" id="${gencardId}">
+      <div class="gen-col-hdr"><div class="gen-semaforo ${sem}"></div><span style="color:white;display:flex;align-items:center;">${GA_ICONS[ga]||''}</span><div class="gen-col-title">${ga}</div><button onclick="descargarPDF('${gencardId}','Servicio_${ga}')" title="Exportar como imagen" style="margin-left:auto;background:var(--amarillo);border:none;color:var(--azul);border-radius:8px;padding:3px 10px;font-size:.65rem;font-weight:800;cursor:pointer;">⬇ PNG</button></div>
+      ${g2.length||siC.length?`<div class="gen-total"><div class="gen-kpi-row">
+        <div class="gen-kpi"><div class="gen-kpi-lbl">Urgentes</div><div class="gen-kpi-val">${g2.length}</div><div class="gen-kpi-sub">${ent} entregados · ${pen} pendientes</div></div>
         <div class="gen-kpi"><div class="gen-kpi-lbl">Días prom.</div><div class="gen-kpi-val">${fmt1(dp)}</div><div class="gen-kpi-sub">días hábiles</div></div>
         <div class="gen-kpi"><div class="gen-kpi-lbl">% Demora</div><div class="gen-kpi-val" style="font-size:1.1rem">${fmtDemW(dem)}</div></div>
       </div></div><div class="gen-conds">${condRows}</div>`
