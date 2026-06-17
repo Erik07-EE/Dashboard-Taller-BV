@@ -720,6 +720,7 @@ function renderProduccion(mesFilter){
 
 // ── PEDIDOS ────────────────────────────────────────────────────────────────
 function pedidosGeneralSummary(data){
+  data=data.filter(p=>!esSiCambiar(p)); // excluir Si-Cambiar igual que las tarjetas por GA
   const CONDS=['Reclamos','Faltantes','S/M','Especiales'];
   const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dp:avg(g.map(p=>p.dias_prod)),dem:avgDem(g)};});
   const totalN=gaStats.reduce((a,b)=>a+b.n,0);
