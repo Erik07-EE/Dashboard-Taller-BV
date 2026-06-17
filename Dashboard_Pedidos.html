@@ -457,7 +457,7 @@ const _HOY=new Date().toISOString().slice(0,10);
 function demoraEfectiva(p){
   if(p.demora!=null)return p.demora;
   if(!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo){
-    const dias=Math.round((new Date(_HOY)-new Date(p.entrega_sol+'T12:00:00'))/86400000);
+    const dias=Math.round((new Date(_HOY+'T12:00:00')-new Date(p.entrega_sol+'T12:00:00'))/86400000);
     return dias/p.dias_objetivo;
   }
   return null;
@@ -494,7 +494,7 @@ function fmtDemD(v){
   return`<span class="d-neg">${pct}%</span><span class="pill pill-ad">Adelanto</span>`;
 }
 
-function filtered(){const m=document.getElementById('filtroMes').value;return m==='all'?PEDIDOS:PEDIDOS.filter(p=>mesKey(p.entrega_sol)===m);}
+function filtered(){const m=document.getElementById('filtroMes').value;return m==='all'?PEDIDOS:PEDIDOS.filter(p=>mesKey(p.fecha_ingreso)===m);}
 
 // ── CLASIFICACIÓN RECLAMOS ─────────────────────────────────────────────────
 function clasificarReclamo(r){if(!r||r==='-')return null;const l=r.toLowerCase();if(l.startsWith('si')||l.startsWith('sol'))return'si';if(l.startsWith('no'))return'no';return null;}
@@ -917,8 +917,7 @@ function gaBlock(ga,pedidos){
   if(!pedidos.length)return`<div class="empty">Sin pedidos para ${ga}.</div>`;
   const siCambiar=pedidos.filter(esSiCambiar);
   const p2=pedidos.filter(p=>!esSiCambiar(p));
-  const _dp2=avg(p2.map(p=>p.dias_prod));
-  const dem=_dp2!=null?((_dp2-3)/3):null;
+  const dem=avgDem(p2);
   const sem=semaforo(dem);
   const extraConds=[...new Set(p2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
   const ordered=[...COND_ORDER,...extraConds];
@@ -947,8 +946,7 @@ function generalPanel(data){
     const g2=g.filter(p=>!esSiCambiar(p));
     const siC=g.filter(esSiCambiar);
     const dp=avg(g2.map(p=>p.dias_prod));
-    const OBJ_DIAS=3;
-    const dem=dp!=null?((dp-OBJ_DIAS)/OBJ_DIAS):null;
+    const dem=avgDem(g2);
     const ent=g2.filter(esEntregado).length,pen=g2.length-ent;const sem=semaforo(dem);
     const extraConds2=[...new Set(g2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
     const ordered=[...COND_ORDER,...extraConds2];
