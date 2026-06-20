@@ -471,6 +471,9 @@ function mesKey(s){if(!s||s==='-')return null;return s.substring(0,7);}// evita 
 function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
 const _HOY=new Date().toISOString().slice(0,10);
+// Fecha último sync
+const _ULTIMO_SYNC='Sáb 20/06/2026 15:25';
+document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('fechaActualizado');if(el)el.textContent=_ULTIMO_SYNC;});
 // Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
 function demoraEfectiva(p){
   if(p.demora!=null)return p.demora;
