@@ -476,7 +476,7 @@ function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
 const _HOY=new Date().toISOString().slice(0,10);
 // Fecha último sync
-const _ULTIMO_SYNC='Mar 23/06/2026 11:30'
+const _ULTIMO_SYNC='Mar 23/06/2026 08:30'
 document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('fechaActualizado');if(el)el.textContent=_ULTIMO_SYNC;});
 // Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
 function demoraEfectiva(p){
@@ -1064,13 +1064,4 @@ document.getElementById('fechaActualizado').textContent=fechaARG();
 document.getElementById('tab-ind').innerHTML=`<span style="vertical-align:middle;display:inline-flex;margin-right:5px;">${GA_ICONS.Inducidos}</span>Inducidos`;
 document.getElementById('tab-rot').innerHTML=`<span style="vertical-align:middle;display:inline-flex;margin-right:5px;">${GA_ICONS.Rotores}</span>Rotores`;
 document.getElementById('tab-est').innerHTML=`<span style="vertical-align:middle;display:inline-flex;margin-right:5px;">${GA_ICONS.Estatores}</span>Estatores`;
-const mesesPed=PEDIDOS.map(p=>mesKey(p.entrega_sol)).filter(Boolean);
-const mesesOf=OF_DATA.map(d=>d.mes_key).filter(Boolean);
-const allMeses=[...new Set([...mesesPed,...mesesOf])].sort();
-const sel=document.getElementById('filtroMes');
-allMeses.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=mesLabel(m);sel.appendChild(o);});
-renderAll();
-</script>
-</body>
-</html>
-        
+const mesesPe
