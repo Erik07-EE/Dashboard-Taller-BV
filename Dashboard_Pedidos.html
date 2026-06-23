@@ -509,16 +509,23 @@ function colD(v){if(v==null)return'rgba(255,255,255,.5)';return Math.abs(v)<0.00
 function fmtDemW(v){
   if(v==null)return'<span class="dw-zero">—</span>';
   const n=Number(v),pct=(Math.abs(n)*100).toFixed(1);
-  if(Math.abs(n)<0.005)return`<span class="dw-zero">0.0%</span><span class="pill pill-e">En fecha</span>`;
+  if(Math.abs(n)<0.005)return`<span class="dw-zero">0.0%</span><span class="pill pill-e">En tiempo</span>`;
   if(n>0)return`<span class="dw-pos">${pct}%</span><span class="pill pill-r">Retraso</span>`;
   return`<span class="dw-neg">${pct}%</span><span class="pill pill-a">Adelanto</span>`;
 }
 function fmtDemD(v){
   if(v==null)return'<span class="d-zero">—</span>';
   const n=Number(v),pct=(Math.abs(n)*100).toFixed(1);
-  if(Math.abs(n)<0.005)return`<span class="d-zero">0.0%</span><span class="pill pill-ed">En fecha</span>`;
+  if(Math.abs(n)<0.005)return`<span class="d-zero">0.0%</span><span class="pill pill-ed">En tiempo</span>`;
   if(n>0)return`<span class="d-pos">${pct}%</span><span class="pill pill-rd">Retraso</span>`;
   return`<span class="d-neg">${pct}%</span><span class="pill pill-ad">Adelanto</span>`;
+}
+function fmtServBadge(v){
+  if(v==null)return'<span class="dw-zero">—</span>';
+  const n=Number(v);
+  if(Math.abs(n)<0.005)return'<span class="pill pill-e">En tiempo</span>';
+  if(n>0)return'<span class="pill pill-r">Retraso</span>';
+  return'<span class="pill pill-a">Adelanto</span>';
 }
 
 function filtered(){const m=document.getElementById('filtroMes').value;return m==='all'?PEDIDOS:PEDIDOS.filter(p=>mesKey(p.entrega_sol)===m);}
@@ -547,7 +554,7 @@ function reclamosBody(pedidos,dp,dem,demAcc){
   return`<div style="display:flex;gap:8px;flex-wrap:wrap;width:100%;align-items:center;">
     ${kpiT('Total reclamos',total,'pedidos','acc-r')}
     ${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}
-    ${kpiT('% Demora promedio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}
+    ${kpiT('% Servicio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}
     <div class="rec-chart-wrap" style="flex-shrink:0;"><canvas id="${cid}"></canvas></div>
   </div>`;
 }
@@ -862,11 +869,11 @@ function condCard(cond,pedidos){
   let body='';
   if(cond==='Faltantes'){
     const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;const pct=pedidos.length?Math.round(ent/pedidos.length*100):0;
-    body=`<div class="kpi wide acc-g"><div class="kpi-lbl">Entregados / Pendientes</div><div class="kpi-val">${ent}<span style="color:#c5cae9;font-size:.9rem"> / ${pen}</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="kpi-sub">${pct}% · fecha ≤ hoy</div></div>${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}${kpiT('% Demora promedio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}`;
+    body=`<div class="kpi wide acc-g"><div class="kpi-lbl">Entregados / Pendientes</div><div class="kpi-val">${ent}<span style="color:#c5cae9;font-size:.9rem"> / ${pen}</span></div><div class="prog-wrap"><div class="prog-bar" style="width:${pct}%"></div></div><div class="kpi-sub">${pct}% · fecha ≤ hoy</div></div>${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}${kpiT('% Servicio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}`;
   } else if(cond==='Reclamos'){
     body=reclamosBody(pedidos,dp,dem,demAcc);
   } else {
-    body=`${kpiT('Cantidad',pedidos.length,'pedidos','acc-b')}${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}${kpiT('% Demora promedio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}`;
+    body=`${kpiT('Cantidad',pedidos.length,'pedidos','acc-b')}${kpiT('Días prod. prom.',fmt1(dp),'días hábiles','acc-gr')}${kpiT('% Servicio',fmtDemD(dem)+alertaEstimado(pedidos),'',demAcc)}`;
   }
   const det=detTable(pedidos,cond);
   return`<div class="cond-card open" id="${id}"><div class="cond-toggle" onclick="toggleCard('${id}')"><span style="font-size:1rem">${COND_ICONS[cond]||'📋'}</span><span class="badge ${COND_BADGE[cond]||''}">${cond}</span><span style="font-size:.72rem;color:#666">${pedidos.length} pedido${pedidos.length!==1?'s':''}</span><span class="cond-arrow">▼</span></div><div class="cond-body" style="flex-direction:column;"><div style="display:flex;gap:8px;flex-wrap:wrap;">${body}</div>${det}</div></div>`;
@@ -938,7 +945,7 @@ function flipGADetail(flipId,ga,cond){
 function totalGACard(pedidos){
   const dp=avg(pedidos.map(p=>p.dias_prod));const dem=dp!=null?(dp-3)/3:null;
   const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;
-  return`<div class="total-ga-card"><div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div><div class="tg-kpis"><div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div class="tg-sub">${ent} entregados · ${pen} pendientes</div></div><div class="tg-kpi"><div class="tg-lbl">Días prod. prom.</div><div class="tg-val">${fmt1(dp)}</div><div class="tg-sub">días hábiles</div></div><div class="tg-kpi"><div class="tg-lbl">% Demora promedio</div><div class="tg-val">${fmtDemW(dem)}${alertaEstimado(pedidos)}</div></div></div></div>`;
+  return`<div class="total-ga-card"><div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div><div class="tg-kpis"><div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div class="tg-sub">${ent} entregados · ${pen} pendientes</div></div><div class="tg-kpi"><div class="tg-lbl">Días prod. prom.</div><div class="tg-val">${fmt1(dp)}</div><div class="tg-sub">días hábiles</div></div><div class="tg-kpi"><div class="tg-lbl">% Servicio</div><div class="tg-val">${fmtDemW(dem)}${alertaEstimado(pedidos)}</div></div></div></div>`;
 }
 
 function gaBlock(ga,pedidos){
@@ -1009,7 +1016,7 @@ function generalPanel(data){
           <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
           <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
         </div>`;
-        const dc=avgDemDP(gc);const dpc=avg(gc.map(p=>p.dias_prod));
+        const dpc=avg(gc.map(p=>p.dias_prod));const dc=dpc!=null?(dpc-3)/3:null;
         const gcOk=gc.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&(p.demora===null||p.demora<=0)).length;
         const gcPen=gc.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-').length;
         const gcDmo=gc.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&p.demora>0).length;
@@ -1021,7 +1028,7 @@ function generalPanel(data){
           <span><span class="gen-val-num" style="color:#f59e0b;">${gcPen}</span></span>
           <span><span class="gen-val-num" style="color:#f87171;">${gcDmo}</span></span>
           <span><span class="gen-val-num">${fmt1(dpc)}</span></span>
-          <span style="white-space:nowrap;">${alertaEstimado(gc)}${fmtDemW(dc)}</span>
+          <span style="white-space:nowrap;">${alertaEstimado(gc)}${fmtServBadge(dc)}</span>
         </div>`;}).join('')+siCambiarRow;
     const gencardId=`gencard_${ga.toLowerCase()}`;
     const front=`<div class="gen-col" id="${gencardId}">
@@ -1029,7 +1036,7 @@ function generalPanel(data){
       ${g2.length||siC.length?`<div class="gen-total"><div class="gen-kpi-row">
         <div class="gen-kpi"><div class="gen-kpi-lbl">Urgentes</div><div class="gen-kpi-val">${g2.length}</div><div class="gen-kpi-sub">${ent} entregados · ${pen} pendientes</div></div>
         <div class="gen-kpi"><div class="gen-kpi-lbl">Días prom.</div><div class="gen-kpi-val">${fmt1(dp)}</div><div class="gen-kpi-sub">días hábiles</div></div>
-        <div class="gen-kpi"><div class="gen-kpi-lbl">% Demora</div><div class="gen-kpi-val" style="font-size:1.1rem">${fmtDemW(dem)}</div></div>
+        <div class="gen-kpi"><div class="gen-kpi-lbl">% Servicio</div><div class="gen-kpi-val" style="font-size:1.1rem">${fmtDemW(dem)}</div></div>
       </div></div><div class="gen-conds">${condRows}</div>`
       :`<div style="padding:20px;color:rgba(255,255,255,.3);font-size:.82rem;text-align:center;">Sin datos</div>`}
     </div>`;
