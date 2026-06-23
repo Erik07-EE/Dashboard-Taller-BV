@@ -758,7 +758,7 @@ function pedidosGeneralSummary(data){
   const CONDS=['Reclamos','Faltantes','S/M','Especiales'];
   const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dp:avg(g.map(p=>p.dias_prod)),dem:avgDemDP(g)};});
   const totalN=gaStats.reduce((a,b)=>a+b.n,0);
-  const avgDp=avg(gaStats.filter(g=>g.n>0).flatMap(g=>data.filter(p=>p.ga===g.ga).map(p=>p.dias_prod)));
+  const avgDp=avg(gaStats.filter(g=>g.n>0).map(g=>g.dp));
   // Cálculo demora: promedio de GA primero, luego promedio de los 3 GAs
   function demPorGA(pedidos){
     const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga);return g.length?(avgDemDP(g)??0):0;});
