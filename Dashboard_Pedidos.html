@@ -936,7 +936,7 @@ function flipGADetail(flipId,ga,cond){
 }
 
 function totalGACard(pedidos){
-  const dem=avgDemDP(pedidos);const dp=avg(pedidos.map(p=>p.dias_prod));
+  const dp=avg(pedidos.map(p=>p.dias_prod));const dem=dp!=null?(dp-3)/3:null;
   const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;
   return`<div class="total-ga-card"><div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div><div class="tg-kpis"><div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div class="tg-sub">${ent} entregados · ${pen} pendientes</div></div><div class="tg-kpi"><div class="tg-lbl">Días prod. prom.</div><div class="tg-val">${fmt1(dp)}</div><div class="tg-sub">días hábiles</div></div><div class="tg-kpi"><div class="tg-lbl">% Demora promedio</div><div class="tg-val">${fmtDemW(dem)}${alertaEstimado(pedidos)}</div></div></div></div>`;
 }
@@ -945,7 +945,7 @@ function gaBlock(ga,pedidos){
   if(!pedidos.length)return`<div class="empty">Sin pedidos para ${ga}.</div>`;
   const siCambiar=pedidos.filter(esSiCambiar);
   const p2=pedidos.filter(p=>!esSiCambiar(p));
-  const dem=avgDemDP(p2);
+  const dp_ga=avg(p2.map(p=>p.dias_prod));const dem=dp_ga!=null?(dp_ga-3)/3:null;
   const sem=semaforo(dem);
   const extraConds=[...new Set(p2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
   const ordered=[...COND_ORDER,...extraConds];
@@ -974,7 +974,7 @@ function generalPanel(data){
     const g2=g.filter(p=>!esSiCambiar(p));
     const siC=g.filter(esSiCambiar);
     const dp=avg(g2.map(p=>p.dias_prod));
-    const dem=avgDemDP(g2);
+    const dem=dp!=null?(dp-3)/3:null;
     const ent=g2.filter(esEntregado).length,pen=g2.length-ent;const sem=semaforo(dem);
     const extraConds2=[...new Set(g2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
     const ordered=[...COND_ORDER,...extraConds2];
