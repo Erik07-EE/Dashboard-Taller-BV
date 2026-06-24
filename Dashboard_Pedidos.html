@@ -786,12 +786,11 @@ function pedidosGeneralSummary(data){
     const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga&&p.condicion===cond);return g.length?(avgDemDP(g)??0):0;});
     return gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length;
   }
-  // Tabla con ✔ / ⌛ / ✖ / Días prom. por condición
+  // Tabla con ✔ / ⌛ / ✖ por condición
   const thC=(t)=>`<th style="text-align:right;font-size:.6rem;text-transform:uppercase;color:var(--amarillo);padding:0 6px 5px;font-weight:700;">${t}</th>`;
   const thCL=(t)=>`<th style="text-align:left;font-size:.6rem;text-transform:uppercase;color:var(--amarillo);padding:0 6px 5px 0;font-weight:700;">${t}</th>`;
   const condRows=CONDS.map(cond=>{
     const g=data.filter(p=>p.condicion===cond);if(!g.length)return'';
-    const dp2=avg(g.map(p=>p.dias_prod));
     const gOk=g.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&(p.demora===null||p.demora<=0)).length;
     const gPen=g.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-').length;
     const gDmo=g.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&p.demora>0).length;
@@ -801,7 +800,6 @@ function pedidosGeneralSummary(data){
       <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:#4ade80;">${gOk}</td>
       <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:#f59e0b;">${gPen}</td>
       <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:#f87171;">${gDmo}</td>
-      <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:white;">${dp2!=null?dp2.toFixed(1):'—'}</td>
     </tr>`;}).join('');
   const totOk=data.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&(p.demora===null||p.demora<=0)).length;
   const totPen=data.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-').length;
@@ -818,7 +816,7 @@ function pedidosGeneralSummary(data){
         <div class="ped-gen-lbl">Ponderación de Premio</div>
         <table style="width:100%;border-collapse:collapse;margin-top:6px;table-layout:fixed;">
           <thead><tr style="border-bottom:1px solid rgba(255,255,255,.15);">
-            ${thCL('Condición')}${thC('Cant.')}${thC('✔')}${thC('⌛')}${thC('✖')}${thC('Días prom.')}
+            ${thCL('Condición')}${thC('Cant.')}${thC('✔')}${thC('⌛')}${thC('✖')}
           </tr></thead>
           <tbody>${condRows}</tbody>
           <tfoot><tr style="border-top:1px solid rgba(255,255,255,.15);">
@@ -827,7 +825,6 @@ function pedidosGeneralSummary(data){
             <td style="text-align:right;padding:5px 6px 0;font-size:.78rem;color:#4ade80;font-weight:700;">${totOk}</td>
             <td style="text-align:right;padding:5px 6px 0;font-size:.78rem;color:#f59e0b;font-weight:700;">${totPen}</td>
             <td style="text-align:right;padding:5px 6px 0;font-size:.78rem;color:#f87171;font-weight:700;">${totDmo}</td>
-            <td style="text-align:right;padding:5px 6px 0;font-size:.85rem;color:white;font-weight:800;">${avgDp!=null?avgDp.toFixed(1):'—'}</td>
           </tr></tfoot>
         </table>
       </div>
