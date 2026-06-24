@@ -786,24 +786,26 @@ function pedidosGeneralSummary(data){
     const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga&&p.condicion===cond);return g.length?(avgDemDP(g)??0):0;});
     return gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length;
   }
-  // Tabla con columnas GA para mostrar el cálculo de demora por condición
+  // Tabla con ✔ / ⌛ / ✖ / Días prom. por condición
   const thC=(t)=>`<th style="text-align:right;font-size:.6rem;text-transform:uppercase;color:var(--amarillo);padding:0 6px 5px;font-weight:700;">${t}</th>`;
   const thCL=(t)=>`<th style="text-align:left;font-size:.6rem;text-transform:uppercase;color:var(--amarillo);padding:0 6px 5px 0;font-weight:700;">${t}</th>`;
   const condRows=CONDS.map(cond=>{
     const g=data.filter(p=>p.condicion===cond);if(!g.length)return'';
     const dp2=avg(g.map(p=>p.dias_prod));
-    const gaAvgs=SEGMENTOS.map(ga=>{const gp=g.filter(p=>p.ga===ga);return gp.length?(avgDemDP(gp)??0):0;});
-    const dem2=gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length;
-    const gaCells=gaAvgs.map(d=>{const pct=(Math.abs(d)*100).toFixed(1)+'%';const c=Math.abs(d)>0.005?colD(d):'rgba(255,255,255,.4)';return`<td style="text-align:right;padding:3px 6px;font-size:.78rem;color:${c};">${pct}</td>`;}).join('');
+    const gOk=g.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&(p.demora===null||p.demora<=0)).length;
+    const gPen=g.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-').length;
+    const gDmo=g.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&p.demora>0).length;
     return`<tr style="border-bottom:1px solid rgba(255,255,255,.06);">
       <td style="color:rgba(255,255,255,.9);padding:3px 6px 3px 0;font-size:.78rem;">${COND_ICONS[cond]||''} ${cond}</td>
       <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:white;">${g.length}</td>
+      <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:#4ade80;">${gOk}</td>
+      <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:#f59e0b;">${gPen}</td>
+      <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:#f87171;">${gDmo}</td>
       <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:white;">${dp2!=null?dp2.toFixed(1):'—'}</td>
-      ${gaCells}
-      <td style="text-align:right;padding:3px 6px;font-size:.78rem;color:${colD(dem2)};font-weight:700;">${(Math.abs(dem2)*100).toFixed(1)}%</td>
     </tr>`;}).join('');
-  // Totales por GA
-  const gaTotals=SEGMENTOS.map(ga=>{const gp=data.filter(p=>p.ga===ga);return gp.length?(avgDemDP(gp)??0):0;});
+  const totOk=data.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&(p.demora===null||p.demora<=0)).length;
+  const totPen=data.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-').length;
+  const totDmo=data.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&p.demora>0).length;
   return`<div class="ped-general-card" id="urgGenCard">
     <div style="display:grid;grid-template-columns:180px 1fr 220px;gap:0;align-items:start;">
       <!-- Col 1 -->
@@ -811,19 +813,21 @@ function pedidosGeneralSummary(data){
         <div><div class="ped-gen-lbl">Total Urgentes</div><div class="ped-gen-val" style="font-size:2.6rem;">${totalN}</div><div class="ped-gen-sub">todos los sectores</div></div>
         <div><div class="ped-gen-lbl">Días prod. prom.</div><div class="ped-gen-val" style="font-size:2.6rem;">${avgDp!=null?avgDp.toFixed(1):'—'}</div><div class="ped-gen-sub">promedio general</div></div>
       </div>
-      <!-- Col 2: Ponderación de demora con desglose GA -->
+      <!-- Col 2: Tabla por condición -->
       <div style="padding-right:20px;border-right:1px solid rgba(255,255,255,.08);margin-right:20px;">
         <div class="ped-gen-lbl">Ponderación de Premio</div>
         <table style="width:100%;border-collapse:collapse;margin-top:6px;table-layout:fixed;">
           <thead><tr style="border-bottom:1px solid rgba(255,255,255,.15);">
-            ${thCL('Condición')}${thC('Cant.')}${thC('Días prom.')}${SEGMENTOS.map(ga=>thC(ga.substring(0,3)+'.')).join('')}${thC('Demora')}
+            ${thCL('Condición')}${thC('Cant.')}${thC('✔')}${thC('⌛')}${thC('✖')}${thC('Días prom.')}
           </tr></thead>
           <tbody>${condRows}</tbody>
           <tfoot><tr style="border-top:1px solid rgba(255,255,255,.15);">
             <td style="color:white;font-weight:700;padding:5px 6px 0 0;font-size:.78rem;">TOTAL / ${totalN}</td>
-            <td></td><td></td>
-            ${gaTotals.map(d=>`<td style="text-align:right;padding:5px 6px 0;font-size:.78rem;color:${colD(d)};font-weight:700;">${(Math.abs(d)*100).toFixed(1)}%</td>`).join('')}
-            <td style="text-align:right;padding:5px 6px 0;font-size:.85rem;color:${demCol};font-weight:800;">${totalDemStr}</td>
+            <td></td>
+            <td style="text-align:right;padding:5px 6px 0;font-size:.78rem;color:#4ade80;font-weight:700;">${totOk}</td>
+            <td style="text-align:right;padding:5px 6px 0;font-size:.78rem;color:#f59e0b;font-weight:700;">${totPen}</td>
+            <td style="text-align:right;padding:5px 6px 0;font-size:.78rem;color:#f87171;font-weight:700;">${totDmo}</td>
+            <td style="text-align:right;padding:5px 6px 0;font-size:.85rem;color:white;font-weight:800;">${avgDp!=null?avgDp.toFixed(1):'—'}</td>
           </tr></tfoot>
         </table>
       </div>
