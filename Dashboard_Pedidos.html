@@ -769,7 +769,7 @@ function pedidosGeneralSummary(data){
   const CONDS=['Reclamos','Faltantes','S/M','Especiales'];
   const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dp:avg(g.map(p=>p.dias_prod)),dem:avgDemDP(g)};});
   const totalN=gaStats.reduce((a,b)=>a+b.n,0);
-  const avgDp=avg(gaStats.filter(g=>g.n>0).map(g=>g.dp));
+  const avgDp=avg(data.map(p=>p.dias_prod));
   // Cálculo demora: promedio de GA primero, luego promedio de los 3 GAs
   function demPorGA(pedidos){
     const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga);return g.length?(avgDemDP(g)??0):0;});
@@ -919,7 +919,7 @@ function flipSiCambiarDetail(flipId,ga){
 }
 
 function flipGADetail(flipId,ga,cond){
-  const pedidos=filtered().filter(p=>p.ga===ga&&p.condicion===cond&&(!p.fecha_entrega_real||p.fecha_entrega_real==='-'));
+  const pedidos=filtered().filter(p=>p.ga===ga&&p.condicion===cond&&!esSiCambiar(p)&&(!p.fecha_entrega_real||p.fecha_entrega_real==='-'));
   const showRec=cond==='Reclamos';
   const th3=showRec?'Reclamo':'Obs.';
   const fmtD2=s=>{if(!s||s==='-')return'—';const[y,m,d]=s.split('-');return`${d}/${m}`;};
