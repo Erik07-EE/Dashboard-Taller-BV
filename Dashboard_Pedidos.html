@@ -483,6 +483,26 @@ function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.re
 const _HOY=new Date().toISOString().slice(0,10);
 // Fecha último sync
 const _ULTIMO_SYNC='Vie 26/06/2026 11:09'
+document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('fechaActualizado');if(el)el.textContent=_ULTIMO_SYNC;});
+// Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
+function demoraEfectiva(p){
+  if(p.demora!=null)return p.demora;
+  if(!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo){
+    const dias=Math.round((new Date(_HOY+'T12:00:00')-new Date(p.entrega_sol+'T12:00:00'))/86400000);
+    return dias/p.dias_objetivo;
+  }
+  return null;
+}
+// avgDem: promedia demora efectiva (incluye estimados de pendientes vencidos)
+function avgDem(arr){return avg(arr.map(p=>demoraEfectiva(p)));}
+// avgDemDP: % demora calculado desde dias_prod vs dias_objetivo (consistente con "días prom" mostrado)
+function avgDemDP(arr){const v=arr.filter(p=>p.dias_prod!=null&&p.dias_objetivo>0);return v.length?avg(v.map(p=>(p.dias_prod-p.dias_objetivo)/p.dias_objetivo)):null;}
+// true si algún pedido del array usó demora estimada (sin fecha real)
+function tieneEstimados(arr){return arr.some(p=>!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo);}
+// Agrega ⚠ al HTML de demora si hay estimados
+function alertaEstimado(arr){
+  const venc=arr.filter(p=>!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo);
+  if(!venc.length)return'';
   const tooltip=`${venc.length} pedido${venc.length>1?'s':''} vencido${venc.length>1?'s':''} sin fecha de entrega real. El % servicio es estimado y puede cambiar cuando se carguen las fechas.`;
   return`<span title="${tooltip}" style="color:#f59e0b;font-size:.8rem;cursor:help;">⚠</span>`;
 }
