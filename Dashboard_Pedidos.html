@@ -764,7 +764,7 @@ function pedidosGeneralSummary(data){
   const CONDS=['Reclamos','Faltantes','S/M','Especiales'];
   const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dp:avg(g.map(p=>p.dias_prod)),dem:avgDemDP(g)};});
   const totalN=gaStats.reduce((a,b)=>a+b.n,0);
-  const avgDp=(()=>{const GAS=['Inducidos','Rotores','Estatores'];const gaAvgs=GAS.map(ga=>{const g=data.filter(p=>p.ga===ga);return avg(g.map(p=>p.dias_prod))??0;});return gaAvgs.reduce((a,b)=>a+b,0)/GAS.length;})();
+  const avgDp=(()=>{const GAS=['Inducidos','Rotores','Estatores'];const gaAvgs=GAS.map(ga=>{const g=data.filter(p=>p.ga===ga);return Math.round((avg(g.map(p=>p.dias_prod))??0)*100)/100;});return Math.round(gaAvgs.reduce((a,b)=>a+b,0)/GAS.length*100)/100;})();
   // Cálculo demora: promedio de GA primero, luego promedio de los 3 GAs
   function demPorGA(pedidos){
     const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga);return g.length?(avgDemDP(g)??0):0;});
@@ -774,7 +774,7 @@ function pedidosGeneralSummary(data){
   const demCol=colD(_demTot);
   const totalDemStr=(Math.abs(_demTot)*100).toFixed(1)+'%';
   // Premio Urgentes: 100% cuando demora=0, baja con cada retraso
-  const premioUrg=avgDp>0?(3/avgDp)*100:0;
+  const avgDpR=Math.round(avgDp*100)/100;const premioUrg=avgDpR>0?(3/avgDpR)*100:0;
   const premioUrgCol=premioUrg>=100?'#10b981':premioUrg>=70?'#f59e0b':'#ef4444';
   // Por condición — misma lógica: avg por GA, luego avg de 3 GAs
   function condDemPorGA(cond,pedidos){
@@ -804,7 +804,7 @@ function pedidosGeneralSummary(data){
       <!-- Col 1 -->
       <div style="padding-right:20px;border-right:1px solid rgba(255,255,255,.08);margin-right:20px;display:flex;flex-direction:column;gap:20px;">
         <div><div class="ped-gen-lbl">Total Urgentes</div><div class="ped-gen-val" style="font-size:2.6rem;">${totalN}</div><div class="ped-gen-sub">todos los sectores</div></div>
-        <div><div class="ped-gen-lbl">Días prod. prom.</div><div class="ped-gen-val" style="font-size:2.6rem;">${avgDp!=null?avgDp.toFixed(1):'—'}</div><div class="ped-gen-sub">promedio general</div></div>
+        <div><div class="ped-gen-lbl">Días prod. prom.</div><div class="ped-gen-val" style="font-size:2.6rem;">${avgDpR!=null?avgDpR.toFixed(2):'—'}</div><div class="ped-gen-sub">promedio general</div></div>
       </div>
       <!-- Col 2: Tabla por condición -->
       <div style="padding-right:20px;border-right:1px solid rgba(255,255,255,.08);margin-right:20px;">
