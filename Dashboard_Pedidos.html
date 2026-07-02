@@ -820,7 +820,20 @@ function pedidosGeneralSummary(data){
       <!-- Col 1 -->
       <div style="padding-right:20px;border-right:1px solid rgba(255,255,255,.08);margin-right:20px;display:flex;flex-direction:column;gap:20px;">
         <div><div class="ped-gen-lbl">Total Urgentes</div><div class="ped-gen-val" style="font-size:2.6rem;">${totalN}</div><div class="ped-gen-sub">todos los sectores</div></div>
-        <div><div class="ped-gen-lbl">Días prod. prom.</div><div class="ped-gen-val" style="font-size:2.6rem;">${avgDpR!=null?avgDpR.toFixed(2):'—'}</div><div class="ped-gen-sub">promedio general</div></div>
+        <div>
+          <div class="ped-gen-lbl">Días prom. / % prom.</div>
+          <div style="display:flex;align-items:baseline;gap:10px;">
+            <div class="ped-gen-val" style="font-size:2.2rem;">${avgDpR!=null?avgDpR.toFixed(2):'—'}</div>
+            <span style="color:rgba(255,255,255,.2);font-size:.9rem;">|</span>
+            <span style="color:${_demTot<-0.005?'#10b981':_demTot>0.005?'#ef4444':'white'};font-size:1.4rem;font-weight:800;">${(Math.abs(_demTot)*100).toFixed(1)}%</span>
+          </div>
+          <div class="ped-gen-sub">días hábiles · vs obj. 3 días</div>
+        </div>
+        <div>
+          <div class="ped-gen-lbl">% Servicio</div>
+          <div class="ped-gen-val" style="font-size:1.6rem;">${fmtDemW(avgDem(data))}</div>
+          <div class="ped-gen-sub">vs compromiso</div>
+        </div>
       </div>
       <!-- Col 2: Tabla por condición -->
       <div style="padding-right:20px;border-right:1px solid rgba(255,255,255,.08);margin-right:20px;">
@@ -967,8 +980,10 @@ function flipGADetail(flipId,ga,cond){
 
 function totalGACard(pedidos){
   const dp=avg(pedidos.map(p=>p.dias_prod));const dem=dp!=null?(dp-3)/3:null;
+  const demServ=avgDem(pedidos);
   const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;
-  return`<div class="total-ga-card"><div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div><div class="tg-kpis"><div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div class="tg-sub">${ent} entregados · ${pen} pendientes</div></div><div class="tg-kpi"><div class="tg-lbl">Días prod. prom.</div><div class="tg-val">${fmt1(dp)}</div><div class="tg-sub">días hábiles</div></div><div class="tg-kpi"><div class="tg-lbl">% Servicio</div><div class="tg-val">${fmtDemW(dem)}${alertaEstimado(pedidos)}</div></div></div></div>`;
+  const pctProm=dem!=null?`<span style="color:${dem>0?'#ef4444':dem<0?'#10b981':'white'};font-size:.88rem;font-weight:700;">${(Math.abs(dem)*100).toFixed(1)}%</span>`:'—';
+  return`<div class="total-ga-card"><div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div><div class="tg-kpis"><div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;"><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7;">${ent} entregados</span><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(245,158,11,.15);color:#fcd34d;">${pen} pendientes</span></div></div><div class="tg-kpi"><div class="tg-lbl">Días prom. / % prom.</div><div class="tg-val" style="display:flex;align-items:baseline;gap:9px;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.75rem;">|</span>${pctProm}</div><div class="tg-sub">días hábiles · vs obj. 3 días</div></div><div class="tg-kpi"><div class="tg-lbl">% Servicio</div><div class="tg-val" style="font-size:1.05rem;">${fmtDemW(demServ)}${alertaEstimado(pedidos)}</div><div class="tg-sub">vs compromiso</div></div></div></div>`;
 }
 
 function gaBlock(ga,pedidos){
@@ -1056,10 +1071,10 @@ function generalPanel(data){
     const gencardId=`gencard_${ga.toLowerCase()}`;
     const front=`<div class="gen-col" id="${gencardId}">
       <div class="gen-col-hdr"><div class="gen-semaforo ${sem}"></div><span style="color:white;display:flex;align-items:center;">${GA_ICONS[ga]||''}</span><div class="gen-col-title">${ga}</div><button onclick="descargarPDF('${gencardId}','Servicio_${ga}')" title="Exportar como imagen" style="margin-left:auto;background:var(--amarillo);border:none;color:var(--azul);border-radius:8px;padding:3px 10px;font-size:.65rem;font-weight:800;cursor:pointer;">⬇ PNG</button></div>
-      ${g2.length||siC.length?`<div class="gen-total"><div class="gen-kpi-row">
-        <div class="gen-kpi"><div class="gen-kpi-lbl">Urgentes</div><div class="gen-kpi-val">${g2.length}</div><div class="gen-kpi-sub">${ent} entregados · ${pen} pendientes</div></div>
-        <div class="gen-kpi"><div class="gen-kpi-lbl">Días prom.</div><div class="gen-kpi-val">${fmt1(dp)}</div><div class="gen-kpi-sub">días hábiles</div></div>
-        <div class="gen-kpi"><div class="gen-kpi-lbl">% Servicio</div><div class="gen-kpi-val" style="font-size:1.1rem">${fmtDemW(dem)}</div></div>
+      ${g2.length||siC.length?`<div class="gen-total"><div class="gen-kpi-row" style="flex-direction:column;gap:6px;">
+        <div class="gen-kpi"><div class="gen-kpi-lbl">Urgentes</div><div class="gen-kpi-val">${g2.length}</div><div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;"><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7;">${ent} entregados</span><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(245,158,11,.15);color:#fcd34d;">${pen} pendientes</span></div></div>
+        <div class="gen-kpi"><div class="gen-kpi-lbl">Días prom. / % prom.</div><div class="gen-kpi-val" style="display:flex;align-items:baseline;gap:9px;font-size:1.1rem;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.75rem;">|</span><span style="color:${dem!=null&&dem>0?'#ef4444':dem!=null&&dem<0?'#10b981':'white'};font-size:.9rem;font-weight:700;">${dem!=null?(Math.abs(dem)*100).toFixed(1)+'%':'—'}</span></div><div class="gen-kpi-sub">días hábiles · vs obj. 3 días</div></div>
+        <div class="gen-kpi"><div class="gen-kpi-lbl">% Servicio</div><div class="gen-kpi-val" style="font-size:1.1rem">${fmtDemW(avgDem(g2))}${alertaEstimado(g2)}</div><div class="gen-kpi-sub">vs compromiso</div></div>
       </div></div><div class="gen-conds">${condRows}</div>`
       :`<div style="padding:20px;color:rgba(255,255,255,.3);font-size:.82rem;text-align:center;">Sin datos</div>`}
     </div>`;
