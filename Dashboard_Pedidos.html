@@ -505,7 +505,7 @@ function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
 const _HOY=new Date().toISOString().slice(0,10);
 // Fecha último sync
-const _ULTIMO_SYNC='Vie 03/07/2026 11:05'
+const _ULTIMO_SYNC='Vie 03/07/2026 11:23'
 document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('fechaActualizado');if(el)el.textContent=_ULTIMO_SYNC;});
 // Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
 function demoraEfectiva(p){
@@ -867,27 +867,24 @@ function pedidosGeneralSummary(data){
     <div style="color:#ffc107;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;">🔍 Detalle % Servicio — Cómo se calcula</div>
     <table style="width:100%;border-collapse:collapse;">
       <thead><tr style="border-bottom:1px solid rgba(255,255,255,.15);">
-        ${['N°','Código','Condición','Días obj.','Días prod.','% Servicio'].map((h,i)=>`<th style="text-align:${i<3?'left':'right'};font-size:.58rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 6px 6px ${i===0?'0':'6px'};font-weight:700;">${h}</th>`).join('')}
+        ${['Sector','Código','Días prod. (col P)','% Servicio (col Q)'].map((h,i)=>`<th style="text-align:${i<2?'left':'right'};font-size:.58rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 6px 6px ${i===0?'0':'6px'};font-weight:700;">${h}</th>`).join('')}
       </tr></thead>
       <tbody>${(()=>{
-        const entregados=data.filter(p=>p.demora!=null).sort((a,b)=>a.demora-b.demora);
+        const entregados=data.filter(p=>p.demora!=null).sort((a,b)=>a.ga.localeCompare(b.ga)||a.demora-b.demora);
         return entregados.map(p=>{
           const sc=Math.abs(p.demora)<0.005?'white':p.demora<0?'#10b981':'#ef4444';
           const lbl=Math.abs(p.demora)<0.005?'En tiempo':p.demora<0?'Adelanto':'Retraso';
           return`<tr style="border-bottom:1px solid rgba(255,255,255,.04);">
-            <td style="color:rgba(255,255,255,.5);padding:4px 6px 4px 0;font-size:.68rem;">${p.n}</td>
+            <td style="color:rgba(255,255,255,.5);padding:4px 6px 4px 0;font-size:.68rem;">${p.ga}</td>
             <td style="color:rgba(255,255,255,.85);padding:4px 6px;font-size:.68rem;font-weight:700;">${p.codigo}</td>
-            <td style="color:rgba(255,255,255,.55);padding:4px 6px;font-size:.65rem;">${p.condicion||'—'}</td>
-            <td style="text-align:right;color:rgba(255,255,255,.5);padding:4px 6px;font-size:.68rem;">${p.dias_objetivo||'—'}</td>
             <td style="text-align:right;color:white;padding:4px 6px;font-size:.68rem;font-weight:700;">${p.dias_prod!=null?p.dias_prod:'—'}</td>
             <td style="text-align:right;color:${sc};padding:4px 0;font-size:.68rem;font-weight:700;">${(Math.abs(p.demora)*100).toFixed(1)}% <span style="font-size:.58rem;opacity:.75;">${lbl}</span></td>
           </tr>`;
         }).join('');
       })()}</tbody>
-      <tfoot><tr style="border-top:1px solid rgba(255,255,255,.2);">
-        <td colspan="3" style="color:white;font-weight:700;padding:7px 6px 0 0;font-size:.7rem;">PROMEDIO (${data.filter(p=>p.demora!=null).length} entregados)</td>
-        <td style="text-align:right;color:rgba(255,255,255,.5);padding:7px 6px 0;font-size:.7rem;">${avg(data.filter(p=>p.demora!=null).map(p=>p.dias_objetivo))!=null?avg(data.filter(p=>p.demora!=null).map(p=>p.dias_objetivo)).toFixed(1):'—'}</td>
-        <td style="text-align:right;color:white;padding:7px 6px 0;font-size:.7rem;font-weight:700;">${avg(data.filter(p=>p.dias_prod!=null).map(p=>p.dias_prod))!=null?avg(data.filter(p=>p.dias_prod!=null).map(p=>p.dias_prod)).toFixed(2):'—'}</td>
+      <tfoot><tr style="border-top:2px solid rgba(255,255,255,.2);">
+        <td colspan="2" style="color:white;font-weight:700;padding:7px 6px 0 0;font-size:.72rem;">PROMEDIO (${data.filter(p=>p.demora!=null).length} pedidos)</td>
+        <td style="text-align:right;color:white;padding:7px 6px 0;font-size:.75rem;font-weight:800;">${(()=>{const v=avg(data.filter(p=>p.dias_prod!=null).map(p=>p.dias_prod));return v!=null?v.toFixed(2):'—';})()}</td>
         <td style="text-align:right;padding:7px 0 0;font-size:.78rem;font-weight:800;color:${(()=>{const v=avg(data.filter(p=>p.demora!=null).map(p=>p.demora));return v==null?'white':Math.abs(v)<0.005?'white':v<0?'#10b981':'#ef4444';})()}">${(()=>{const v=avg(data.filter(p=>p.demora!=null).map(p=>p.demora));return v==null?'—':(Math.abs(v)*100).toFixed(1)+'% '+(Math.abs(v)<0.005?'En tiempo':v<0?'Adelanto':'Retraso');})()}</td>
       </tr></tfoot>
     </table>
