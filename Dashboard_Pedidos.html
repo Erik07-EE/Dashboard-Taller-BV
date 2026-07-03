@@ -498,7 +498,7 @@ function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
 const _HOY=new Date().toISOString().slice(0,10);
 // Fecha último sync
-const _ULTIMO_SYNC='Vie 03/07/2026 09:32'
+const _ULTIMO_SYNC='Vie 03/07/2026 10:08'
 document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('fechaActualizado');if(el)el.textContent=_ULTIMO_SYNC;});
 // Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
 function demoraEfectiva(p){
@@ -780,13 +780,9 @@ function pedidosGeneralSummary(data){
   const CONDS=['Reclamos','Faltantes','S/M','Especiales'];
   const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dp:avg(g.map(p=>p.dias_prod)),dem:avgDemDP(g)};});
   const totalN=gaStats.reduce((a,b)=>a+b.n,0);
-  const avgDp=(()=>{const GAS=['Inducidos','Rotores','Estatores'];const gaAvgs=GAS.map(ga=>{const g=data.filter(p=>p.ga===ga);return Math.round((avg(g.map(p=>p.dias_prod))??0)*100)/100;});return Math.round(gaAvgs.reduce((a,b)=>a+b,0)/GAS.length*100)/100;})();
-  // Cálculo demora: promedio de GA primero, luego promedio de los 3 GAs
-  function demPorGA(pedidos){
-    const gaAvgs=SEGMENTOS.map(ga=>{const g=pedidos.filter(p=>p.ga===ga);return g.length?(avgDemDP(g)??0):0;});
-    return gaAvgs.reduce((a,b)=>a+b,0)/SEGMENTOS.length;
-  }
-  const _demTot=demPorGA(data);
+  const avgDp=Math.round((avg(data.filter(p=>p.dias_prod!=null).map(p=>p.dias_prod))??0)*100)/100;
+  // Cálculo demora: promedio simple (igual que sheet)
+  const _demTot=avgDemDP(data)??0;
   const demCol=colD(_demTot);
   const totalDemStr=(Math.abs(_demTot)*100).toFixed(1)+'%';
   // Premio Urgentes: 100% cuando demora=0, baja con cada retraso
@@ -1203,4 +1199,3 @@ renderAll();
 </script>
 </body>
 </html>
-    
