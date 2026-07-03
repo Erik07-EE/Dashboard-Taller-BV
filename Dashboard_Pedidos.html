@@ -498,7 +498,7 @@ function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
 const _HOY=new Date().toISOString().slice(0,10);
 // Fecha último sync
-const _ULTIMO_SYNC='Vie 03/07/2026 08:26'
+const _ULTIMO_SYNC='Vie 03/07/2026 09:32'Vie 03/07/2026 08:26'
 document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('fechaActualizado');if(el)el.textContent=_ULTIMO_SYNC;});
 // Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
 function demoraEfectiva(p){
@@ -829,11 +829,7 @@ function pedidosGeneralSummary(data){
           </div>
           <div class="ped-gen-sub">días hábiles · vs obj. 3 días</div>
         </div>
-        <div>
-          <div class="ped-gen-lbl">% Servicio</div>
-          <div class="ped-gen-val" style="font-size:1.6rem;">${fmtDemW(avgDem(data))}</div>
-          <div class="ped-gen-sub">vs compromiso</div>
-        </div>
+
       </div>
       <!-- Col 2: Tabla por condición -->
       <div style="padding-right:20px;border-right:1px solid rgba(255,255,255,.08);margin-right:20px;">
@@ -1154,10 +1150,16 @@ function generalPanel(data){
     const gencardId=`gencard_${ga.toLowerCase()}`;
     const front=`<div class="gen-col" id="${gencardId}">
       <div class="gen-col-hdr"><div class="gen-semaforo ${sem}"></div><span style="color:white;display:flex;align-items:center;">${GA_ICONS[ga]||''}</span><div class="gen-col-title">${ga}</div><button onclick="descargarPDF('${gencardId}','Servicio_${ga}')" title="Exportar como imagen" style="margin-left:auto;background:var(--amarillo);border:none;color:var(--azul);border-radius:8px;padding:3px 10px;font-size:.65rem;font-weight:800;cursor:pointer;">⬇ PNG</button></div>
-      ${g2.length||siC.length?`<div class="gen-total"><div class="gen-kpi-row" style="flex-direction:column;gap:6px;">
-        <div class="gen-kpi"><div class="gen-kpi-lbl">Urgentes</div><div class="gen-kpi-val">${g2.length}</div><div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;"><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7;">${ent} entregados</span><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(245,158,11,.15);color:#fcd34d;">${pen} pendientes</span></div></div>
-        <div class="gen-kpi"><div class="gen-kpi-lbl">Días prom. / % prom.</div><div class="gen-kpi-val" style="display:flex;align-items:baseline;gap:9px;font-size:1.1rem;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.75rem;">|</span><span style="color:${dem!=null&&dem>0?'#ef4444':dem!=null&&dem<0?'#10b981':'white'};font-size:.9rem;font-weight:700;">${dem!=null?(Math.abs(dem)*100).toFixed(1)+'%':'—'}</span></div><div class="gen-kpi-sub">días hábiles · vs obj. 3 días</div></div>
-        <div class="gen-kpi"><div class="gen-kpi-lbl">% Servicio</div><div class="gen-kpi-val" style="font-size:1.1rem">${fmtDemW(avgDem(g2))}${alertaEstimado(g2)}</div><div class="gen-kpi-sub">vs compromiso</div></div>
+      ${g2.length||siC.length?`<div class="gen-total"><div class="gen-kpi-row" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center;">
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="gen-kpi"><div class="gen-kpi-lbl">Urgentes</div><div class="gen-kpi-val">${g2.length}</div><div style="display:flex;gap:5px;margin-top:3px;flex-wrap:wrap;"><span style="font-size:.56rem;padding:1px 6px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7;">${ent} entregados</span><span style="font-size:.56rem;padding:1px 6px;border-radius:4px;background:rgba(245,158,11,.15);color:#fcd34d;">${pen} pendientes</span></div></div>
+          <div class="gen-kpi"><div class="gen-kpi-lbl">Días prom. / % prom.</div><div class="gen-kpi-val" style="display:flex;align-items:baseline;gap:8px;font-size:1.05rem;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.7rem;">|</span><span style="color:${dem!=null&&dem>0?'#ef4444':dem!=null&&dem<0?'#10b981':'white'};font-size:.85rem;font-weight:700;">${dem!=null?(Math.abs(dem)*100).toFixed(1)+'%':'—'}</span></div><div class="gen-kpi-sub">días hábiles · vs obj. 3 días</div></div>
+        </div>
+        <div class="gen-kpi" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 10px;">
+          <div class="gen-kpi-lbl">% Servicio</div>
+          <div style="font-size:1.6rem;font-weight:800;line-height:1;margin:4px 0;">${fmtDemW(avgDem(g2))}${alertaEstimado(g2)}</div>
+          <div class="gen-kpi-sub">vs compromiso</div>
+        </div>
       </div></div><div class="gen-conds">${condRows}</div>`
       :`<div style="padding:20px;color:rgba(255,255,255,.3);font-size:.82rem;text-align:center;">Sin datos</div>`}
     </div>`;
