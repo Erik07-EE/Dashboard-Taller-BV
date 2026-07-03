@@ -852,17 +852,46 @@ function pedidosGeneralSummary(data){
           </tr></tfoot>
         </table>
       </div>
-      <!-- Col 3: Premio Urgentes -->
-      <div style="border-right:none;margin-right:0;">
-        <div class="ped-gen-lbl">Premio Urgentes</div>
-        <div class="ped-gen-val" style="color:${premioUrgCol};font-size:2.4rem;">${premioUrg.toFixed(1)}%</div>
-        <div class="ped-gen-sub" style="margin-top:2px;">${premioUrg>100?`+${(premioUrg-100).toFixed(1)}% extra por adelanto`:`100% − ${totalDemStr} demora`}</div>
-        <div style="display:flex;gap:8px;margin-top:12px;">
+      <!-- Col 3: % Servicio Global -->
+      <div style="border-right:none;margin-right:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+        <div class="ped-gen-lbl">% Servicio</div>
+        <div class="ped-gen-val" style="font-size:2.4rem;">${fmtDemW(avgDem(data))}</div>
+        <div class="ped-gen-sub" style="margin-top:4px;">vs compromiso</div>
+        <button onclick="const el=document.getElementById('sd_general');const op=el.style.display!=='none';el.style.display=op?'none':'block';this.textContent=op?'🔍 Ver cálculo':'✕ Cerrar';" style="margin-top:10px;background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.7);border-radius:6px;padding:5px 12px;font-size:.7rem;cursor:pointer;">🔍 Ver cálculo</button>
+        <div style="display:flex;gap:8px;margin-top:8px;">
           <button onclick="copiarResumenUrg()" style="background:rgba(255,255,255,.12);border:none;color:white;border-radius:8px;padding:5px 10px;font-size:.72rem;font-weight:700;cursor:pointer;">📋 Copiar</button>
           <button onclick="descargarPDF('urgGenCard')" style="background:var(--amarillo);border:none;color:var(--azul);border-radius:8px;padding:5px 10px;font-size:.72rem;font-weight:700;cursor:pointer;">⬇ PNG</button>
         </div>
       </div>
     </div>
+  <div id="sd_general" style="display:none;margin-top:14px;background:rgba(0,0,0,.2);border-radius:8px;padding:14px 16px;">
+    <div style="color:#ffc107;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;">🔍 Detalle % Servicio — General</div>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.15);">
+        ${['Sector','Pedidos','Prom. días prod.','% Servicio'].map((h,i)=>`<th style="text-align:${i===0?'left':'right'};font-size:.58rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 8px 6px ${i===0?'0':'8px'};font-weight:700;">${h}</th>`).join('')}
+      </tr></thead>
+      <tbody>${SEGMENTOS.map(ga=>{
+        const g=data.filter(p=>p.ga===ga);
+        const dp2=avg(g.map(p=>p.dias_prod));
+        const ds=avgDem(g);
+        const sc=ds==null?'white':Math.abs(ds)<0.005?'white':ds<0?'#10b981':'#ef4444';
+        const sg=ds==null?'':ds<-0.005?'−':ds>0.005?'+':'';
+        const lbl=ds==null?'—':Math.abs(ds)<0.005?'En tiempo':ds<0?'Adelanto':'Retraso';
+        return`<tr style="border-bottom:1px solid rgba(255,255,255,.05);">
+          <td style="color:rgba(255,255,255,.8);padding:5px 8px 5px 0;font-size:.72rem;font-weight:700;">${ga}</td>
+          <td style="text-align:right;color:rgba(255,255,255,.6);padding:5px 8px;font-size:.72rem;">${g.length}</td>
+          <td style="text-align:right;color:white;padding:5px 8px;font-size:.72rem;font-weight:700;">${dp2!=null?dp2.toFixed(2):'—'}</td>
+          <td style="text-align:right;color:${sc};padding:5px 0;font-size:.72rem;font-weight:700;">${sg}${ds!=null?(Math.abs(ds)*100).toFixed(1)+'%':'—'} <span style="font-size:.6rem;">${lbl}</span></td>
+        </tr>`;}).join('')}
+      </tbody>
+      <tfoot><tr style="border-top:1px solid rgba(255,255,255,.15);">
+        <td style="color:white;font-weight:700;padding:6px 8px 0 0;font-size:.72rem;">PROMEDIO</td>
+        <td style="text-align:right;color:white;padding:6px 8px 0;font-size:.72rem;">${data.length}</td>
+        <td style="text-align:right;color:white;padding:6px 8px 0;font-size:.72rem;font-weight:700;">${avg(data.map(p=>p.dias_prod))!=null?avg(data.map(p=>p.dias_prod)).toFixed(2):'—'}</td>
+        <td style="text-align:right;padding:6px 0 0;font-size:.78rem;font-weight:800;color:${avgDem(data)==null?'white':Math.abs(avgDem(data))<0.005?'white':avgDem(data)<0?'#10b981':'#ef4444'};">${avgDem(data)!=null?(avgDem(data)<0?'−':avgDem(data)>0?'+':'')+(Math.abs(avgDem(data))*100).toFixed(1)+'%':'—'} <span style="font-size:.6rem;">${avgDem(data)!=null?Math.abs(avgDem(data))<0.005?'En tiempo':avgDem(data)<0?'Adelanto':'Retraso':''}</span></td>
+      </tr></tfoot>
+    </table>
+  </div>
   </div>`;
 }
 
@@ -978,14 +1007,68 @@ function flipGADetail(flipId,ga,cond){
   },10);
 }
 
-function totalGACard(pedidos){
+function totalGACard(pedidos,ga){
   const dp=avg(pedidos.map(p=>p.dias_prod));const dem=dp!=null?(dp-3)/3:null;
   const demServ=avgDem(pedidos);
   const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;
   const pctProm=dem!=null?`<span style="color:${dem>0?'#ef4444':dem<0?'#10b981':'white'};font-size:.88rem;font-weight:700;">${(Math.abs(dem)*100).toFixed(1)}%</span>`:'—';
-  return`<div class="total-ga-card"><div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div><div class="tg-kpis"><div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;"><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7;">${ent} entregados</span><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(245,158,11,.15);color:#fcd34d;">${pen} pendientes</span></div></div><div class="tg-kpi"><div class="tg-lbl">Días prom. / % prom.</div><div class="tg-val" style="display:flex;align-items:baseline;gap:9px;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.75rem;">|</span>${pctProm}</div><div class="tg-sub">días hábiles · vs obj. 3 días</div></div><div class="tg-kpi"><div class="tg-lbl">% Servicio</div><div class="tg-val" style="font-size:1.05rem;">${fmtDemW(demServ)}${alertaEstimado(pedidos)}</div><div class="tg-sub">vs compromiso</div></div></div></div>`;
+  const sdId='sd_'+(ga||'x').toLowerCase().replace(/[^a-z]/g,'');
+  const entregados=pedidos.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-');
+  const filas=entregados.map(p=>{
+    const de=demoraEfectiva(p);
+    const pct=de!=null?(Math.abs(de)*100).toFixed(0)+'%':'—';
+    const col=de==null?'rgba(255,255,255,.4)':Math.abs(de)<0.005?'rgba(255,255,255,.4)':de>0?'#ef4444':'#10b981';
+    const sign=de==null?'':de>0.005?'+':de<-0.005?'−':'';
+    return`<tr style="border-bottom:1px solid rgba(255,255,255,.04);">
+      <td style="color:rgba(255,255,255,.6);padding:4px 6px 4px 0;font-size:.65rem;">${p.n}</td>
+      <td style="color:#ffc107;font-size:.65rem;padding:4px 6px;">${p.codigo||'—'}</td>
+      <td style="padding:4px 6px;"><span style="font-size:.55rem;padding:1px 5px;border-radius:3px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);">${(p.condicion||'').substring(0,5)}</span></td>
+      <td style="text-align:right;color:rgba(255,255,255,.65);padding:4px 6px;font-size:.65rem;">${p.dias_objetivo||'—'}</td>
+      <td style="text-align:right;color:rgba(255,255,255,.85);padding:4px 6px;font-size:.65rem;font-weight:700;">${p.dias_prod??'—'}</td>
+      <td style="text-align:right;color:${col};padding:4px 0;font-size:.65rem;font-weight:700;">${sign}${pct}</td>
+    </tr>`;
+  }).join('');
+  const avgDp2=avg(entregados.map(p=>p.dias_prod));
+  const avgServCol=demServ==null?'white':Math.abs(demServ)<0.005?'white':demServ<0?'#10b981':'#ef4444';
+  const avgServSign=demServ==null?'':demServ<-0.005?'−':demServ>0.005?'+':'';
+  const avgServPct=demServ!=null?(Math.abs(demServ)*100).toFixed(1)+'%':'—';
+  const avgServLabel=demServ==null?'':Math.abs(demServ)<0.005?'En tiempo':demServ<0?'Adelanto':'Retraso';
+  const detHtml=`<div id="${sdId}" style="display:none;margin-top:10px;background:rgba(0,0,0,.25);border-radius:8px;padding:12px 14px;max-height:260px;overflow-y:auto;">
+    <div style="color:#ffc107;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;">🔍 Detalle % Servicio${ga?' — '+ga:''}</div>
+    <table style="width:100%;border-collapse:collapse;">
+      <thead><tr style="border-bottom:1px solid rgba(255,255,255,.15);">
+        <th style="text-align:left;font-size:.57rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 6px 5px 0;font-weight:700;">N°</th>
+        <th style="text-align:left;font-size:.57rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 6px 5px;font-weight:700;">Código</th>
+        <th style="text-align:left;font-size:.57rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 6px 5px;font-weight:700;">Condición</th>
+        <th style="text-align:right;font-size:.57rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 6px 5px;font-weight:700;">Días obj.</th>
+        <th style="text-align:right;font-size:.57rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 6px 5px;font-weight:700;">Días prod.</th>
+        <th style="text-align:right;font-size:.57rem;text-transform:uppercase;color:rgba(255,255,255,.35);padding:0 0 5px 6px;font-weight:700;">Servicio</th>
+      </tr></thead>
+      <tbody>${filas}</tbody>
+    </table>
+    <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.12);display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+      <div style="text-align:center;"><div style="color:rgba(255,255,255,.35);font-size:.57rem;margin-bottom:2px;">Pedidos</div><div style="color:white;font-size:.85rem;font-weight:700;">${entregados.length}</div></div>
+      <div style="text-align:center;"><div style="color:rgba(255,255,255,.35);font-size:.57rem;margin-bottom:2px;">Prom. días prod.</div><div style="color:white;font-size:.85rem;font-weight:700;">${avgDp2!=null?avgDp2.toFixed(2):'—'}</div></div>
+      <div style="text-align:center;"><div style="color:rgba(255,255,255,.35);font-size:.57rem;margin-bottom:2px;">% Servicio</div><div style="color:${avgServCol};font-size:.85rem;font-weight:700;">${avgServSign}${avgServPct} <span style="font-size:.55rem;">${avgServLabel}</span></div></div>
+    </div>
+  </div>`;
+  return`<div class="total-ga-card">
+    <div class="tg-label">⬡ RESUMEN TOTAL DEL SECTOR</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;">
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;"><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7;">${ent} entregados</span><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(245,158,11,.15);color:#fcd34d;">${pen} pendientes</span></div></div>
+        <div class="tg-kpi"><div class="tg-lbl">Días prom. / % prom.</div><div class="tg-val" style="display:flex;align-items:baseline;gap:9px;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.75rem;">|</span>${pctProm}</div><div class="tg-sub">días hábiles · vs obj. 3 días</div></div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+        <div class="tg-lbl">% Servicio</div>
+        <div style="font-size:2rem;font-weight:800;line-height:1;margin:4px 0;">${fmtDemW(demServ)}${alertaEstimado(pedidos)}</div>
+        <div class="tg-sub">vs compromiso</div>
+        <button onclick="const el=document.getElementById('${sdId}');const op=el.style.display!=='none';el.style.display=op?'none':'block';this.textContent=op?'🔍 Ver cálculo':'✕ Cerrar';" style="margin-top:8px;background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.7);border-radius:6px;padding:4px 10px;font-size:.68rem;cursor:pointer;">🔍 Ver cálculo</button>
+      </div>
+    </div>
+    ${detHtml}
+  </div>`;
 }
-
 function gaBlock(ga,pedidos){
   if(!pedidos.length)return`<div class="empty">Sin pedidos para ${ga}.</div>`;
   const siCambiar=pedidos.filter(esSiCambiar);
@@ -1010,7 +1093,7 @@ function gaBlock(ga,pedidos){
       </table>
     </div>
   </div>`:''
-  return`<div class="ga-block"><div class="ga-header"><div class="gen-semaforo ${sem}"></div><span style="color:var(--azul);display:flex;align-items:center;">${GA_ICONS[ga]||''}</span><div class="ga-title">${ga}</div><button class="ga-toggle-all" onclick="toggleAll('${gaId}',this)">▾ Colapsar todo</button></div>${totalGACard(p2)}<div id="${gaId}">${cards}${siCambiarCard}</div></div>`;
+  return`<div class="ga-block"><div class="ga-header"><div class="gen-semaforo ${sem}"></div><span style="color:var(--azul);display:flex;align-items:center;">${GA_ICONS[ga]||''}</span><div class="ga-title">${ga}</div><button class="ga-toggle-all" onclick="toggleAll('${gaId}',this)">▾ Colapsar todo</button></div>${totalGACard(p2,ga)}<div id="${gaId}">${cards}${siCambiarCard}</div></div>`;
 }
 
 function generalPanel(data){
