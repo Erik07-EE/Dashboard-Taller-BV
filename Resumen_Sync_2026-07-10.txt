@@ -1,4 +1,4 @@
-*Dashboard Taller BV — Actualización 10/07/2026 09:07*
+*Dashboard Taller BV — Actualización 10/07/2026 09:28*
 
 PRODUCCIÓN JULIO (objetivos sin cambios)
 • Inducidos: 71 / 350
@@ -6,12 +6,14 @@ PRODUCCIÓN JULIO (objetivos sin cambios)
 • Rotores: 14 / 40
 
 PEDIDOS
-• Total: 191 (11 nuevos: n°181 a 191)
-• 7 pedidos actualizados (entregas, días de producción y demoras)
+• Total: 194 (3 nuevos: n°192 a 194)
+• 2 pedidos actualizados (fechas de ingreso)
 
 Nuevos:
-• Inducidos: IB2311.30, IB3310.10, IFI3606.11, IB3700.20, IV2508.10, II2515.10, ii1703.65
-• Rotores: RB100.21 (x2), RNA094.10
-• Estatores: EB100.11
+• Inducidos: II1703.50 (x2), IB2110.40 — todos S/M, cliente C0277, entrega sol. 15/07
+
+Actualizados:
+• n°107 (ESP-0007): ingreso 16/06 → 18/06
+• n°137 (II2303.81): ingreso 18/06 → 19/06
 
 Dashboard online: https://Erik07-EE.github.io/Dashboard-Taller-BV/Dashboard_Pedidos.html
