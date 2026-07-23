@@ -354,7 +354,7 @@ const PEDIDOS=[
   {n:45,ga:'Estatores',codigo:'EV089.10',condicion:'Faltantes',cliente:'C0160',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-03',dias_prod:1,demora:-0.67},
   {n:46,ga:'Estatores',codigo:'EV105.30',condicion:'Faltantes',cliente:'C0225',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:2,demora:-0.33},
   {n:47,ga:'Inducidos',codigo:'IB3700.20',condicion:'S/M',cliente:'C0568',reclamo:'-',observacion:'entregada',fecha_ingreso:'2026-06-02',dias_objetivo:3,entrega_sol:'2026-06-05',fecha_entrega_real:'2026-06-04',dias_prod:2,demora:-0.33},
-  {n:48,ga:'Inducidos',codigo:'IB2311.20',condicion:'Faltantes',cliente:'C0281',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-02',dias_prod:-3,demora:-2},
+  {n:48,ga:'Inducidos',codigo:'IB2311.20',condicion:'Faltantes',cliente:'C0281',reclamo:'-',observacion:'-',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-03',dias_prod:0,demora:-1},
   {n:49,ga:'Estatores',codigo:'EB093.10',condicion:'Reclamos',cliente:'C0309',reclamo:'Si - Cambiar',observacion:'cuerpo deformado',fecha_ingreso:'2026-05-29',dias_objetivo:3,entrega_sol:'2026-06-03',fecha_entrega_real:'2026-06-02',dias_prod:2,demora:-0.33},
   {n:50,ga:'Inducidos',codigo:'ESP-0003',condicion:'Especiales',cliente:'C0225',reclamo:'-',observacion:'colec. pedido 08/6/2026',fecha_ingreso:'2026-06-03',dias_objetivo:10,entrega_sol:'2026-06-17',fecha_entrega_real:'2026-06-17',dias_prod:10,demora:0},
   {n:51,ga:'Inducidos',codigo:'ESP-0004',condicion:'Especiales',cliente:'C0069',reclamo:'-',observacion:'es IB3310.42',fecha_ingreso:'2026-06-03',dias_objetivo:3,entrega_sol:'2026-06-08',fecha_entrega_real:'2026-06-05',dias_prod:2,demora:-0.33},
@@ -541,7 +541,10 @@ const PEDIDOS=[
   {n:232,ga:'Rotores',codigo:'RB103.11',condicion:'Faltantes',cliente:'C0069',reclamo:null,observacion:null,fecha_ingreso:'2026-07-22',dias_objetivo:3,entrega_sol:'2026-07-27',fecha_entrega_real:'2026-07-22',dias_prod:0,demora:-1},
   {n:233,ga:'Rotores',codigo:'RI098.20',condicion:'Faltantes',cliente:'C0069',reclamo:null,observacion:null,fecha_ingreso:'2026-07-22',dias_objetivo:3,entrega_sol:'2026-07-27',fecha_entrega_real:'2026-07-22',dias_prod:0,demora:-1},
   {n:234,ga:'Inducidos',codigo:'IDE2919.11',condicion:'S/M',cliente:'C0281',reclamo:null,observacion:null,fecha_ingreso:'2026-07-23',dias_objetivo:3,entrega_sol:'2026-07-28',fecha_entrega_real:null,dias_prod:1,demora:null},
-  {n:235,ga:'Estatores',codigo:'EB111.40',condicion:'S/M',cliente:'C0281',reclamo:null,observacion:null,fecha_ingreso:'2026-07-23',dias_objetivo:3,entrega_sol:'2026-07-28',fecha_entrega_real:null,dias_prod:1,demora:null}
+  {n:235,ga:'Estatores',codigo:'EB111.40',condicion:'S/M',cliente:'C0281',reclamo:null,observacion:null,fecha_ingreso:'2026-07-23',dias_objetivo:3,entrega_sol:'2026-07-28',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:236,ga:'Inducidos',codigo:'IB2313.10',condicion:'Faltantes',cliente:'C0281',reclamo:null,observacion:null,fecha_ingreso:'2026-07-23',dias_objetivo:3,entrega_sol:'2026-07-28',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:237,ga:'Inducidos',codigo:'IV1916.10',condicion:'Faltantes',cliente:'C0281',reclamo:null,observacion:null,fecha_ingreso:'2026-07-23',dias_objetivo:3,entrega_sol:'2026-07-28',fecha_entrega_real:null,dias_prod:1,demora:null},
+  {n:238,ga:'Estatores',codigo:'EB111.40',condicion:'Faltantes',cliente:'C0281',reclamo:null,observacion:null,fecha_ingreso:'2026-07-23',dias_objetivo:3,entrega_sol:'2026-07-28',fecha_entrega_real:null,dias_prod:1,demora:null}
 ];
 
 const TODAY=new Date();TODAY.setHours(0,0,0,0);
@@ -556,7 +559,7 @@ function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
 const _HOY=new Date().toISOString().slice(0,10);
 // Fecha último sync
-const _ULTIMO_SYNC='Jue 23/07/2026 08:24'
+const _ULTIMO_SYNC='Jue 23/07/2026 08:53'
 document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('fechaActualizado');if(el)el.textContent=_ULTIMO_SYNC;});
 // Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
 function demoraEfectiva(p){
