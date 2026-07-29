@@ -594,7 +594,9 @@ function demoraEfectiva(p){
 // avgDem: promedia demora efectiva (incluye estimados de pendientes vencidos)
 function avgDem(arr){return avg(arr.map(p=>demoraEfectiva(p)));}
 // avgDemDP: % demora calculado desde dias_prod vs dias_objetivo (consistente con "días prom" mostrado)
-function avgDemDP(arr){const v=arr.filter(p=>p.dias_prod!=null&&p.dias_objetivo>0);return v.length?avg(v.map(p=>(p.dias_prod-p.dias_objetivo)/p.dias_objetivo)):null;}
+function entregadoP(p){return p.fecha_entrega_real&&p.fecha_entrega_real!=='-';}
+function dpProm(arr){return avg(arr.filter(entregadoP).map(p=>p.dias_prod));}
+function avgDemDP(arr){const v=arr.filter(p=>p.dias_prod!=null&&p.dias_objetivo>0&&entregadoP(p));return v.length?avg(v.map(p=>(p.dias_prod-p.dias_objetivo)/p.dias_objetivo)):null;}
 // true si algún pedido del array usó demora estimada (sin fecha real)
 function tieneEstimados(arr){return arr.some(p=>!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo);}
 // Agrega ⚠ al HTML de demora si hay estimados
@@ -862,9 +864,9 @@ function pedidosGeneralSummary(data){
   const CONDS=['Reclamos','Faltantes','S/M','Especiales'];
   const gaStats=SEGMENTOS.map(ga=>{const g=data.filter(p=>p.ga===ga);return{ga,n:g.length,dp:avg(g.map(p=>p.dias_prod)),dem:avgDemDP(g)};});
   const totalN=gaStats.reduce((a,b)=>a+b.n,0);
-  const avgDp=Math.round((avg(data.filter(p=>p.dias_prod!=null).map(p=>p.dias_prod))??0)*100)/100;
+  const avgDp=Math.round((dpProm(data)??0)*100)/100;
   // Cálculo demora: promedio simple (igual que sheet)
-  const _dpRaw=avg(data.filter(p=>p.dias_prod!=null).map(p=>p.dias_prod));
+  const _dpRaw=dpProm(data);
   const _demTot=_dpRaw!=null?(_dpRaw-3)/3:0;
   const demCol=colD(_demTot);
   const totalDemStr=(Math.abs(_demTot)*100).toFixed(1)+'%';
@@ -960,7 +962,7 @@ function pedidosGeneralSummary(data){
       })()}</tbody>
       <tfoot><tr style="border-top:2px solid rgba(255,255,255,.2);">
         <td colspan="2" style="color:white;font-weight:700;padding:7px 6px 0 0;font-size:.72rem;">PROMEDIO (${data.filter(p=>p.demora!=null).length} pedidos)</td>
-        <td style="text-align:right;color:white;padding:7px 6px 0;font-size:.75rem;font-weight:800;">${(()=>{const v=avg(data.filter(p=>p.dias_prod!=null).map(p=>p.dias_prod));return v!=null?v.toFixed(2):'—';})()}</td>
+        <td style="text-align:right;color:white;padding:7px 6px 0;font-size:.75rem;font-weight:800;">${(()=>{const v=dpProm(data);return v!=null?v.toFixed(2):'—';})()}</td>
         <td style="text-align:right;padding:7px 0 0;font-size:.78rem;font-weight:800;color:${(()=>{const v=avg(data.filter(p=>p.demora!=null).map(p=>p.demora));return v==null?'white':Math.abs(v)<0.005?'white':v<0?'#10b981':'#ef4444';})()}">${(()=>{const v=avg(data.filter(p=>p.demora!=null).map(p=>p.demora));return v==null?'—':(Math.abs(v)*100).toFixed(1)+'% '+(Math.abs(v)<0.005?'En tiempo':v<0?'Adelanto':'Retraso');})()}</td>
       </tr></tfoot>
     </table>
@@ -1002,7 +1004,7 @@ function detTable(pedidos,cond){
 
 function condCard(cond,pedidos){
   const id='cc'+(++_cid);
-  const dem=avgDemDP(pedidos);const dp=avg(pedidos.map(p=>p.dias_prod));
+  const dem=avgDemDP(pedidos);const dp=dpProm(pedidos);
   const demAcc=dem==null?'acc-gr':Math.abs(dem)<0.005?'acc-gr':dem>0?'acc-r':'acc-g';
   let body='';
   if(cond==='Faltantes'){
@@ -1081,7 +1083,7 @@ function flipGADetail(flipId,ga,cond){
 }
 
 function totalGACard(pedidos,ga){
-  const dp=avg(pedidos.map(p=>p.dias_prod));const dem=dp!=null?(dp-3)/3:null;
+  const dp=dpProm(pedidos);const dem=dp!=null?(dp-3)/3:null;
   const demServ=avgDem(pedidos);
   const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;
   const pctProm=dem!=null?`<span style="color:${dem>0?'#ef4444':dem<0?'#10b981':'white'};font-size:.88rem;font-weight:700;">${(Math.abs(dem)*100).toFixed(1)}%</span>`:'—';
@@ -1146,7 +1148,7 @@ function gaBlock(ga,pedidos){
   if(!pedidos.length)return`<div class="empty">Sin pedidos para ${ga}.</div>`;
   const siCambiar=pedidos.filter(esSiCambiar);
   const p2=pedidos.filter(p=>!esSiCambiar(p));
-  const dp_ga=avg(p2.map(p=>p.dias_prod));const dem=dp_ga!=null?(dp_ga-3)/3:null;
+  const dp_ga=dpProm(p2);const dem=dp_ga!=null?(dp_ga-3)/3:null;
   const sem=semaforo(dem);
   const extraConds=[...new Set(p2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
   const ordered=[...COND_ORDER,...extraConds];
@@ -1174,7 +1176,7 @@ function generalPanel(data){
     const g=data.filter(p=>p.ga===ga);
     const g2=g.filter(p=>!esSiCambiar(p));
     const siC=g.filter(esSiCambiar);
-    const dp=avg(g2.map(p=>p.dias_prod));
+    const dp=dpProm(g2);
     const dem=dp!=null?(dp-3)/3:null;
     const ent=g2.filter(esEntregado).length,pen=g2.length-ent;const sem=semaforo(dem);
     const extraConds2=[...new Set(g2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
@@ -1210,7 +1212,7 @@ function generalPanel(data){
           <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
           <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
         </div>`;
-        const dpc=avg(gc.map(p=>p.dias_prod));const dc=dpc!=null?(dpc-3)/3:null;
+        const dpc=dpProm(gc);const dc=dpc!=null?(dpc-3)/3:null;
         const gcOk=gc.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&(p.demora===null||p.demora<=0)).length;
         const gcPen=gc.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-').length;
         const gcDmo=gc.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&p.demora>0).length;

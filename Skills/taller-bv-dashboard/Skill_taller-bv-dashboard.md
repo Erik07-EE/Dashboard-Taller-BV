@@ -23,7 +23,8 @@ El sheet descargado es XLSX binario (no CSV). Hojas relevantes: `OF-IND`, `OF-RO
 Leer con `openpyxl.load_workbook(path, data_only=True)`.
 
 - **Fila 1:** objetivos. Buscar la celda `Objetivo <Mes>` (del mes en curso, detectado por
-  fecha AR) y `Obj. S.1`…`Obj. S.5`. El valor está en `col+1`.
+  fecha AR) y `Obj. S.1`…`Obj. S.5`. El valor mensual está en `col+1`. Los semanales van
+  ANTES del label mensual (entre el `Objetivo` del mes anterior y el de este mes).
 - **Detección de mes automática:** sincronizar el **mes en curso** + cualquier **mes futuro
   ya armado** en el sheet (ej. agosto cuando aparecen sus columnas). NO hardcodear el mes.
   Los meses históricos ya congelados en el dashboard NO se re-sincronizan.
@@ -102,17 +103,20 @@ n=XX [ga] [codigo] [condicion] sol:[fecha]
 - Los objetivos se revalidan cada mes — siempre pueden cambiar.
 - `dias_prod` negativo en el sheet = artifact de fórmula → guardar como `null`.
 - **Sincronizar la carpeta del proyecto** (`Desktop\Claude\Reportes\Taller BV`) cada vez que
-  se actualice memoria, prompt o skills: reflejar el cambio en `Memoria/`, `Prompt/`,
+  se actualice memoria, prompt o skills: reflejar el cambio en `Prompt/Instrucciones_Proyecto.docx`,
   `Skills/` y regenerar sus PDF.
 
 ## Métricas (cómo se calculan)
 
-- **Días prod. prom.:** promedio SIMPLE de `dias_prod` de todos los pedidos (sin Si-Cambiar).
-- **% prom. (tarjeta General y solapas por GA):** `(días prom − 3) / 3`, con el promedio de
-  días SIN redondear. Verde = adelanto, rojo = retraso. (Cambiado el 23/07/2026; antes la
-  tarjeta General usaba avgDemDP.)
+- **IMPORTANTE (29/07/2026): Días prom. y % prom. se calculan SOLO sobre pedidos ENTREGADOS**
+  (con fecha de entrega real). Los pedidos en proceso NO cuentan; si un GA/condición no tiene
+  entregados, se muestra "—". Evita mostrar adelanto/retraso de artículos aún en fabricación.
+  Helpers en el HTML: `entregadoP(p)` y `dpProm(arr)`.
+- **Días prod. prom.:** promedio SIMPLE de `dias_prod` de los pedidos ENTREGADOS (sin Si-Cambiar).
+- **% prom. (tarjeta General y solapas por GA):** `(días prom − 3) / 3` con el promedio de días
+  SIN redondear (solo entregados). Verde = adelanto, rojo = retraso. (Criterio del 23/07/2026.)
 - **avgDemDP** (usado en % por condición): `avg((dias_prod − dias_objetivo) / dias_objetivo)`
-  para pedidos con `dias_prod != null` — desvío de cada pedido contra su propio objetivo.
+  para pedidos ENTREGADOS con `dias_prod != null` — desvío de cada pedido contra su propio objetivo.
 - **% Servicio:** `avgDem` = promedio de la demora efectiva (incluye estimados de pedidos
   vencidos sin fecha real). Basado en la demora de entrega (columna Q del sheet).
 - **Lupa % Servicio:** muestra por pedido — Sector / Código / Días prod. (col P) / % Servicio (col Q).

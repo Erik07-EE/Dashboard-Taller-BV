@@ -273,3 +273,16 @@ La tarjeta General y las solapas por GA usan el MISMO criterio:
 rojo = retraso. En `pedidosGeneralSummary`: `_demTot = (_dpRaw - 3) / 3` con
 `_dpRaw = avg(dias_prod no null)`. NO afecta al `% Servicio`, que usa `avgDem`
 (demora de entrega, con estimados para vencidos sin fecha real).
+
+## Días prom. / % prom.: solo entregados (29/07/2026)
+
+`Días prod. prom.`, `% prom.` y `avgDemDP` se calculan **solo sobre pedidos ENTREGADOS**
+(con `fecha_entrega_real`); los pedidos en proceso NO cuentan. Si un GA/condición no tiene
+entregados, la vista muestra "—". Así no se muestra adelanto/retraso de artículos aún en
+fabricación. Helpers en el dashboard:
+
+```js
+function entregadoP(p){return p.fecha_entrega_real&&p.fecha_entrega_real!=='-';}
+function dpProm(arr){return avg(arr.filter(entregadoP).map(p=>p.dias_prod));}
+// avgDemDP filtra además por entregadoP(p)
+```
