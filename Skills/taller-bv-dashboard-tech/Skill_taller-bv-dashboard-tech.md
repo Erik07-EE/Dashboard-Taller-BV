@@ -73,20 +73,23 @@ def extraer_ga(sheet_name, year, month):
             lab_c = c; break
     obj_mensual = row1.get(lab_c+1) if lab_c else None
 
-    # objetivos semanales del bloque (desde el label hasta el próximo 'Objetivo')
+    # objetivos semanales del bloque: van ANTES del label mensual (dentro de las
+    # columnas de fecha del mes), entre el 'Objetivo' del mes anterior y el de este mes.
+    # OJO: NO escanear hacia adelante (agarraría los del mes siguiente).
     obj_sems = {}
     if lab_c:
-        c = lab_c + 1
-        while c <= maxc:
+        prev = 0
+        for c in range(lab_c-1, 0, -1):
             v = row1.get(c)
-            if isinstance(v, str) and v.strip().lower().startswith('objetivo') and c != lab_c:
-                break
+            if isinstance(v, str) and v.strip().lower().startswith('objetivo'):
+                prev = c; break
+        for c in range(prev+1, lab_c):
+            v = row1.get(c)
             if isinstance(v, str) and 'Obj. S.' in v:
                 try:
                     num = int(v.split('.')[-1].strip()); val = row1.get(c+1)
                     if isinstance(val, (int, float)): obj_sems[num] = round(val)  # ENTERO
                 except: pass
-            c += 1
 
     # columnas de fecha del mes/año (Estatores: ignorar 30/04)
     cols = []
