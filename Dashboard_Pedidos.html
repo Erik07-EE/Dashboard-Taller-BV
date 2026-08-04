@@ -18,6 +18,7 @@ header{background:var(--azul);padding:0 28px;display:flex;align-items:center;gap
 .hdr-text small{color:rgba(255,255,255,.55);font-size:.75rem;}
 .hdr-badge{background:var(--amarillo);color:var(--azul);font-size:.75rem;font-weight:800;padding:6px 14px;border-radius:20px;white-space:nowrap;display:flex;align-items:center;gap:5px;}
 .toolbar{background:var(--azul2);padding:8px 28px;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(255,255,255,.08);}
+.topbar{position:sticky;top:0;z-index:50;}
 .toolbar label{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.7);}
 select{padding:5px 12px;border:1px solid rgba(255,255,255,.2);border-radius:8px;font-size:.8rem;background:rgba(255,255,255,.12);color:white;cursor:pointer;}
 select option{background:var(--azul2);color:white;}
@@ -242,6 +243,7 @@ select:focus{outline:none;border-color:var(--amarillo);}
 </style>
 </head>
 <body>
+<div class="topbar">
 <header>
   <img class="hdr-logo" src="https://www.electroestrada.com.ar/assets/img/logo-electroestrada-pie.png" alt="Electroestrada" onerror="this.style.display='none'">
   <div class="hdr-divider"></div>
@@ -256,6 +258,7 @@ select:focus{outline:none;border-color:var(--amarillo);}
   <select id="filtroMes" onchange="renderAll()"><option value="all">Todos los meses</option></select>
   <label style="margin-left:16px;">Obj. servicio:</label>
   <select id="objServ" title="Objetivo de días de servicio (simulación). Default 3." onchange="OBJ_SERV=+this.value;renderAll()"><option value="3">3 días</option><option value="2">2 días</option><option value="1">1 día</option></select>
+</div>
 </div>
 <!-- PRODUCCIÓN -->
 <div class="prod-section">
