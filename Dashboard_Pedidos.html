@@ -254,6 +254,8 @@ select:focus{outline:none;border-color:var(--amarillo);}
 <div class="toolbar">
   <label>Filtrar por mes:</label>
   <select id="filtroMes" onchange="renderAll()"><option value="all">Todos los meses</option></select>
+  <label style="margin-left:16px;">Obj. servicio:</label>
+  <select id="objServ" title="Objetivo de días de servicio (simulación). Default 3." onchange="OBJ_SERV=+this.value;renderAll()"><option value="3">3 días</option><option value="2">2 días</option><option value="1">1 día</option></select>
 </div>
 <!-- PRODUCCIÓN -->
 <div class="prod-section">
@@ -608,6 +610,7 @@ const COND_BADGE={Reclamos:'b-r',Faltantes:'b-f','S/M':'b-s',Especiales:'b-e'};
 function mesKey(s){if(!s||s==='-')return null;return s.substring(0,7);}// evita bug de zona horaria
 function mesLabel(k){const[y,m]=k.split('-');return `${MESES_ES[+m-1]} ${y}`;}
 function avg(arr){const v=arr.filter(x=>x!=null&&!isNaN(x));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
+let OBJ_SERV=3;
 const _HOY=new Date().toISOString().slice(0,10);
 // Fecha último sync
 const _ULTIMO_SYNC='Lun 03/08/2026 17:21'
@@ -897,7 +900,7 @@ function pedidosGeneralSummary(data){
   const avgDp=Math.round((dpProm(data)??0)*100)/100;
   // Cálculo demora: promedio simple (igual que sheet)
   const _dpRaw=dpProm(data);
-  const _demTot=_dpRaw!=null?(_dpRaw-3)/3:0;
+  const _demTot=_dpRaw!=null?(_dpRaw-OBJ_SERV)/OBJ_SERV:0;
   const demCol=colD(_demTot);
   const totalDemStr=(Math.abs(_demTot)*100).toFixed(1)+'%';
   // Premio Urgentes: 100% cuando demora=0, baja con cada retraso
@@ -938,7 +941,7 @@ function pedidosGeneralSummary(data){
             <span style="color:rgba(255,255,255,.2);font-size:.9rem;">|</span>
             <span style="color:${_demTot<-0.005?'#10b981':_demTot>0.005?'#ef4444':'white'};font-size:1.4rem;font-weight:800;">${(Math.abs(_demTot)*100).toFixed(1)}%</span>
           </div>
-          <div class="ped-gen-sub">días hábiles · vs obj. 3 días</div>
+          <div class="ped-gen-sub">días hábiles · vs obj. ${OBJ_SERV} día${OBJ_SERV===1?'':'s'}</div>
         </div>
 
       </div>
@@ -1113,7 +1116,7 @@ function flipGADetail(flipId,ga,cond){
 }
 
 function totalGACard(pedidos,ga){
-  const dp=dpProm(pedidos);const dem=dp!=null?(dp-3)/3:null;
+  const dp=dpProm(pedidos);const dem=dp!=null?(dp-OBJ_SERV)/OBJ_SERV:null;
   const demServ=avgDem(pedidos);
   const ent=pedidos.filter(esEntregado).length,pen=pedidos.length-ent;
   const pctProm=dem!=null?`<span style="color:${dem>0?'#ef4444':dem<0?'#10b981':'white'};font-size:.88rem;font-weight:700;">${(Math.abs(dem)*100).toFixed(1)}%</span>`:'—';
@@ -1162,7 +1165,7 @@ function totalGACard(pedidos,ga){
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center;">
       <div style="display:flex;flex-direction:column;gap:8px;">
         <div class="tg-kpi"><div class="tg-lbl">Urgentes</div><div class="tg-val">${pedidos.length}</div><div style="display:flex;gap:5px;margin-top:4px;flex-wrap:wrap;"><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7;">${ent} entregados</span><span style="font-size:.58rem;padding:1px 7px;border-radius:4px;background:rgba(245,158,11,.15);color:#fcd34d;">${pen} pendientes</span></div></div>
-        <div class="tg-kpi"><div class="tg-lbl">Días prom. / % prom.</div><div class="tg-val" style="display:flex;align-items:baseline;gap:9px;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.75rem;">|</span>${pctProm}</div><div class="tg-sub">días hábiles · vs obj. 3 días</div></div>
+        <div class="tg-kpi"><div class="tg-lbl">Días prom. / % prom.</div><div class="tg-val" style="display:flex;align-items:baseline;gap:9px;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.75rem;">|</span>${pctProm}</div><div class="tg-sub">días hábiles · vs obj. ${OBJ_SERV} día${OBJ_SERV===1?'':'s'}</div></div>
       </div>
       <div style="background:rgba(255,255,255,.06);border-radius:10px;padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
         <div class="tg-lbl">% Servicio</div>
@@ -1178,7 +1181,7 @@ function gaBlock(ga,pedidos){
   if(!pedidos.length)return`<div class="empty">Sin pedidos para ${ga}.</div>`;
   const siCambiar=pedidos.filter(esSiCambiar);
   const p2=pedidos.filter(p=>!esSiCambiar(p));
-  const dp_ga=dpProm(p2);const dem=dp_ga!=null?(dp_ga-3)/3:null;
+  const dp_ga=dpProm(p2);const dem=dp_ga!=null?(dp_ga-OBJ_SERV)/OBJ_SERV:null;
   const sem=semaforo(dem);
   const extraConds=[...new Set(p2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
   const ordered=[...COND_ORDER,...extraConds];
@@ -1207,7 +1210,7 @@ function generalPanel(data){
     const g2=g.filter(p=>!esSiCambiar(p));
     const siC=g.filter(esSiCambiar);
     const dp=dpProm(g2);
-    const dem=dp!=null?(dp-3)/3:null;
+    const dem=dp!=null?(dp-OBJ_SERV)/OBJ_SERV:null;
     const ent=g2.filter(esEntregado).length,pen=g2.length-ent;const sem=semaforo(dem);
     const extraConds2=[...new Set(g2.map(p=>p.condicion))].filter(c=>!COND_ORDER.includes(c));
     const ordered=[...COND_ORDER,...extraConds2];
@@ -1242,7 +1245,7 @@ function generalPanel(data){
           <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
           <span style="color:rgba(255,255,255,.3);text-align:right;font-size:.75rem;">—</span>
         </div>`;
-        const dpc=dpProm(gc);const dc=dpc!=null?(dpc-3)/3:null;
+        const dpc=dpProm(gc);const dc=dpc!=null?(dpc-OBJ_SERV)/OBJ_SERV:null;
         const gcOk=gc.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&(p.demora===null||p.demora<=0)).length;
         const gcPen=gc.filter(p=>!p.fecha_entrega_real||p.fecha_entrega_real==='-').length;
         const gcDmo=gc.filter(p=>p.fecha_entrega_real&&p.fecha_entrega_real!=='-'&&p.demora>0).length;
@@ -1262,7 +1265,7 @@ function generalPanel(data){
       ${g2.length||siC.length?`<div class="gen-total"><div class="gen-kpi-row" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center;">
         <div style="display:flex;flex-direction:column;gap:6px;">
           <div class="gen-kpi"><div class="gen-kpi-lbl">Urgentes</div><div class="gen-kpi-val">${g2.length}</div><div style="display:flex;gap:5px;margin-top:3px;flex-wrap:wrap;"><span style="font-size:.56rem;padding:1px 6px;border-radius:4px;background:rgba(16,185,129,.15);color:#6ee7b7;">${ent} entregados</span><span style="font-size:.56rem;padding:1px 6px;border-radius:4px;background:rgba(245,158,11,.15);color:#fcd34d;">${pen} pendientes</span></div></div>
-          <div class="gen-kpi"><div class="gen-kpi-lbl">Días prom. / % prom.</div><div class="gen-kpi-val" style="display:flex;align-items:baseline;gap:8px;font-size:1.05rem;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.7rem;">|</span><span style="color:${dem!=null&&dem>0?'#ef4444':dem!=null&&dem<0?'#10b981':'white'};font-size:.85rem;font-weight:700;">${dem!=null?(Math.abs(dem)*100).toFixed(1)+'%':'—'}</span></div><div class="gen-kpi-sub">días hábiles · vs obj. 3 días</div></div>
+          <div class="gen-kpi"><div class="gen-kpi-lbl">Días prom. / % prom.</div><div class="gen-kpi-val" style="display:flex;align-items:baseline;gap:8px;font-size:1.05rem;">${fmt1(dp)}<span style="color:rgba(255,255,255,.2);font-size:.7rem;">|</span><span style="color:${dem!=null&&dem>0?'#ef4444':dem!=null&&dem<0?'#10b981':'white'};font-size:.85rem;font-weight:700;">${dem!=null?(Math.abs(dem)*100).toFixed(1)+'%':'—'}</span></div><div class="gen-kpi-sub">días hábiles · vs obj. ${OBJ_SERV} día${OBJ_SERV===1?'':'s'}</div></div>
         </div>
         <div class="gen-kpi" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:12px 10px;">
           <div class="gen-kpi-lbl">% Servicio</div>
