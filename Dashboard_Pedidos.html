@@ -616,12 +616,23 @@ const _HOY=new Date().toISOString().slice(0,10);
 const _ULTIMO_SYNC='Lun 03/08/2026 17:21'
 document.addEventListener('DOMContentLoaded',()=>{const el=document.getElementById('fechaActualizado');if(el)el.textContent=_ULTIMO_SYNC;});
 // Demora efectiva: si el pedido no tiene fecha real pero ya venció, calcula demora corriente
+function _bdays(aIso,bIso){let a=new Date(aIso+'T00:00:00'),b=new Date(bIso+'T00:00:00');let s=1;if(b<a){const t=a;a=b;b=t;s=-1;}let d=0,c=new Date(a);while(c<b){c.setDate(c.getDate()+1);const w=c.getDay();if(w!==0&&w!==6)d++;}return s*d;}
+function _addBdays(iso,n){let d=new Date(iso+'T00:00:00'),a=0;while(a<n){d.setDate(d.getDate()+1);const w=d.getDay();if(w!==0&&w!==6)a++;}return d.toISOString().slice(0,10);}
 function demoraEfectiva(p){
-  if(p.demora!=null)return p.demora;
-  if(!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo){
-    const dias=Math.round((new Date(_HOY+'T12:00:00')-new Date(p.entrega_sol+'T12:00:00'))/86400000);
-    return dias/p.dias_objetivo;
+  if(OBJ_SERV===3){
+    if(p.demora!=null)return p.demora;
+    if(!p.fecha_entrega_real&&p.entrega_sol&&p.entrega_sol<_HOY&&p.dias_objetivo){
+      const dias=Math.round((new Date(_HOY+'T12:00:00')-new Date(p.entrega_sol+'T12:00:00'))/86400000);
+      return dias/p.dias_objetivo;
+    }
+    return null;
   }
+  if(p.dias_objetivo==null||!p.fecha_ingreso)return null;
+  const no=p.dias_objetivo-(3-OBJ_SERV);
+  if(no<=0)return null;
+  const sol=_addBdays(p.fecha_ingreso,no);
+  if(p.fecha_entrega_real&&p.fecha_entrega_real!=='-')return _bdays(sol,p.fecha_entrega_real)/no;
+  if(sol<_HOY)return _bdays(sol,_HOY)/no;
   return null;
 }
 // avgDem: promedia demora efectiva (incluye estimados de pendientes vencidos)
