@@ -1488,6 +1488,7 @@ const mesesOf=OF_DATA.map(d=>d.mes_key).filter(Boolean);
 const allMeses=[...new Set([...mesesPed,...mesesOf])].sort();
 const sel=document.getElementById('filtroMes');
 allMeses.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=mesLabel(m);sel.appendChild(o);});
+if(allMeses.length){sel.value=allMeses[allMeses.length-1];}  // abrir en el último mes cargado
 renderAll();
 </script>
 </body>
