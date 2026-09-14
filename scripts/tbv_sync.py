@@ -49,6 +49,15 @@ K_PED = ['n', 'ga', 'codigo', 'condicion', 'cliente', 'reclamo', 'observacion',
          'dias_prod', 'demora']
 
 
+def normalizar_codigo(cod):
+    """Coma decimal -> punto (IB2903,10 -> IB2903.10) y dos puntos -> guion
+    (ESP:0014 -> ESP-0014). Criterio historico del proyecto; se aplica a lo que
+    entra de ahora en mas, los codigos ya guardados en meses congelados no se tocan."""
+    if cod is None:
+        return None
+    return str(cod).strip().replace(',', '.').replace(':', '-')
+
+
 def ruta_larga(p):
     r"""Prefijo \\?\ para superar el limite de 260 caracteres de Windows."""
     p = os.path.abspath(p)
@@ -247,7 +256,7 @@ def extraer_ga(wb, sheet_name, year, month):
         if p > 0:
             total += p
             cat = ws.cell(row, 2).value
-            codigos.append({'codigo': cod.replace(',', '.'),
+            codigos.append({'codigo': normalizar_codigo(cod),
                             'categoria': str(cat).strip() if cat else '',
                             'cantidad': int(p)})
 
@@ -322,7 +331,7 @@ def extraer_pedidos(wb):
         dem = ws.cell(row, 17).value
         pedidos[n] = {
             'n': n, 'ga': str(ga).strip(),
-            'codigo': str(cod).strip().replace(',', '.') if cod else None,
+            'codigo': normalizar_codigo(cod) if cod else None,
             'condicion': ws.cell(row, 5).value, 'cliente': ws.cell(row, 6).value,
             'fecha_ingreso': fmt_date(ws.cell(row, 2).value),
             'dias_objetivo': int(obj) if isinstance(obj, (int, float)) else None,

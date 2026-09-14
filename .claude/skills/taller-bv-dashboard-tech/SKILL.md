@@ -73,7 +73,11 @@ codigos `[]`) y se completa cuando se cargan los números.
 ### Reglas de datos
 
 - Objetivos semanales vienen decimales → redondear al entero.
-- Códigos con coma (`IB2903,10`) → normalizar a punto (`IB2903.10`).
+- **Normalización de códigos** (`normalizar_codigo` en `tbv_sync.py`): coma decimal → punto
+  (`IB2903,10` → `IB2903.10`) y dos puntos → guion (`ESP:0014` → `ESP-0014`).
+  Se aplica solo a lo que entra: los códigos ya guardados en meses congelados **no se tocan**,
+  por eso conviven formas viejas como `IESP(ID:I-394)` o `E:208` con las nuevas. Decidido
+  con el usuario el 14/09/2026.
 - Estatores: ignorar la columna 30/04 (artifact conocido).
 - `dias_prod` negativo = error de fórmula → guardar `null`.
 
