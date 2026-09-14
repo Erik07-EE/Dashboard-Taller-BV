@@ -40,6 +40,22 @@ Reglas que no se negocian:
 ⚠️ `Subir_a_GitHub.bat` hace `git add -A`: commitea **todo** lo que esté modificado en la
 carpeta. No dejar cambios a medio hacer cuando se le pide al usuario que publique.
 
+## Estructura de la carpeta
+
+```
+Dashboard_Pedidos.html        el dashboard (NO MOVER: la URL pública apunta acá)
+Subir_a_GitHub.bat            publicar (NO MOVER: se usa con doble clic)
+CLAUDE.md                     este archivo (NO MOVER: Claude Code lo lee de la raíz)
+.claude/skills/               instrucciones del proyecto, se cargan solas
+scripts/                      los programas que hacen el sync
+Historial/                    cómo se llegó hasta acá y por qué
+```
+
+`Historial/Historial_Proyecto.md` es el resumen de la etapa Cowork (jul–sep 2026): qué se
+construyó, qué criterios se definieron y por qué. **Leerlo antes de cambiar una regla de
+negocio** — mucho de lo que parece un detalle arbitrario se decidió por algo. El estado
+actual, en cambio, está en este archivo.
+
 ## Entorno
 
 | | |
