@@ -86,6 +86,10 @@ Pedirle al usuario que corra `Subir_a_GitHub.bat` (doble clic).
 Abrir la URL de Pages y confirmar que `_ULTIMO_SYNC`, la cantidad de pedidos y los totales
 del mes coinciden con el local.
 
+⚠️ **El navegador cachea la página.** Si muestra los datos viejos, no asumir que Pages no
+publicó: recargar con un parámetro (`?nocache=<timestamp>`) antes de dar nada por fallado.
+Al usuario, indicarle Ctrl+F5.
+
 ## Reglas críticas
 
 - **NUNCA** aplicar sin PREVIEW confirmado por el usuario.
