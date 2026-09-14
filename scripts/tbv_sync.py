@@ -461,9 +461,22 @@ def cmd_preview(args):
         print('  #%-4d [%-12s] %s' % (n, str(cod)[:12],
               ' | '.join('%s: %s -> %s' % d for d in difs)))
 
+    # El N de pedido lo recalcula el sheet: si se borra una fila del medio, todos los
+    # de abajo se corren y el ultimo queda huerfano en el dashboard.
+    sobrantes = sorted(set(ped_dash) - set(ped_sheet))
+    if sobrantes:
+        print('\nPEDIDOS DEL DASHBOARD QUE YA NO ESTAN EN EL SHEET: n=%d' % len(sobrantes))
+        for n in sobrantes:
+            d = ped_dash[n]
+            print('  #%-4d [%-12s] %-10s %s' % (n, str(d.get('codigo'))[:12],
+                                                d.get('ga'), d.get('cliente')))
+        print('  Si en el sheet se borro una fila del medio, esto es el sobrante del final.')
+        print('  NO se eliminan salvo que se aplique con --permitir-borrado.')
+
     print('\nTOTALES: pedidos %d -> %d' % (len(ped_dash), len(ped_sheet)))
     print('=' * 72)
-    print('Revisar y confirmar. Para aplicar: python scripts/tbv_sync.py aplicar')
+    print('Revisar y confirmar. Para aplicar: python scripts/tbv_sync.py aplicar'
+          + (' --permitir-borrado' if sobrantes else ''))
 
 
 def cmd_aplicar(args):
@@ -517,6 +530,16 @@ def cmd_aplicar(args):
                     d[c] = ps.get(c)
         else:
             by_n[n] = {k: ps.get(k) for k in K_PED}
+    sobrantes = sorted(set(by_n) - set(ped_sheet))
+    if sobrantes and getattr(args, 'permitir_borrado', False):
+        for n in sobrantes:
+            del by_n[n]
+        print('PEDIDOS ELIMINADOS (ya no estan en el sheet): %s' % sobrantes)
+    elif sobrantes:
+        print('AVISO: %d pedido(s) del dashboard ya no estan en el sheet y NO se eliminaron: %s'
+              % (len(sobrantes), sobrantes))
+        print('       Para eliminarlos: tbv_sync.py aplicar --permitir-borrado')
+
     final = [by_n[n] for n in sorted(by_n)]
     html = html[:a] + '[\n' + ',\n'.join('  ' + jsobj(p, K_PED) for p in final) + '\n]' + html[b:]
     print('PEDIDOS: %d -> %d (nuevos %d, actualizados %d en %d campos)'
@@ -599,6 +622,8 @@ def main():
     p.add_argument('--dump', required=True, help='ruta del volcado de download_file_content')
     p.set_defaults(func=cmd_preview)
     p = sub.add_parser('aplicar', help='aplica los cambios al HTML')
+    p.add_argument('--permitir-borrado', action='store_true', dest='permitir_borrado',
+                   help='elimina del dashboard los pedidos que ya no estan en el sheet')
     p.set_defaults(func=cmd_aplicar)
     p = sub.add_parser('verificar', help='compara el HTML nuevo contra el anterior')
     p.set_defaults(func=cmd_verificar)
