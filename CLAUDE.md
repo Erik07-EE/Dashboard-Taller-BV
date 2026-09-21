@@ -70,13 +70,16 @@ Tres cosas propias de este entorno, explicadas en la skill técnica: el conector
 HTML está en finales de línea **LF** y hay que preservarlos; y algunas rutas superan el
 límite de 260 caracteres de Windows.
 
-## Estado actual (último sync OK: 14/09/2026)
+## Estado actual (último sync OK: 21/09/2026)
 
 - Mes en curso: Septiembre 2026. Objetivos: Inducidos 150, Rotores 110, Estatores 70.
-- Producción Sep (al 14/09): Ind 78, Rot 43, Est 31.
+- Producción Sep (al 21/09): Ind 117, Rot 74, Est 41.
 - Congelados: agosto (Ind 255, Rot 33, Est 54), julio, junio, mayo, abril.
-- Pedidos: 477 (n máx 477). Badge: "Lun 14/09/2026 09:11".
+- Pedidos: 488 (n máx 488). Badge: "Lun 21/09/2026 07:50".
 - Publicado y verificado en GitHub Pages.
+
+**Cierre de mes a la vista:** septiembre termina el 30. En el próximo sync de octubre,
+hacer el cierre final de septiembre antes de congelarlo.
 
 ## Preferencias del usuario
 
