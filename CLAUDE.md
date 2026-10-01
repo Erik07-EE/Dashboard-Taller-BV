@@ -70,16 +70,18 @@ Tres cosas propias de este entorno, explicadas en la skill técnica: el conector
 HTML está en finales de línea **LF** y hay que preservarlos; y algunas rutas superan el
 límite de 260 caracteres de Windows.
 
-## Estado actual (último sync OK: 21/09/2026)
+## Estado actual (último sync OK: 01/10/2026)
 
-- Mes en curso: Septiembre 2026. Objetivos: Inducidos 150, Rotores 110, Estatores 70.
-- Producción Sep (al 21/09): Ind 117, Rot 74, Est 41.
+- Mes en curso: Octubre 2026, **todavía sin objetivos ni producción** (bloque en cero).
+  El dashboard abre en octubre, que se ve vacío hasta que se carguen los números.
+- **Septiembre cerrado y cumplido:** Ind 178/150, Rot 121/110, Est 76/70 (114% del total).
 - Congelados: agosto (Ind 255, Rot 33, Est 54), julio, junio, mayo, abril.
-- Pedidos: 488 (n máx 488). Badge: "Lun 21/09/2026 07:50".
+- Pedidos: 526 (n máx 527, con el **#509 anulado** → hueco esperado en la numeración).
 - Publicado y verificado en GitHub Pages.
 
-**Cierre de mes a la vista:** septiembre termina el 30. En el próximo sync de octubre,
-hacer el cierre final de septiembre antes de congelarlo.
+**Cierre de mes automático:** durante los primeros 10 días del mes, el sync incluye también
+el mes anterior (`DIAS_CIERRE` en `tbv_sync.py`), para no perder las unidades que se cargan
+sobre el final. Para forzar un mes puntual: `tbv_sync.py preview --dump ... --mes 2026-09`.
 
 ## Preferencias del usuario
 

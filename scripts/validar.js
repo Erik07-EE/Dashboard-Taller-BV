@@ -50,8 +50,15 @@ check(keys.length > 0, `presentes: ${keys.join(', ')}`);
 // Mes en curso segun hora AR (UTC-3)
 const ahoraAR = new Date(Date.now() - 3 * 3600 * 1000);
 const mesActual = `${ahoraAR.getUTCFullYear()}-${String(ahoraAR.getUTCMonth() + 1).padStart(2, '0')}`;
-console.log(`\nMES EN CURSO (${mesActual})`);
-const cur = OF_DATA.filter(e => e.mes_key === mesActual);
+// Se valida el mes en curso; si todavia no esta armado en el sheet (pasa al arrancar
+// un mes nuevo), se valida el ultimo mes cargado y se avisa.
+let mesValidar = mesActual;
+if (!OF_DATA.some(e => e.mes_key === mesActual)) {
+  mesValidar = keys[keys.length - 1];
+  console.log(`\nAVISO: ${mesActual} todavia no esta cargado; se valida ${mesValidar}`);
+}
+console.log(`\nMES VALIDADO (${mesValidar})`);
+const cur = OF_DATA.filter(e => e.mes_key === mesValidar);
 check(cur.length === 3, `los 3 GA presentes (${cur.map(e => e.ga).join(', ') || 'ninguno'})`);
 for (const e of cur) {
   const sObj = e.semanas.reduce((a, s) => a + s.obj, 0);
@@ -66,7 +73,16 @@ for (const e of cur) {
 console.log('\nINTEGRIDAD DE PEDIDOS');
 const ns = PEDIDOS.map(p => p.n);
 check(new Set(ns).size === ns.length, 'sin n duplicados');
-check(ns.every((n, i) => n === i + 1), `n consecutivos 1..${ns[ns.length - 1]}`);
+check(ns.every((n, i) => i === 0 || n > ns[i - 1]), 'n en orden creciente');
+// Un hueco es legitimo: pasa cuando se anula un pedido en el sheet y la fila queda
+// vacia sin renumerar. Se avisa, no se considera falla.
+const huecos = [];
+for (let i = 1; i < ns.length; i++) {
+  for (let f = ns[i - 1] + 1; f < ns[i]; f++) huecos.push(f);
+}
+console.log(huecos.length
+  ? `  AVISO  numeracion con ${huecos.length} hueco(s): ${huecos.slice(0, 10).join(', ')}${huecos.length > 10 ? '…' : ''} (pedidos anulados en el sheet)`
+  : `  OK    n consecutivos 1..${ns[ns.length - 1]}`);
 check(PEDIDOS.every(p => p.ga), 'todos con GA');
 check(PEDIDOS.every(p => p.codigo), 'todos con codigo');
 check(!PEDIDOS.some(p => p.codigo && p.codigo.includes(',')), 'sin codigos con coma');

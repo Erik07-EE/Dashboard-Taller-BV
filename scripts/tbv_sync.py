@@ -346,15 +346,35 @@ def extraer_pedidos(wb):
     return pedidos
 
 
-def extraer_todo(xlsx):
+DIAS_CIERRE = 10  # durante los primeros N dias del mes se sigue cerrando el anterior
+
+
+def extraer_todo(xlsx, meses_forzados=None):
     import openpyxl
     wb = openpyxl.load_workbook(xlsx, data_only=True)
     hoy = datetime.now(AR)
-    meses = [(hoy.year, hoy.month)]
+    meses = []
+
+    # Cierre del mes anterior: durante los primeros dias del mes todavia se cargan
+    # unidades del mes que termino. Sin esto, al pasar de mes esa produccion se pierde
+    # porque el mes anterior ya quedaria congelado.
+    if hoy.day <= DIAS_CIERRE:
+        meses.append((hoy.year - 1, 12) if hoy.month == 1 else (hoy.year, hoy.month - 1))
+
+    meses.append((hoy.year, hoy.month))
+
     # Meses futuros ya armados en el sheet. Los historicos quedan congelados.
     for m in range(hoy.month + 1, 13):
         if extraer_ga(wb, 'OF-IND', hoy.year, m) is not None:
             meses.append((hoy.year, m))
+
+    for s in (meses_forzados or []):
+        y, m = s.split('-')
+        meses.append((int(y), int(m)))
+
+    vistos = set()
+    meses = [t for t in meses if not (t in vistos or vistos.add(t))]
+    meses.sort()
     bloques = {}
     for (y, m) in meses:
         for ga, hoja in GA_HOJA:
@@ -392,7 +412,7 @@ def cmd_preview(args):
     tam, titulo = decodificar(args.dump, xlsx)
     print('XLSX: %s  %d bytes  (header PK OK)' % (titulo, tam))
 
-    sheet = extraer_todo(xlsx)
+    sheet = extraer_todo(xlsx, getattr(args, 'mes', None))
     dash = leer_dashboard()
     with open(os.path.join(CACHE, 'sheet.json'), 'w', encoding='utf-8') as f:
         json.dump(sheet, f, ensure_ascii=False, default=str)
@@ -577,13 +597,19 @@ def cmd_verificar(args):
     ov = {(e['mes_key'], e['ga']): e for e in viejo['OF_DATA']}
     on = {(e['mes_key'], e['ga']): e for e in nuevo['OF_DATA']}
     hoy_key = datetime.now(AR).strftime('%Y-%m')
+    try:
+        with open(os.path.join(CACHE, 'sheet.json'), encoding='utf-8') as f:
+            sincronizados = set(json.load(f).get('meses', []))
+    except Exception:
+        sincronizados = set()
+    sincronizados.add(hoy_key)
     print('\n--- OF_DATA: bloques con diferencias ---')
     for k in sorted(set(ov) | set(on)):
         if ov.get(k) != on.get(k):
             campos = sorted(c for c in set(list(ov.get(k) or {}) + list(on.get(k) or {}))
                             if (ov.get(k) or {}).get(c) != (on.get(k) or {}).get(c))
             print('  %s %s -> %s' % (k[0], k[1], campos))
-    congelados = [k for k in ov if k[0] < hoy_key and ov[k] != on.get(k)]
+    congelados = [k for k in ov if k[0] not in sincronizados and ov[k] != on.get(k)]
     print('  MESES CONGELADOS TOCADOS: %s'
           % (congelados if congelados else 'NINGUNO (correcto)'))
 
@@ -601,11 +627,16 @@ def cmd_verificar(args):
           % (cambiados, len(set(pn) - set(pv)), len(set(pv) - set(pn))))
 
     ns = sorted(pn)
-    ok = ns == list(range(1, ns[-1] + 1))
+    huecos = [x for x in range(1, ns[-1] + 1) if x not in set(ns)]
     print('\n--- INTEGRIDAD ---')
-    print('  n consecutivos 1..%d: %s' % (ns[-1], ok))
+    if huecos:
+        # Un hueco es legitimo: pedido anulado en el sheet, la fila queda sin renumerar.
+        print('  n 1..%d con %d hueco(s): %s (pedidos anulados)'
+              % (ns[-1], len(huecos), huecos[:10]))
+    else:
+        print('  n consecutivos 1..%d: OK' % ns[-1])
     for e in nuevo['OF_DATA']:
-        if e['mes_key'] >= hoy_key:
+        if e['mes_key'] in sincronizados:
             so = sum(x['obj'] for x in e['semanas'])
             sp = sum(x['prod'] for x in e['semanas'])
             print('  %-10s Sum(obj)=%s vs %s [%s] | Sum(prod)=%s vs %s [%s]'
@@ -620,6 +651,8 @@ def main():
     sub = ap.add_subparsers(dest='cmd', required=True)
     p = sub.add_parser('preview', help='extrae y compara, sin modificar nada')
     p.add_argument('--dump', required=True, help='ruta del volcado de download_file_content')
+    p.add_argument('--mes', action='append', metavar='YYYY-MM',
+                   help='fuerza sincronizar ese mes (se puede repetir)')
     p.set_defaults(func=cmd_preview)
     p = sub.add_parser('aplicar', help='aplica los cambios al HTML')
     p.add_argument('--permitir-borrado', action='store_true', dest='permitir_borrado',

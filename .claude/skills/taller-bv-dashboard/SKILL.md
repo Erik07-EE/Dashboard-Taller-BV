@@ -113,6 +113,12 @@ Al usuario, indicarle Ctrl+F5.
 - **Demora:** `dias_habiles(entrega_sol, entrega_real) / dias_objetivo`. Negativo = adelanto.
 - `esSiCambiar` (reclamo contiene "cambiar") → excluido de métricas.
 
+**Los "Si - Cambiar" nunca llevan fecha de entrega, y está bien.** Cuando el reclamo se
+resuelve entregando una unidad nueva en vez de reparar la original, el pedido queda abierto
+para siempre. Son la enorme mayoría de los pedidos "vencidos sin entregar" (57 de 58 al
+30/09/2026). **No señalarlos como pendientes ni como error de carga.** Un vencido sin fecha
+solo merece mención si el reclamo NO es "Si - Cambiar".
+
 ## Funciones interactivas del dashboard
 
 - **Selector "Obj. servicio"** (`OBJ_SERV`, 3/2/1, default 3, **simulación**): recalcula en
