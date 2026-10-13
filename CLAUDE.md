@@ -70,13 +70,14 @@ Tres cosas propias de este entorno, explicadas en la skill técnica: el conector
 HTML está en finales de línea **LF** y hay que preservarlos; y algunas rutas superan el
 límite de 260 caracteres de Windows.
 
-## Estado actual (último sync OK: 01/10/2026)
+## Estado actual (último sync OK: 13/10/2026)
 
-- Mes en curso: Octubre 2026, **todavía sin objetivos ni producción** (bloque en cero).
-  El dashboard abre en octubre, que se ve vacío hasta que se carguen los números.
+- Mes en curso: Octubre 2026. Objetivos: Inducidos 160, Rotores 50, Estatores 90.
+  (Cambiaron fuerte respecto a septiembre: Rotores bajó de 110 a 50, Estatores subió de 70 a 90.)
+- Producción Oct (al 13/10): Ind 52, Rot 22, Est 24.
 - **Septiembre cerrado y cumplido:** Ind 178/150, Rot 121/110, Est 76/70 (114% del total).
-- Congelados: agosto (Ind 255, Rot 33, Est 54), julio, junio, mayo, abril.
-- Pedidos: 526 (n máx 527, con el **#509 anulado** → hueco esperado en la numeración).
+- Congelados: septiembre, agosto (Ind 255, Rot 33, Est 54), julio, junio, mayo, abril.
+- Pedidos: 542 (n máx 543, con el **#509 anulado** → hueco esperado en la numeración).
 - Publicado y verificado en GitHub Pages.
 
 **Cierre de mes automático:** durante los primeros 10 días del mes, el sync incluye también
