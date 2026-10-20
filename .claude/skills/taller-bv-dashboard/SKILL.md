@@ -107,6 +107,14 @@ Al usuario, indicarle Ctrl+F5.
 - **Días prod. prom.:** promedio simple de `dias_prod` de entregados (sin Si-Cambiar).
 - **% prom.** (General y solapas GA): `(días prom − OBJ_SERV) / OBJ_SERV`, sin redondear.
   Verde = adelanto, rojo = retraso.
+
+⚠️ **`OBJ_BASE` es el objetivo de servicio oficial del taller** (constante en el HTML).
+**Desde el 20/10/2026 vale 2 días** (antes 3). Es la base con la que el sheet carga la
+columna "Días obj." (G), y de la que dependen el default del selector, el caso que usa los
+valores del sheet tal cual, y la fórmula del objetivo efectivo `G − (OBJ_BASE − OBJ_SERV)`.
+Si la política vuelve a cambiar, **se toca solo esa constante** — nunca reemplazar el número
+suelto en las fórmulas. Señal de que cambió: un sync con decenas de pedidos cuyo único
+cambio es `dias_objetivo`.
 - **avgDemDP** (% por condición): `avg((dias_prod − dias_objetivo)/dias_objetivo)` de entregados.
 - **% Servicio** (el premio de finanzas): `avgDem` = promedio de la demora de entrega
   (incluye estimados de vencidos sin fecha real).
