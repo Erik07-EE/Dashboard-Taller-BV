@@ -121,6 +121,11 @@ cambio es `dias_objetivo`.
 - **Demora:** `dias_habiles(entrega_sol, entrega_real) / dias_objetivo`. Negativo = adelanto.
 - `esSiCambiar` (reclamo contiene "cambiar") → excluido de métricas.
 
+**La fecha de ingreso puede ser futura, y está bien.** Es la fecha en que el pedido *entra
+a producción*, no la fecha en que se carga en el sheet: se anotan con anticipación. Por eso
+el sheet les calcula "Días prod." en negativo, y por eso el script los guarda como `null`
+(nunca negativos). **No señalarlos como error de carga ni como fecha equivocada.**
+
 **Los "Si - Cambiar" nunca llevan fecha de entrega, y está bien.** Cuando el reclamo se
 resuelve entregando una unidad nueva en vez de reparar la original, el pedido queda abierto
 para siempre. Son la enorme mayoría de los pedidos "vencidos sin entregar" (57 de 58 al
