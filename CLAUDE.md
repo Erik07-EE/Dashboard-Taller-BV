@@ -70,14 +70,14 @@ Tres cosas propias de este entorno, explicadas en la skill técnica: el conector
 HTML está en finales de línea **LF** y hay que preservarlos; y algunas rutas superan el
 límite de 260 caracteres de Windows.
 
-## Estado actual (último sync OK: 21/10/2026)
+## Estado actual (último sync OK: 26/10/2026)
 
 - Mes en curso: Octubre 2026. Objetivos: Inducidos 160, Rotores 50, Estatores 90.
   (Cambiaron fuerte respecto a septiembre: Rotores bajó de 110 a 50, Estatores subió de 70 a 90.)
-- Producción Oct (al 21/10): Ind 104, Rot 40, Est 48.
+- Producción Oct (al 26/10): Ind 129, Rot 47, Est 68.
 - **Septiembre cerrado y cumplido:** Ind 178/150, Rot 121/110, Est 76/70 (114% del total).
 - Congelados: septiembre, agosto (Ind 255, Rot 33, Est 54), julio, junio, mayo, abril.
-- Pedidos: 590 (n máx 591, con el **#509 anulado** → hueco esperado en la numeración).
+- Pedidos: 599 (n máx 600, con el **#509 anulado** → hueco esperado en la numeración).
 - **Objetivo de servicio: 2 días** (bajó de 3 el 20/10/2026). En el HTML es la constante
   `OBJ_BASE`; si vuelve a cambiar, se toca solo ese número.
 - Publicado y verificado en GitHub Pages.
