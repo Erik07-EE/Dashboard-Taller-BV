@@ -1,6 +1,7 @@
 @echo off
 setlocal
-set "CARPETA=C:\Users\Estrada\Desktop\Claude\Reportes\Taller BV"
+REM %~dp0 = la carpeta donde esta este .bat. Asi funciona aunque se mueva la carpeta.
+set "CARPETA=%~dp0"
 set "PAGINA=https://Erik07-EE.github.io/Dashboard-Taller-BV/Dashboard_Pedidos.html"
 cd /d "%CARPETA%"
 

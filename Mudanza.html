@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard Taller BV — Se mudó</title>
+<!--
+  Pagina de mudanza. NO esta activa todavia.
+  Para activarla (cuando la app nueva este probada):
+    1. cp Dashboard_Pedidos.html Historial/Dashboard_Pedidos_historico.html
+    2. cp Mudanza.html Dashboard_Pedidos.html
+    3. Subir_a_GitHub.bat
+  Reemplazar URL_DE_LA_APP por la direccion real antes de activar.
+-->
+<style>
+  :root{
+    --fondo:#0f1442; --panel:#141a4d; --borde:rgba(255,255,255,.12);
+    --suave:rgba(255,255,255,.6); --amarillo:#ffc107; --verde:#10b981;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; background:var(--fondo); color:#fff;
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+  .caja{
+    width:100%; max-width:430px; background:var(--panel);
+    border:1px solid var(--borde); border-top:3px solid var(--amarillo);
+    border-radius:14px; padding:38px 32px; text-align:center;
+    box-shadow:0 18px 50px rgba(0,0,0,.45);
+  }
+  .logo{height:40px; filter:brightness(0) invert(1); margin-bottom:26px}
+  p{font-size:1.02rem; line-height:1.55; margin:0 0 4px}
+  .boton{
+    display:inline-block; margin:26px 0 10px; padding:13px 44px;
+    background:var(--amarillo); color:#1a1a1a; text-decoration:none;
+    border-radius:9px; font-weight:700; font-size:1rem;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .boton:hover{transform:translateY(-2px); box-shadow:0 8px 22px rgba(255,193,7,.3)}
+  .cuenta{font-size:.8rem; color:var(--suave)}
+  .cuenta b{color:var(--verde)}
+  .nota{
+    margin-top:22px; padding-top:16px; border-top:1px solid var(--borde);
+    font-size:.82rem; color:var(--suave);
+  }
+  @media(max-width:480px){ .caja{padding:30px 22px} p{font-size:.95rem} }
+</style>
+</head>
+<body>
+  <div class="caja">
+    <img class="logo" src="https://www.electroestrada.com.ar/assets/img/logo-electroestrada-pie.png"
+         alt="Electroestrada" onerror="this.style.display='none'">
+
+    <p>Dashboard Producción, ahora se ve desde la <strong>aplicación nueva</strong>.</p>
+
+    <a class="boton" id="ir" href="URL_DE_LA_APP">Ir</a>
+    <div class="cuenta" id="cuenta">Te llevamos en <b id="seg">6</b> segundos…</div>
+
+    <div class="nota">Actualizá el favorito, el acceso directo, etc.</div>
+  </div>
+
+<script>
+  var destino = document.getElementById('ir').getAttribute('href');
+  var quedan = 6, elSeg = document.getElementById('seg');
+  // No redirige si todavia no se cargo la direccion real.
+  if (destino && destino.indexOf('URL_DE_LA_APP') === -1) {
+    var t = setInterval(function () {
+      elSeg.textContent = --quedan;
+      if (quedan <= 0) { clearInterval(t); location.replace(destino); }
+    }, 1000);
+  } else {
+    document.getElementById('cuenta').textContent = 'Falta cargar la dirección de la app.';
+  }
+</script>
+</body>
+</html>
