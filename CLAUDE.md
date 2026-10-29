@@ -30,7 +30,12 @@ corrige el script y queda arreglado para siempre; no reescribir el código a man
 
 Reglas que no se negocian:
 
-- **NUNCA** modificar `Dashboard_Pedidos.html` sin mostrar el PREVIEW y recibir OK explícito.
+- **Modo automático (desde el 29/10/2026):** si el `preview` termina en **"SIN ALERTAS"**,
+  aplicar, validar y publicar sin consultar, y pasarle al usuario el resumen con los números.
+  Si aparece **"ALERTAS"**, **frenar y consultar antes de tocar nada**. Las alertas las
+  detecta solo `tbv_sync.py` (corrimiento de filas, entrega anterior al ingreso, cambio
+  masivo de objetivos, pedidos borrados, objetivo mensual modificado, producción que baja).
+  También frenar si algo no cierra aunque el programa no lo marque.
 - **NUNCA** re-sincronizar meses históricos congelados: solo el mes en curso y los meses
   futuros ya armados. En el cambio de mes, cerrar el mes anterior antes de congelarlo.
 - **NUNCA** sobreescribir un dato que ya está en el dashboard con un vacío del sheet.

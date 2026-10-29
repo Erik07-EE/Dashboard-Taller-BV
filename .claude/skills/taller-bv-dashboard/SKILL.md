@@ -43,9 +43,20 @@ python scripts/tbv_sync.py preview --dump "<ruta del .txt del paso 1>"
 Decodifica el XLSX (verifica header PK), extrae producción y pedidos, compara contra el
 dashboard e imprime el PREVIEW. **No modifica nada.**
 
-### 3. Mostrar el PREVIEW y ESPERAR OK
+### 3. Mirar las ALERTAS al final del PREVIEW
 
-Presentar los cambios al usuario y **esperar confirmación explícita**. Nunca aplicar sin OK.
+El preview termina en una de dos líneas:
+
+- **"SIN ALERTAS: sync rutinario"** → seguir de largo: aplicar, validar y publicar, y
+  pasarle al usuario el resumen con los números. No hace falta pedir OK.
+- **"*** ALERTAS — NO APLICAR SIN CONSULTAR AL USUARIO ***"** → **frenar**. Explicarle qué
+  se detectó y esperar su decisión antes de tocar el HTML.
+
+Las alertas salen de casos reales que ya pasaron: corrimiento de filas al borrar un duplicado,
+entrega anterior al ingreso, cambio masivo del objetivo de días, pedidos que desaparecen,
+objetivo mensual modificado y producción que baja.
+
+Frenar igual si algo no cierra aunque el programa no lo haya marcado.
 
 Revisar el PREVIEW antes de presentarlo y **señalar lo que parezca un error de carga**
 en el Sheet — por ejemplo un pedido cuyo GA no coincide con el prefijo del código

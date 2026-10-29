@@ -406,6 +406,73 @@ def es_cambio(campo, v_dash, v_sheet):
     return True
 
 
+def detectar_alertas(bloques, ped_sheet, ped_dash, of_dash, en_juego=None):
+    """Senales de que el sync NO es rutinario y hay que consultar antes de aplicar.
+
+    Nacieron de casos reales: corrimientos de filas al borrar un duplicado, un pedido
+    con entrega anterior al ingreso que inflaba el % de servicio, y el cambio masivo
+    del objetivo de servicio de 3 a 2 dias.
+    """
+    al = []
+
+    # 1. Corrimiento de filas: al borrar una fila del sheet, los de abajo suben un numero,
+    #    asi que el contenido del dashboard #N+1 aparece en el sheet como #N.
+    corridos = [n for n in sorted(set(ped_dash) & set(ped_sheet))
+                if ped_sheet[n].get('codigo')
+                and ped_sheet[n]['codigo'] != ped_dash[n].get('codigo')
+                and n + 1 in ped_dash
+                and ped_sheet[n]['codigo'] == ped_dash[n + 1].get('codigo')]
+    if len(corridos) >= 3:
+        al.append('CORRIMIENTO DE FILAS: %d pedidos desde el #%d. Se borro una fila del '
+                  'sheet y los de abajo se renumeraron.' % (len(corridos), min(corridos)))
+
+    # 2. Entrega anterior al ingreso (imposible; distorsiona las metricas).
+    def _d(s):
+        try:
+            return datetime(*map(int, str(s)[:10].split('-')))
+        except Exception:
+            return None
+    # Solo los que entran o cambian en este sync: los historicos congelados no se tocan
+    # y generarian la misma alerta para siempre (ej. el #138 de junio).
+    mirar = en_juego if en_juego is not None else set(ped_sheet)
+    imposibles = [n for n, p in sorted(ped_sheet.items())
+                  if n in mirar
+                  and _d(p.get('fecha_ingreso')) and _d(p.get('fecha_entrega_real'))
+                  and _d(p['fecha_entrega_real']) < _d(p['fecha_ingreso'])]
+    if imposibles:
+        al.append('ENTREGA ANTERIOR AL INGRESO: pedidos %s' % imposibles[:8])
+
+    # 3. Cambio de politica: muchos objetivos de dias modificados a la vez.
+    obj_dif = [n for n in set(ped_dash) & set(ped_sheet)
+               if ped_sheet[n].get('dias_objetivo') is not None
+               and ped_dash[n].get('dias_objetivo') != ped_sheet[n]['dias_objetivo']]
+    if len(obj_dif) >= 10:
+        al.append('CAMBIO MASIVO DE OBJETIVO DE DIAS: %d pedidos. Puede ser un cambio de '
+                  'politica de servicio (revisar OBJ_BASE en el HTML).' % len(obj_dif))
+
+    # 4. Pedidos que desaparecieron del sheet.
+    sobran = sorted(set(ped_dash) - set(ped_sheet))
+    if sobran:
+        al.append('PEDIDOS QUE YA NO ESTAN EN EL SHEET: %s' % sobran[:8])
+
+    # 5. Objetivo mensual cambiado en un mes que ya tenia numeros.
+    for mk in bloques:
+        for ga, b in bloques[mk].items():
+            d = of_dash.get((mk, ga))
+            if d and d.get('obj_mensual') and b['obj_mensual'] != d['obj_mensual']:
+                al.append('OBJETIVO MENSUAL CAMBIADO: %s %s  %s -> %s'
+                          % (mk, ga, d['obj_mensual'], b['obj_mensual']))
+
+    # 6. Produccion que baja (deberia ser siempre acumulativa).
+    for mk in bloques:
+        for ga, b in bloques[mk].items():
+            d = of_dash.get((mk, ga))
+            if d and b['prod_total'] < d.get('prod_total', 0):
+                al.append('LA PRODUCCION BAJA: %s %s  %s -> %s'
+                          % (mk, ga, d['prod_total'], b['prod_total']))
+    return al
+
+
 def cmd_preview(args):
     os.makedirs(CACHE, exist_ok=True)
     xlsx = os.path.join(CACHE, 'urgentes.xlsx')
@@ -494,8 +561,18 @@ def cmd_preview(args):
         print('  NO se eliminan salvo que se aplique con --permitir-borrado.')
 
     print('\nTOTALES: pedidos %d -> %d' % (len(ped_dash), len(ped_sheet)))
+
+    en_juego = set(nuevos) | {n for n, _c, _d in actualizados}
+    alertas = detectar_alertas(bloques, ped_sheet, ped_dash, of_dash, en_juego)
+    print('\n' + '=' * 72)
+    if alertas:
+        print('*** ALERTAS — NO APLICAR SIN CONSULTAR AL USUARIO ***')
+        for a in alertas:
+            print('  - ' + a)
+    else:
+        print('SIN ALERTAS: sync rutinario.')
     print('=' * 72)
-    print('Revisar y confirmar. Para aplicar: python scripts/tbv_sync.py aplicar'
+    print('Para aplicar: python scripts/tbv_sync.py aplicar'
           + (' --permitir-borrado' if sobrantes else ''))
 
 
