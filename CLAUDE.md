@@ -37,8 +37,17 @@ Reglas que no se negocian:
 - **NUNCA** saltear la validación (`node scripts/validar.js` + `tbv_sync.py verificar`).
 - Los objetivos se leen siempre del sheet, nunca se asumen.
 
-⚠️ `Subir_a_GitHub.bat` hace `git add -A`: commitea **todo** lo que esté modificado en la
-carpeta. No dejar cambios a medio hacer cuando se le pide al usuario que publique.
+### Publicar
+
+**Desde el 29/10/2026 publica Claude** (`git add -A` + `commit` + `push origin main`), tras
+el OK del usuario. Antes de subir, mostrarle qué archivos van.
+
+Motivo: con el proyecto en Drive, el Control Inteligente de Aplicaciones de Windows 11
+bloquea `Subir_a_GitHub.bat` por ser un script sin firmar en una unidad de red. El `.bat`
+sigue en la carpeta y funciona si se lo ejecuta desde un disco local.
+
+⚠️ `git add -A` sube **todo** lo que esté modificado en la carpeta: no dejar cambios a medio
+hacer al momento de publicar.
 
 ## Estructura de la carpeta
 
@@ -58,6 +67,14 @@ actual, en cambio, está en este archivo.
 
 ## Entorno
 
+⚠️ **El proyecto vive en una unidad compartida de Google Drive** (`G:\Unidades compartidas\…`)
+desde el 26/10/2026. Dos cuidados:
+
+- La carpeta tiene que estar marcada como **"Acceso sin conexión"** en Drive. Si los archivos
+  quedan solo en la nube, git no los encuentra y `Subir_a_GitHub.bat` falla.
+- Drive sincroniza en segundo plano y **puede corromper la carpeta `.git`**. Si eso pasa, no
+  se pierde nada: está todo en GitHub y se recupera clonando el repositorio de nuevo.
+
 | | |
 |---|---|
 | Sistema | Windows 11 |
@@ -70,14 +87,14 @@ Tres cosas propias de este entorno, explicadas en la skill técnica: el conector
 HTML está en finales de línea **LF** y hay que preservarlos; y algunas rutas superan el
 límite de 260 caracteres de Windows.
 
-## Estado actual (último sync OK: 26/10/2026)
+## Estado actual (último sync OK: 29/10/2026)
 
 - Mes en curso: Octubre 2026. Objetivos: Inducidos 160, Rotores 50, Estatores 90.
   (Cambiaron fuerte respecto a septiembre: Rotores bajó de 110 a 50, Estatores subió de 70 a 90.)
-- Producción Oct (al 26/10): Ind 129, Rot 47, Est 68.
+- Producción Oct (al 29/10): Ind 150, Rot 57, Est 74. (Rotores ya superó el objetivo.)
 - **Septiembre cerrado y cumplido:** Ind 178/150, Rot 121/110, Est 76/70 (114% del total).
 - Congelados: septiembre, agosto (Ind 255, Rot 33, Est 54), julio, junio, mayo, abril.
-- Pedidos: 599 (n máx 600, con el **#509 anulado** → hueco esperado en la numeración).
+- Pedidos: 608 (n máx 609, con el **#509 anulado** → hueco esperado en la numeración).
 - **Objetivo de servicio: 2 días** (bajó de 3 el 20/10/2026). En el HTML es la constante
   `OBJ_BASE`; si vuelve a cambiar, se toca solo ese número.
 - Publicado y verificado en GitHub Pages.

@@ -76,10 +76,14 @@ y revisar antes de seguir.
 
 ### 6. Publicar
 
-Pedirle al usuario que corra `Subir_a_GitHub.bat` (doble clic).
+**Publica Claude**, tras el OK del usuario: mostrarle qué archivos van y luego
+`git add -A` + `commit` + `push origin main`.
 
-> ⚠️ El `.bat` hace `git add -A`: commitea **todo** lo modificado en la carpeta. No dejar
-> cambios a medio hacer en el repo cuando se le pide al usuario que publique.
+(El `Subir_a_GitHub.bat` quedó bloqueado por Windows al mudarse el proyecto a Drive — ver
+CLAUDE.md. Sigue en la carpeta por si se usa desde un disco local.)
+
+> ⚠️ `git add -A` sube **todo** lo modificado en la carpeta. No dejar cambios a medio hacer
+> al momento de publicar.
 
 ### 7. Verificar GitHub Pages
 
